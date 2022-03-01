@@ -1,0 +1,143 @@
+<resources>
+    <string name="app_name">Warframe Farm</string>
+
+    <string name="title_primes">Primes</string>
+    <string name="title_parts">Parts</string>
+    <string name="title_relics">Relics</string>
+    <string name="title_rewards">Rewards</string>
+    <string name="title_planets">Planets</string>
+    <string name="title_missions">Missions</string>
+
+    <string name="parts_label">Parts:</string>
+    <string name="relics_label">Relics:</string>
+    <string name="rewards_label">Rewards:</string>
+    <string name="missions_label">Missions:</string>
+    <string name="drop_locations_label">Drop Locations:</string>
+    <string name="best_drop_locations_label">Best Drop Locations:</string>
+
+    <!-- BUTTONS -->
+    <string name="back">Back</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+
+    <string name="forma">Forma</string>
+    <string name="relic_name">%1$s %2$s Relic</string>
+    <string name="load_more">Load More</string>
+
+    <string name="search">Search</string>
+
+    <!-- SORTING -->
+    <string name="planet">Planet</string>
+    <string name="mission_type">Mission Type</string>
+    <string name="drop_chance">Drop Chance</string>
+    <string name="best_places">Best Places</string>
+    <string name="part">Part</string>
+    <string name="relic">Relic</string>
+    <string name="type">Type</string>
+    <string name="era">Era</string>
+    <string name="level">Level</string>
+    <string name="name">Name</string>
+    <string name="vaulted">Vaulted</string>
+    <string name="needed">Needed</string>
+
+    <!-- MENU -->
+    <string name="profile">Profile</string>
+    <string name="menu">Main Menu</string>
+    <string name="list">Lists</string>
+    <string name="inventory">Inventory</string>
+    <string name="farm">Farm</string>
+    <string name="settings">Settings</string>
+
+    <!-- PRIMES -->
+    <string name="select_all">Select All</string>
+    <string name="check_selected">Check Selected Primes (%d)</string>
+    <string name="uncheck_selected">Uncheck Selected Primes (%d)</string>
+
+    <!-- RELICS -->
+    <string name="title_loading">Loading</string>
+    <string name="text_loading_relics">Loading relics</string>
+
+    <!-- PRIME -->
+    <string name="owned">%d Owned</string>
+    <string name="is_owned">Owned</string>
+    <string name="not_owned">Not Owned</string>
+    <string name="empty_state_relics">No relic matching this search.</string>
+    <string name="empty_state_missions">No mission matching this search.</string>
+
+    <!-- FARM -->
+    <string name="add_all_needed">Add All Needed</string>
+    <string name="delete_selection">Delete Selection</string>
+    <string name="add_item">Add Item</string>
+    <string name="clear">Clear</string>
+    <string name="vaulted_label">Vaulted</string>
+    <string name="best_missions_label">Best Missions</string>
+    <string name="title_add_item_menu">Add Items</string>
+    <string name="button_add_prime">Add Primes</string>
+    <string name="button_add_part">Add Parts</string>
+    <string name="title_add_prime">Add Primes</string>
+    <string name="title_add_parts">Add Parts</string>
+    <string name="empty_state_items">Click on the + button to add primes or prime parts</string>
+    <string name="empty_state_results_relic">Add primes or prime parts to see the relics they\'re in</string>
+    <string name="empty_state_results_missions">Add primes or prime parts to see the missions you need to do to get the right relics</string>
+    <string name="empty_state_results_vaulted">The primes or prime parts added are all vaulted</string>
+
+    <!-- INVENTORY -->
+    <string name="empty_state_inventory">No result for this search, try changing the filter or search for something else.</string>
+
+    <!-- SETTINGS -->
+    <string name="category_performance">Performance</string>
+    <string name="label_load_no_limit">Unlimited number of results in lists</string>
+    <string name="label_load_limit_1">Limit lists to load</string>
+    <string name="label_load_limit_2">items.</string>
+    <string name="category_account">Account</string>
+    <string name="label_inventory_mode">Inventory:</string>
+    <string name="label_sync_local">Save data to the cloud</string>
+    <string name="label_sync_online">Get data from the cloud</string>
+    <string name="update_db">Update Database</string>
+    <string name="title_updating_db">Updating Database</string>
+    <string name="text_updating_db">Please wait while the database is being updated</string>
+
+    <!-- Mission Rewards -->
+    <string name="title_rotation">Rotation %1$s</string>
+
+    <!-- Farm -->
+    <string name="label_drop_chance">Drop Chance:</string>
+
+    <!-- CONFIRM DIALOG -->
+    <string name="dialog_confirm_title">Confirm changes?</string>
+    <string name="dialog_cancel_changes">Cancel Changes</string>
+
+    <!-- PROFILE -->
+    <string name="modify">Modify</string>
+    <string name="title_updating_email">Updating Email</string>
+    <string name="text_updating_email">Please wait while your e-mail address is being updated</string>
+    <string name="email_updated">E-mail successfully updated</string>
+    <string name="error_same_email">The new e-mail address needs to be different</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="delete_account">Delete Account</string>
+
+    <!-- DELETE ACCOUNT DIALOG -->
+    <string name="title_delete_account">Delete account ?</string>
+    <string name="text_delete_account">Are you sure you want to delete your account ? \nEnter your password :</string>
+    <string name="delete">Delete</string>
+    <string name="title_reauthentication">Checking password</string>
+    <string name="text_reauthentication">Please wait while we check your password</string>
+    <string name="invalid_password">Enter a valid password</string>
+    <string name="title_deleting_account">Deleting account</string>
+    <string name="text_deleting_account">Please wait while your account is being deleted</string>
+    <string name="account_deleted">Account successfully deleted</string>
+
+    <!-- SIGN IN/UP -->
+    <string name="title_sign_up">Sign Up</string>
+    <string name="title_sign_in">Sign In</string>
+    <string name="label_email">E-mail address</string>
+    <string name="hint_email">example@gmail.com</string>
+    <string name="label_password">Password</string>
+    <string name="label_confirm_password">Confirm password</string>
+    <string name="create_account"><u>New here? Create an account right now to save your data !</u></string>
+    <string name="already_signed_up"><u>Already signed up? Connect to your account right now !</u></string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_in">Sign In</string>
+
+    <!-- DATABASE -->
+</resources>

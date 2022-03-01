@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/text</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/relic</item>
+        <item name="splashScreenIconSize">50dp</item>
+
+        <item name="postSplashScreenTheme">@style/Theme.WarframeFarm</item>
+    </style>
+</resources>

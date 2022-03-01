@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:animateLayoutChanges="true"
+        android:background="@drawable/frame"
+        android:elevation="5dp"
+        android:padding="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/linearLayout6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/textBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/imageType"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+                android:transitionName="type"
+                app:srcCompat="@drawable/prime_warframe"
+                app:tint="@color/colorBackgroundDark" />
+
+            <TextView
+                android:id="@+id/textPrime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nidus Prime"
+                android:textColor="@color/colorBackgroundDark"
+                android:textSize="20sp"
+                android:transitionName="name" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imagePrime"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="30dp"
+            android:scaleType="fitCenter"
+            android:transitionName="background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/prime_warframe_nidus" />
+
+        <ImageView
+            android:id="@+id/imageVault"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:layout_margin="5dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:transitionName="vault"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
+            app:srcCompat="@drawable/prime_vault_icon" />
+
+        <ImageView
+            android:id="@+id/imageOwned"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_margin="5dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:transitionName="imageOwned"
+            app:layout_constraintBottom_toTopOf="@+id/toolbarPrime"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/owned"
+            app:tint="@color/colorBackgroundDark" />
+
+        <LinearLayout
+            android:id="@+id/toolbarPrime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/textBackground"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/element_searchbar_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerParts"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavPrime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerRelics"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavPrime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerMissions"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavPrime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    <TextView
+        android:id="@+id/textEmptyStatePrime"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/frame"
+        android:padding="5dp"
+        android:text="@string/empty_state_relics"
+        android:textAlignment="center"
+        android:textColor="@color/colorBackgroundDark"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavPrime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    <LinearLayout
+        android:id="@+id/bottomNavPrime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/textBackground"
+        android:elevation="5dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:id="@+id/buttonPart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/iconPart"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/prime_part"
+                android:backgroundTint="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/textPart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_parts"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/buttonRelic"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/iconRelic"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/relic"
+                android:backgroundTint="@color/colorBackgroundDark" />
+
+            <TextView
+                android:id="@+id/textRelic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_relics"
+                android:textColor="@color/colorBackgroundDark"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/buttonMission"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/iconMission"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/planet"
+                android:backgroundTint="@color/colorBackgroundDark" />
+
+            <TextView
+                android:id="@+id/textMission"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_missions"
+                android:textColor="@color/colorBackgroundDark"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

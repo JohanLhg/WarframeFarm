@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollViewFilterTypes"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageWarframeFilter"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/prime_warframe"
+            app:tint="@color/colorBackgroundDark" />
+
+        <ImageView
+            android:id="@+id/imageArchwingFilter"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/prime_archwing"
+            app:tint="@color/colorBackgroundDark" />
+
+        <ImageView
+            android:id="@+id/imagePetFilter"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/prime_pet"
+            app:tint="@color/colorBackgroundDark" />
+
+        <ImageView
+            android:id="@+id/imageSentinelFilter"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/prime_sentinel"
+            app:tint="@color/colorBackgroundDark" />
+
+        <ImageView
+            android:id="@+id/imagePrimaryFilter"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/prime_primary"
+            app:tint="@color/colorBackgroundDark" />
+
+        <ImageView
+            android:id="@+id/imageSecondaryFilter"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/prime_secondary"
+            app:tint="@color/colorBackgroundDark" />
+
+        <ImageView
+            android:id="@+id/imageMeleeFilter"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/prime_melee"
+            app:tint="@color/colorBackgroundDark" />
+    </LinearLayout>
+</HorizontalScrollView>

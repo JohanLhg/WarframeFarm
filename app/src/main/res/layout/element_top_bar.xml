@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/gradient_top"
+    android:gravity="center_vertical">
+
+    <ImageView
+        android:id="@+id/buttonMenu"
+        android:layout_width="60dp"
+        android:layout_height="45dp"
+        android:padding="5dp"
+        android:scaleType="fitStart"
+        app:srcCompat="@drawable/menu"
+        app:tint="@color/text" />
+
+    <TextView
+        android:id="@+id/textTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/inventory"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/text"
+        android:textSize="24sp" />
+
+    <ImageView
+        android:id="@+id/buttonSettings"
+        android:layout_width="60dp"
+        android:layout_height="45dp"
+        android:padding="5dp"
+        android:scaleType="fitEnd"
+        app:srcCompat="@drawable/settings"
+        app:tint="@color/text" />
+</LinearLayout>

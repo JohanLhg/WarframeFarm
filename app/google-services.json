@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "481782754054",
+    "project_id": "warframe-farm",
+    "storage_bucket": "warframe-farm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:481782754054:android:56bdfd9de2ed0b6bd68c87",
+        "android_client_info": {
+          "package_name": "com.warframefarm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "481782754054-1a2h556j2csj94rba7rvv04hmjcfa81f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCfYFjop2f8D8ZuPzAjM53OOYnKVlXt4Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "481782754054-1a2h556j2csj94rba7rvv04hmjcfa81f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

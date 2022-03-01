@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layoutRelic"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparentBackground"
+    android:gravity="center_vertical"
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/imageItem"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:srcCompat="@drawable/relic_axi" />
+
+    <TextView
+        android:id="@+id/textItemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:text="AXI A1 Relic"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/imageRarityNeeded"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/separatorRelic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageVault"
+        app:srcCompat="@drawable/reward_common"
+        app:tint="@color/colorBackgroundDark" />
+
+    <TextView
+        android:id="@+id/textItemChance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:text="13.3%"
+        android:textSize="18sp" />
+</LinearLayout>

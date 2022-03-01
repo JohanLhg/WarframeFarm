@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.farm.FarmFragment">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/textBackground"
+        android:elevation="5dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/buttonSecondary"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:backgroundTint="@color/colorBackgroundDark"
+            android:elevation="2dp"
+            android:text="@string/clear"
+            android:textColor="@color/text"
+            app:strokeColor="@color/colorBackgroundLight" />
+
+        <Button
+            android:id="@+id/buttonPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:backgroundTint="@color/colorBackgroundLight"
+            android:text="@string/add_all_needed" />
+
+        <ImageButton
+            android:id="@+id/buttonAddItem"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/plus"
+            android:backgroundTint="@color/colorBackgroundDark" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textEmptyStateItems"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/frame"
+        android:padding="5dp"
+        android:text="@string/empty_state_items"
+        android:textAlignment="center"
+        android:textColor="@color/colorBackgroundDark"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerItems"
+        app:layout_constraintEnd_toEndOf="@+id/recyclerItems"
+        app:layout_constraintStart_toStartOf="@+id/recyclerItems"
+        app:layout_constraintTop_toTopOf="@+id/recyclerItems" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerItems"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/textResult"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+    <TextView
+        android:id="@+id/textResult"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/textBackground"
+        android:elevation="5dp"
+        android:padding="10dp"
+        android:text="@string/relics_label"
+        android:textColor="@color/colorBackgroundDark"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerResult"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerItems" />
+
+    <LinearLayout
+        android:id="@+id/checkResult"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="5dp"
+        android:elevation="5dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/textResult"
+        app:layout_constraintEnd_toEndOf="@+id/textResult"
+        app:layout_constraintTop_toTopOf="@+id/textResult">
+
+        <TextView
+            android:id="@+id/textCheckResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:text="@string/vaulted_label"
+            android:textColor="@color/colorBackgroundDark"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/iconCheckResult"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/not_checked"
+            android:backgroundTint="@color/colorBackgroundDark" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textEmptyStateResult"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/frame"
+        android:padding="5dp"
+        android:text="@string/empty_state_results_relic"
+        android:textAlignment="center"
+        android:textColor="@color/colorBackgroundDark"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerResult"
+        app:layout_constraintEnd_toEndOf="@+id/recyclerResult"
+        app:layout_constraintStart_toStartOf="@+id/recyclerResult"
+        app:layout_constraintTop_toTopOf="@+id/recyclerResult" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerResult"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavFarm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textResult" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomNavFarm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/textBackground"
+        android:elevation="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:id="@+id/buttonRelic"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="15dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/buttonMission"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iconRelic"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/relic"
+                android:backgroundTint="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/textRelic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_relics"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/buttonMission"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="30dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/buttonRelic"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iconMission"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/planet"
+                android:backgroundTint="@color/colorBackgroundDark" />
+
+            <TextView
+                android:id="@+id/textMission"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_missions"
+                android:textColor="@color/colorBackgroundDark"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

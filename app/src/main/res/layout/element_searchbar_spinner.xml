@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <AutoCompleteTextView
+        android:id="@+id/searchbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:backgroundTint="@color/colorBackgroundDark"
+        android:ems="10"
+        android:hint="@string/search"
+        android:inputType="textPersonName"
+        android:popupBackground="@color/text"
+        android:textColor="@color/colorBackgroundDark"
+        android:textColorHint="@color/colorBackgroundLight"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerSort"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iconSearchbar"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="5dp"
+        android:src="@drawable/search"
+        app:layout_constraintBottom_toBottomOf="@+id/searchbar"
+        app:layout_constraintEnd_toEndOf="@+id/searchbar"
+        app:layout_constraintTop_toTopOf="@+id/searchbar"
+        app:tint="@color/colorBackgroundDark" />
+
+    <Spinner
+        android:id="@+id/spinnerSort"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:backgroundTint="@color/colorBackgroundDark"
+        android:popupBackground="@color/text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/searchbar"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

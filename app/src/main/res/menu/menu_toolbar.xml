@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menuHome"
+        android:icon="@drawable/home"
+        android:title="@string/menu"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menuList"
+        android:icon="@drawable/list"
+        android:title="@string/list"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menuInventory"
+        android:icon="@drawable/stock"
+        android:title="@string/inventory"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menuFarm"
+        android:icon="@drawable/prime_part"
+        android:title="@string/farm"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menuSettings"
+        android:icon="@drawable/settings"
+        android:title="@string/settings"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menuProfile"
+        android:icon="@drawable/user"
+        android:title="@string/profile"
+        app:showAsAction="always" />
+</menu>

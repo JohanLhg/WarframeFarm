@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_primes">
+
+    <fragment
+        android:id="@+id/navigation_primes"
+        android:name="com.warframefarm.activities.list.primes.PrimesFragment"
+        android:label="@string/title_primes"
+        tools:layout="@layout/fragment_primes" />
+
+    <fragment
+        android:id="@+id/navigation_relics"
+        android:name="com.warframefarm.activities.list.relics.RelicsFragment"
+        android:label="@string/title_relics"
+        tools:layout="@layout/fragment_relics" />
+
+    <fragment
+        android:id="@+id/navigation_planets"
+        android:name="com.warframefarm.activities.list.planets.PlanetsFragment"
+        android:label="@string/title_planets"
+        tools:layout="@layout/fragment_planets" />
+
+    <fragment
+        android:id="@+id/navigation_inventory"
+        android:name="com.warframefarm.activities.inventory.InventoryFragment"
+        android:label="@string/inventory"
+        tools:layout="@layout/fragment_inventory" />
+
+    <fragment
+        android:id="@+id/navigation_farm"
+        android:name="com.warframefarm.activities.farm.FarmFragment"
+        android:label="@string/farm"
+        tools:layout="@layout/fragment_farm" />
+</navigation>

@@ -1,0 +1,357 @@
+package com.warframefarm.activities.details.prime;
+
+import static com.warframefarm.activities.details.prime.PrimeRepository.MISSION;
+import static com.warframefarm.activities.details.prime.PrimeRepository.PART;
+import static com.warframefarm.activities.details.prime.PrimeRepository.RELIC;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.warframefarm.R;
+import com.warframefarm.activities.details.RelicDisplayAdapter;
+import com.warframefarm.activities.inventory.InventoryAdapter;
+import com.warframefarm.activities.list.relics.PlanetMissionFarmAdapter;
+import com.warframefarm.database.MissionComplete;
+import com.warframefarm.database.PartComplete;
+import com.warframefarm.database.PrimeComplete;
+import com.warframefarm.database.RelicComplete;
+import com.warframefarm.databinding.FragmentPrimeBinding;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class PrimeFragment extends Fragment implements InventoryAdapter.InventoryListener {
+
+    private Context context;
+    private FragmentPrimeBinding binding;
+    private PrimeViewModel primeViewModel;
+    private final String prime;
+
+    private ArrayAdapter<String> relicFilterAdapter, missionFilterAdapter;
+    private InventoryAdapter partAdapter;
+    private RelicDisplayAdapter relicAdapter;
+    private PlanetMissionFarmAdapter missionAdapter;
+
+    private ImageView imagePrime, imageType, imageVault, imageOwned;
+    private TextView textPrime;
+
+    private LinearLayout toolbarPrime;
+    private AutoCompleteTextView searchbar;
+    private ImageView iconSearchbar;
+    private Spinner spinnerFilter;
+
+    private RecyclerView recyclerParts, recyclerRelics, recyclerMissions;
+    private TextView textEmptyStatePrime;
+
+    private LinearLayout buttonPart, buttonRelic, buttonMission;
+    private ImageView iconPart, iconRelic, iconMission;
+    private TextView textPart, textRelic, textMission;
+
+    public PrimeFragment(String prime) {
+        this.prime = prime;
+    }
+
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        context = getContext();
+
+        binding = FragmentPrimeBinding.inflate(getLayoutInflater());
+        View root = binding.getRoot();
+
+        primeViewModel = ViewModelProvider.AndroidViewModelFactory
+                .getInstance(getActivity().getApplication())
+                .create(PrimeViewModel.class);
+
+        primeViewModel.setPrime(prime);
+
+        //region Binding
+        imagePrime = binding.imagePrime;
+        imageType = binding.imageType;
+        imageVault = binding.imageVault;
+        imageOwned = binding.imageOwned;
+        textPrime = binding.textPrime;
+
+        toolbarPrime = binding.toolbarPrime;
+        searchbar = binding.toolbar.searchbar;
+        iconSearchbar = binding.toolbar.iconSearchbar;
+        spinnerFilter = binding.toolbar.spinnerSort;
+
+        recyclerParts = binding.recyclerParts;
+        recyclerRelics = binding.recyclerRelics;
+        recyclerMissions = binding.recyclerMissions;
+        textEmptyStatePrime = binding.textEmptyStatePrime;
+
+        buttonPart = binding.buttonPart;
+        iconPart = binding.iconPart;
+        textPart = binding.textPart;
+
+        buttonRelic = binding.buttonRelic;
+        iconRelic = binding.iconRelic;
+        textRelic = binding.textRelic;
+
+        buttonMission = binding.buttonMission;
+        iconMission = binding.iconMission;
+        textMission = binding.textMission;
+        //endregion
+
+        //region Toolbar
+        //region Searchbar
+        ArrayList<String> primeNames = new ArrayList<>();
+        ArrayAdapter<String> searchAdapter = new ArrayAdapter<>(context, R.layout.spinner_dropdown_item, primeNames);
+        searchbar.setAdapter(searchAdapter);
+
+        searchbar.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus)
+                iconSearchbar.setImageTintList(context.getColorStateList(R.color.colorPrimary));
+            else
+                iconSearchbar.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
+        });
+
+        searchbar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String search = s.toString();
+                if (search.contains("'")) {
+                    searchbar.setText(search.replace("'", ""));
+                    return;
+                }
+                if (search.equals(""))
+                    iconSearchbar.setImageResource(R.drawable.search);
+                else
+                    iconSearchbar.setImageResource(R.drawable.searchbar_delete);
+
+                primeViewModel.setSearch(search);
+            }
+        });
+
+        iconSearchbar.setOnClickListener(v -> {
+            searchbar.setText("");
+            searchbar.requestFocus();
+        });
+        //endregion
+
+        //region Spinner
+        spinnerFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                primeViewModel.setFilter(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                primeViewModel.setFilter(0);
+            }
+        });
+        //endregion
+        //endregion
+
+        imageOwned.setOnClickListener(v -> primeViewModel.switchPrimeOwned());
+
+        //region Adapters
+        partAdapter = new InventoryAdapter(context, this);
+        recyclerParts.setAdapter(partAdapter);
+        recyclerParts.setLayoutManager(new GridLayoutManager(context, 3));
+
+        ArrayList<String> relicFilterOptions = new ArrayList<>();
+        Collections.addAll(relicFilterOptions,
+                getString(R.string.part),
+                getString(R.string.relic)
+        );
+        relicFilterAdapter = new ArrayAdapter<>(context, R.layout.spinner_dropdown_item, relicFilterOptions);
+
+        relicAdapter = new RelicDisplayAdapter(context);
+        recyclerRelics.setAdapter(relicAdapter);
+        recyclerRelics.setLayoutManager(new LinearLayoutManager(context));
+
+        ArrayList<String> missionFilterOptions = new ArrayList<>();
+        Collections.addAll(missionFilterOptions,
+                getString(R.string.best_places),
+                getString(R.string.drop_chance),
+                getString(R.string.mission_type),
+                getString(R.string.planet)
+        );
+        missionFilterAdapter = new ArrayAdapter<>(context, R.layout.spinner_dropdown_item, missionFilterOptions);
+
+        missionAdapter = new PlanetMissionFarmAdapter(context);
+        recyclerMissions.setAdapter(missionAdapter);
+        recyclerMissions.setLayoutManager(new LinearLayoutManager(context));
+        //endregion
+
+        buttonPart.setOnClickListener(v -> primeViewModel.setMode(PART));
+
+        buttonRelic.setOnClickListener(v -> primeViewModel.setMode(RELIC));
+
+        buttonMission.setOnClickListener(v -> primeViewModel.setMode(MISSION));
+
+        //region Observers
+        primeViewModel.getPrime().observe(getViewLifecycleOwner(), new Observer<PrimeComplete>() {
+            @Override
+            public void onChanged(PrimeComplete prime) {
+                imagePrime.setImageResource(prime.getImage());
+
+                textPrime.setText(prime.getFullName());
+
+                imageType.setImageResource(prime.getImageType());
+
+                if (prime.isVaulted()) {
+                    imageVault.setVisibility(View.VISIBLE);
+                    buttonMission.setVisibility(View.GONE);
+                }
+                else {
+                    imageVault.setVisibility(View.GONE);
+                    buttonMission.setVisibility(View.VISIBLE);
+                }
+
+                if (prime.isOwned()) imageOwned.setImageResource(R.drawable.owned);
+                else imageOwned.setImageResource(R.drawable.not_owned);
+
+                primeViewModel.updateResults();
+            }
+        });
+
+        primeViewModel.getMode().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer mode) {
+                switch (mode) {
+                    case PART:
+                        iconPart.setBackgroundTintList(context.getColorStateList(R.color.colorAccent));
+                        textPart.setTextColor(context.getColor(R.color.colorAccent));
+
+                        iconRelic.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                        textRelic.setTextColor(context.getColor(R.color.colorBackgroundDark));
+
+                        iconMission.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                        textMission.setTextColor(context.getColor(R.color.colorBackgroundDark));
+
+                        toolbarPrime.setVisibility(View.GONE);
+                        recyclerRelics.setVisibility(View.GONE);
+                        recyclerMissions.setVisibility(View.GONE);
+
+                        recyclerParts.setVisibility(View.VISIBLE);
+
+                        textEmptyStatePrime.setVisibility(View.GONE);
+                        break;
+
+                    case RELIC:
+                        iconRelic.setBackgroundTintList(context.getColorStateList(R.color.colorAccent));
+                        textRelic.setTextColor(context.getColor(R.color.colorAccent));
+
+                        iconPart.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                        textPart.setTextColor(context.getColor(R.color.colorBackgroundDark));
+
+                        iconMission.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                        textMission.setTextColor(context.getColor(R.color.colorBackgroundDark));
+
+                        recyclerParts.setVisibility(View.GONE);
+                        recyclerMissions.setVisibility(View.GONE);
+
+                        spinnerFilter.setAdapter(relicFilterAdapter);
+                        spinnerFilter.setSelection(primeViewModel.getRelicFilterPos());
+
+                        toolbarPrime.setVisibility(View.VISIBLE);
+                        recyclerRelics.setVisibility(View.VISIBLE);
+                        break;
+
+                    case MISSION:
+                        iconMission.setBackgroundTintList(context.getColorStateList(R.color.colorAccent));
+                        textMission.setTextColor(context.getColor(R.color.colorAccent));
+
+                        iconPart.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                        textPart.setTextColor(context.getColor(R.color.colorBackgroundDark));
+
+                        iconRelic.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                        textRelic.setTextColor(context.getColor(R.color.colorBackgroundDark));
+
+                        recyclerParts.setVisibility(View.GONE);
+                        recyclerRelics.setVisibility(View.GONE);
+
+                        spinnerFilter.setAdapter(missionFilterAdapter);
+                        spinnerFilter.setSelection(primeViewModel.getMissionFilterPos());
+
+                        toolbarPrime.setVisibility(View.VISIBLE);
+                        recyclerMissions.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+        });
+
+        primeViewModel.getParts().observe(getViewLifecycleOwner(), new Observer<List<PartComplete>>() {
+            @Override
+            public void onChanged(List<PartComplete> parts) {
+                textEmptyStatePrime.setVisibility(View.GONE);
+                partAdapter.updateParts(parts);
+            }
+        });
+
+        primeViewModel.getRelics().observe(getViewLifecycleOwner(), new Observer<List<RelicComplete>>() {
+            @Override
+            public void onChanged(List<RelicComplete> relics) {
+                if (relics.isEmpty()) {
+                    textEmptyStatePrime.setText(R.string.empty_state_results_relic);
+                    recyclerRelics.setVisibility(View.GONE);
+                    textEmptyStatePrime.setVisibility(View.VISIBLE);
+                } else {
+                    textEmptyStatePrime.setVisibility(View.GONE);
+                    recyclerRelics.setVisibility(View.VISIBLE);
+                }
+                relicAdapter.updateRelics(relics);
+            }
+        });
+
+        primeViewModel.getMissions().observe(getViewLifecycleOwner(), new Observer<List<MissionComplete>>() {
+            @Override
+            public void onChanged(List<MissionComplete> missions) {
+                if (missions.isEmpty()) {
+                    textEmptyStatePrime.setText(R.string.empty_state_missions);
+                    recyclerMissions.setVisibility(View.GONE);
+                    textEmptyStatePrime.setVisibility(View.VISIBLE);
+                } else {
+                    textEmptyStatePrime.setVisibility(View.GONE);
+                    recyclerMissions.setVisibility(View.VISIBLE);
+                }
+                missionAdapter.updateMissions(missions);
+            }
+        });
+        //endregion
+
+        return root;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+    @Override
+    public void modifyPart(PartComplete part) {
+        primeViewModel.switchPartOwned(part);
+    }
+}

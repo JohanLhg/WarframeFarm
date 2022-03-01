@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@color/textBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textCategoryPerformance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/text"
+        android:elevation="5dp"
+        android:padding="5dp"
+        android:text="@string/category_performance"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:id="@+id/optionUnlimitedResults"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textLabelUnlimitedResults"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:text="@string/label_load_no_limit"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/imageUnlimitedResults"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/not_checked"
+            android:backgroundTint="@color/colorBackgroundDark" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/optionLoadLimit"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textLabelLoadLimit1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/label_load_limit_1"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/editTextLoadLimit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxEms="5"
+            android:minEms="2"
+            android:text="10"
+            android:textAlignment="center"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textLabelLoadLimit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_load_limit_2"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textCategoryAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/text"
+        android:elevation="5dp"
+        android:padding="5dp"
+        android:text="@string/category_account"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:id="@+id/layoutOnline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutEmail"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/textEmail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="exemple@mail.com"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/buttonModifyEmail"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/editEmail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/textEmail"
+                app:layout_constraintEnd_toStartOf="@+id/buttonModifyEmail"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/buttonModifyEmail"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:backgroundTint="@color/colorBackgroundLight"
+                android:scaleType="fitCenter"
+                android:src="@drawable/edit"
+                app:layout_constraintBottom_toBottomOf="@+id/textEmail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textEmail"
+                app:tint="@color/text" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/buttonAccountSyncLocal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:backgroundTint="@color/colorBackgroundLight"
+            android:text="@string/label_sync_local" />
+
+        <Button
+            android:id="@+id/buttonAccountSyncOnline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:backgroundTint="@color/colorBackgroundLight"
+            android:text="@string/label_sync_online" />
+
+        <Button
+            android:id="@+id/buttonSignOut"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:backgroundTint="@color/colorBackgroundLight"
+            android:elevation="2dp"
+            android:text="@string/sign_out"
+            android:textColor="@color/text"
+            app:strokeColor="@color/colorBackgroundLight" />
+
+        <Button
+            android:id="@+id/buttonDeleteAccount"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/delete_account"
+            android:textColor="@color/warning"
+            app:icon="@drawable/trash"
+            app:iconSize="20dp"
+            app:iconTint="@color/warning"
+            app:strokeColor="@color/warning" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonSignIn"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:backgroundTint="@color/colorBackgroundLight"
+        android:elevation="2dp"
+        android:text="@string/sign_in"
+        android:textColor="@color/text"
+        android:visibility="gone"
+        app:strokeColor="@color/colorBackgroundLight" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/buttonUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:backgroundTint="@color/colorBackgroundLight"
+        android:text="@string/update_db"
+        app:icon="@android:drawable/stat_sys_warning" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/text"
+        android:elevation="5dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonCancel"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:text="@string/cancel"
+            android:textColor="@color/colorBackgroundDark"
+            app:strokeColor="@color/colorBackgroundDark" />
+
+        <Button
+            android:id="@+id/buttonSave"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/colorBackgroundLight"
+            android:text="@string/save" />
+    </LinearLayout>
+</LinearLayout>
