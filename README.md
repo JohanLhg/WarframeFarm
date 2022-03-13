@@ -49,6 +49,7 @@ Each element also has a detail page accessed by clicking on it. The detail pages
 
 ### Farm
 The app also has a utility page where you can select the different Primes and components you need (all the Primes and components not owned are selected by default) and see which relics contain them and which missions you need to complete to get those relics.
+
 <img src="https://user-images.githubusercontent.com/100712026/156622375-b4ef8b5b-36d3-47d4-9970-9a542f126f41.jpg" width="250">
 
 ## Used ressources
