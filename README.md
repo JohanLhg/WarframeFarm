@@ -16,6 +16,19 @@ A companion app for Digital Extremes' *Warframe* to farm Primes
 ## Usage
 One way to level up is to build and level up equipments, so to get to the max level it's important to get every Prime, but with 100+ Primes, 400+ relics and 270+ missions it's really difficult to keep count of what Prime components you still need, which relics to open and which missions you need to get those. That's why I decided to create this app, it works kinda like a check list but with additional functionalities.
 
+## Installation
+To install this app, you can follow these steps:
+1. Install Android Studio
+2. Get project from Version Control
+
+![New Project](https://user-images.githubusercontent.com/100712026/158078347-996bd4fa-a50c-456d-9acf-60f88b128278.png)
+
+3. Enter the project's URL and click **Clone**
+
+![GitHub URL](https://user-images.githubusercontent.com/100712026/158078354-8d7ac001-3dc4-468d-8a6e-9038c55ea4b7.JPG)
+
+Or download the project and move it to the **AndroidStudioProjects** folder.
+
 ## Presentation
 ### Lists
 The app has lists of each element (Primes, components, relics, planets) with filters and search bars to easily find what you need. You can check each Prime and component you already own, the ones you don't have yet (for relics : the ones that contain rewards you don't have yet) will be shown first in lists by default.
