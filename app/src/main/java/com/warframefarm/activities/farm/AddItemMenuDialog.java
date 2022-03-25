@@ -20,7 +20,7 @@ public class AddItemMenuDialog extends DialogFragment {
     private final AddItemMenuListener listener;
     private DialogAddItemMenuBinding binding;
 
-    private Button buttonAddPrimes, buttonAddParts, buttonCancel;
+    private Button buttonAddPrimes, buttonAddComponents, buttonCancel;
 
     public AddItemMenuDialog(AddItemMenuListener listener) {
         this.listener = listener;
@@ -42,7 +42,7 @@ public class AddItemMenuDialog extends DialogFragment {
         View root = binding.getRoot();
 
         buttonAddPrimes = binding.buttonAddPrimes;
-        buttonAddParts = binding.buttonAddParts;
+        buttonAddComponents = binding.buttonAddComponents;
         buttonCancel = binding.buttonCancel;
 
         buttonAddPrimes.setOnClickListener(v -> {
@@ -50,8 +50,8 @@ public class AddItemMenuDialog extends DialogFragment {
             dismiss();
         });
 
-        buttonAddParts.setOnClickListener(v -> {
-            listener.showAddPartDialog();
+        buttonAddComponents.setOnClickListener(v -> {
+            listener.showAddComponentDialog();
             dismiss();
         });
 
@@ -63,6 +63,6 @@ public class AddItemMenuDialog extends DialogFragment {
 
     public interface AddItemMenuListener {
         void showAddPrimeDialog();
-        void showAddPartDialog();
+        void showAddComponentDialog();
     }
 }

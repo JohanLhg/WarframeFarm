@@ -34,20 +34,20 @@
             android:layout_marginEnd="30dp"
             android:backgroundTint="@color/colorBackgroundLight"
             android:text="@string/button_add_prime"
-            app:layout_constraintBottom_toTopOf="@+id/buttonAddParts"
+            app:layout_constraintBottom_toTopOf="@+id/buttonAddComponents"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/titleAddItemMenu" />
 
         <Button
-            android:id="@+id/buttonAddParts"
+            android:id="@+id/buttonAddComponents"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="30dp"
             android:backgroundTint="@color/colorBackgroundLight"
-            android:text="@string/button_add_part"
+            android:text="@string/button_add_component"
             app:layout_constraintBottom_toTopOf="@+id/buttonCancel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +67,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonAddParts"
+            app:layout_constraintTop_toBottomOf="@+id/buttonAddComponents"
             app:strokeColor="@color/colorBackgroundDark" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

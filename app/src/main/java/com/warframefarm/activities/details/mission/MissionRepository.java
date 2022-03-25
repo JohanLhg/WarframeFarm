@@ -13,19 +13,19 @@ import static com.warframefarm.database.WarframeFarmDatabase.M_REWARD_MISSION;
 import static com.warframefarm.database.WarframeFarmDatabase.M_REWARD_RELIC;
 import static com.warframefarm.database.WarframeFarmDatabase.M_REWARD_ROTATION;
 import static com.warframefarm.database.WarframeFarmDatabase.M_REWARD_TABLE;
-import static com.warframefarm.database.WarframeFarmDatabase.PART_ID;
-import static com.warframefarm.database.WarframeFarmDatabase.PART_TABLE;
+import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_ID;
+import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_TABLE;
 import static com.warframefarm.database.WarframeFarmDatabase.RELIC_ERA;
 import static com.warframefarm.database.WarframeFarmDatabase.RELIC_ID;
 import static com.warframefarm.database.WarframeFarmDatabase.RELIC_NAME;
 import static com.warframefarm.database.WarframeFarmDatabase.RELIC_TABLE;
-import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_PART;
+import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_COMPONENT;
 import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_RARITY;
 import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_RELIC;
 import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_TABLE;
-import static com.warframefarm.database.WarframeFarmDatabase.USER_PART_ID;
-import static com.warframefarm.database.WarframeFarmDatabase.USER_PART_OWNED;
-import static com.warframefarm.database.WarframeFarmDatabase.USER_PART_TABLE;
+import static com.warframefarm.database.WarframeFarmDatabase.USER_COMPONENT_ID;
+import static com.warframefarm.database.WarframeFarmDatabase.USER_COMPONENT_OWNED;
+import static com.warframefarm.database.WarframeFarmDatabase.USER_COMPONENT_TABLE;
 
 import android.app.Application;
 
@@ -118,17 +118,17 @@ public class MissionRepository {
                     " FROM " + M_REWARD_TABLE +
                     " LEFT JOIN " + RELIC_TABLE + " ON " + RELIC_ID + " == " + M_REWARD_RELIC +
                     " LEFT JOIN " + R_REWARD_TABLE + " ON " + R_REWARD_RELIC + " == " + RELIC_ID +
-                    " INNER JOIN " + PART_TABLE + " ON " + PART_ID + " == " + R_REWARD_PART +
-                    " LEFT JOIN " + USER_PART_TABLE + " ON " + USER_PART_ID + " == " + PART_ID +
+                    " INNER JOIN " + COMPONENT_TABLE + " ON " + COMPONENT_ID + " == " + R_REWARD_COMPONENT +
+                    " LEFT JOIN " + USER_COMPONENT_TABLE + " ON " + USER_COMPONENT_ID + " == " + COMPONENT_ID +
                     " WHERE " + M_REWARD_MISSION + " == \"" + m.getName() + "\"" +
-                    " AND (" + USER_PART_OWNED + " == 0" +
-                    " OR " + USER_PART_OWNED + " IS NULL)" +
+                    " AND (" + USER_COMPONENT_OWNED + " == 0" +
+                    " OR " + USER_COMPONENT_OWNED + " IS NULL)" +
                     " GROUP BY relic" +
                     ") ON relic == " + RELIC_ID +
                     " WHERE " + M_REWARD_MISSION + " == \"" + m.getName() + "\"";
 
             if (!search.equals("")) {
-                queryString += " AND (" + R_REWARD_PART + " LIKE '" + search + "%'" +
+                queryString += " AND (" + R_REWARD_COMPONENT + " LIKE '" + search + "%'" +
                         " OR " + RELIC_ERA + " LIKE '" + search + "%'" +
                         " OR " + RELIC_NAME + " LIKE '" + search + "%'" +
                         ")";

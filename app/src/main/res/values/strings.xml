@@ -2,7 +2,7 @@
     <string name="app_name">Warframe Farm</string>
 
     <string name="title_primes">Primes</string>
-    <string name="title_parts">Parts</string>
+    <string name="title_components">Components</string>
     <string name="title_relics">Relics</string>
     <string name="title_rewards">Rewards</string>
     <string name="title_planets">Planets</string>
@@ -31,7 +31,7 @@
     <string name="mission_type">Mission Type</string>
     <string name="drop_chance">Drop Chance</string>
     <string name="best_places">Best Places</string>
-    <string name="part">Part</string>
+    <string name="component">Component</string>
     <string name="relic">Relic</string>
     <string name="type">Type</string>
     <string name="era">Era</string>
@@ -44,7 +44,7 @@
     <string name="profile">Profile</string>
     <string name="menu">Main Menu</string>
     <string name="list">Lists</string>
-    <string name="inventory">Inventory</string>
+    <string name="components">Components</string>
     <string name="farm">Farm</string>
     <string name="settings">Settings</string>
 
@@ -73,16 +73,16 @@
     <string name="best_missions_label">Best Missions</string>
     <string name="title_add_item_menu">Add Items</string>
     <string name="button_add_prime">Add Primes</string>
-    <string name="button_add_part">Add Parts</string>
+    <string name="button_add_component">Add Components</string>
     <string name="title_add_prime">Add Primes</string>
-    <string name="title_add_parts">Add Parts</string>
+    <string name="title_add_components">Add Components</string>
     <string name="empty_state_items">Click on the + button to add primes or prime parts</string>
     <string name="empty_state_results_relic">Add primes or prime parts to see the relics they\'re in</string>
     <string name="empty_state_results_missions">Add primes or prime parts to see the missions you need to do to get the right relics</string>
     <string name="empty_state_results_vaulted">The primes or prime parts added are all vaulted</string>
 
-    <!-- INVENTORY -->
-    <string name="empty_state_inventory">No result for this search, try changing the filter or search for something else.</string>
+    <!-- COMPONENT -->
+    <string name="empty_state_component">No result for this search, try changing the filter or search for something else.</string>
 
     <!-- SETTINGS -->
     <string name="category_performance">Performance</string>
@@ -90,7 +90,6 @@
     <string name="label_load_limit_1">Limit lists to load</string>
     <string name="label_load_limit_2">items.</string>
     <string name="category_account">Account</string>
-    <string name="label_inventory_mode">Inventory:</string>
     <string name="label_sync_local">Save data to the cloud</string>
     <string name="label_sync_online">Get data from the cloud</string>
     <string name="update_db">Update Database</string>

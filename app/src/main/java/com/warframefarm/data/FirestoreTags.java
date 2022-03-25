@@ -6,13 +6,13 @@ public class FirestoreTags {
             INFO_TAG = "info",
             BUILD_TAG = "build",
             PRIMES_TAG = "primes",
-            PARTS_TAG = "parts",
+            COMPONENT_TAG = "components",
             PLANETS_TAG = "planets",
             MISSIONS_TAG = "missions";
     public static final String TYPE_TAG = "type",
-            PART_PRIME_TAG = "prime",
-            PART_COMPONENT_TAG = "component",
-            PART_NEEDED_TAG = "needed",
+            COMPONENT_PRIME_TAG = "prime",
+            COMPONENT_TYPE_TAG = "type",
+            COMPONENT_NEEDED_TAG = "needed",
             FACTION_TAG = "faction",
             MISSION_PLANET_TAG = "planet",
             MISSION_OBJECTIVE_TAG = "objective"

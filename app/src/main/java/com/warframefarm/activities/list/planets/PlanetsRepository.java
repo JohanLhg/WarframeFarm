@@ -11,7 +11,7 @@ import static com.warframefarm.database.WarframeFarmDatabase.M_REWARD_TABLE;
 import static com.warframefarm.database.WarframeFarmDatabase.PLANET_FACTION;
 import static com.warframefarm.database.WarframeFarmDatabase.PLANET_NAME;
 import static com.warframefarm.database.WarframeFarmDatabase.PLANET_TABLE;
-import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_PART;
+import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_COMPONENT;
 import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_RELIC;
 import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_TABLE;
 
@@ -77,7 +77,7 @@ public class PlanetsRepository {
                         " OR " + MISSION_OBJECTIVE + " LIKE \"" + search + "%\"" +
                         " OR " + MISSION_FACTION + " LIKE \"" + search + "%\"" +
                         " OR " + M_REWARD_RELIC + " LIKE \"" + search + "%\"" +
-                        " OR " + R_REWARD_PART + " LIKE \"" + search + "%\"" +
+                        " OR " + R_REWARD_COMPONENT + " LIKE \"" + search + "%\"" +
                         " ORDER BY " + PLANET_NAME;
             }
 

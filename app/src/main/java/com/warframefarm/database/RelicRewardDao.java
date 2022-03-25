@@ -27,9 +27,9 @@ public interface RelicRewardDao {
 
     @Query("SELECT * " +
             "FROM RELIC_REWARD_TABLE " +
-            "LEFT JOIN PART_TABLE ON part_id == r_reward_part " +
-            "LEFT JOIN PRIME_TABLE ON prime_name == part_prime " +
-            "LEFT JOIN USER_PART_TABLE ON user_part_id == part_id " +
+            "LEFT JOIN COMPONENT_TABLE ON component_id == r_reward_component " +
+            "LEFT JOIN PRIME_TABLE ON prime_name == component_prime " +
+            "LEFT JOIN USER_COMPONENT_TABLE ON user_component_id == component_id " +
             "WHERE r_reward_relic == :id " +
             "ORDER BY r_reward_rarity")
     List<RelicRewardComplete> getRewardsForRelic(String id);

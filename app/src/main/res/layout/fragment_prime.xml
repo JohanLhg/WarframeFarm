@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
@@ -112,7 +111,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerParts"
+        android:id="@+id/recyclerComponents"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="10dp"
@@ -178,7 +177,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
-            android:id="@+id/buttonPart"
+            android:id="@+id/buttonComponent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -189,17 +188,17 @@
             android:padding="10dp">
 
             <ImageView
-                android:id="@+id/iconPart"
+                android:id="@+id/iconComponent"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:background="@drawable/prime_part"
                 android:backgroundTint="@color/colorAccent" />
 
             <TextView
-                android:id="@+id/textPart"
+                android:id="@+id/textComponent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title_parts"
+                android:text="@string/title_components"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp" />
         </LinearLayout>

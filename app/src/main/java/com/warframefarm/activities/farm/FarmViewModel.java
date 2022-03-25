@@ -6,8 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.warframefarm.database.ComponentComplete;
 import com.warframefarm.database.MissionComplete;
-import com.warframefarm.database.PartComplete;
 import com.warframefarm.database.PrimeComplete;
 import com.warframefarm.database.RelicComplete;
 import com.warframefarm.database.Item;
@@ -68,8 +68,8 @@ public class FarmViewModel extends AndroidViewModel {
         repository.addPrimes(primeNames, primes);
     }
 
-    public void addParts(ArrayList<String> partNames, ArrayList<PartComplete> parts) {
-        repository.addParts(partNames, parts);
+    public void addComponents(ArrayList<String> componentNames, ArrayList<ComponentComplete> components) {
+        repository.addComponents(componentNames, components);
     }
 
     public void removeItem(Item item) {

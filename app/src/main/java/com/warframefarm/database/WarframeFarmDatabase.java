@@ -17,8 +17,8 @@ import org.json.JSONObject;
 import java.util.List;
 import java.util.concurrent.Executor;
 
-@Database(entities = {App.class, Prime.class, Part.class, Relic.class, RelicReward.class, Planet.class,
-        Mission.class, MissionReward.class, UserPrime.class, UserPart.class, Setting.class}, version = 1)
+@Database(entities = {App.class, Prime.class, Component.class, Relic.class, RelicReward.class, Planet.class,
+        Mission.class, MissionReward.class, UserPrime.class, UserComponent.class, Setting.class}, version = 1)
 public abstract class WarframeFarmDatabase extends RoomDatabase {
 
     private static WarframeFarmDatabase instance;
@@ -37,12 +37,12 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
     public static final String PRIME_TYPE = "prime_type";
     public static final String PRIME_VAULTED = "prime_vaulted";
 
-    //Parts Table
-    public static final String PART_TABLE = "PART_TABLE";
-    public static final String PART_ID = "part_id";
-    public static final String PART_PRIME = "part_prime";
-    public static final String PART_COMPONENT = "part_component";
-    public static final String PART_NEEDED = "part_needed";
+    //Components Table
+    public static final String COMPONENT_TABLE = "COMPONENT_TABLE";
+    public static final String COMPONENT_ID = "component_id";
+    public static final String COMPONENT_PRIME = "component_prime";
+    public static final String COMPONENT_TYPE = "component_type";
+    public static final String COMPONENT_NEEDED = "component_needed";
 
     //Relics Table
     public static final String RELIC_TABLE = "RELIC_TABLE";
@@ -55,7 +55,7 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
     public static final String R_REWARD_TABLE = "RELIC_REWARD_TABLE";
     public static final String R_REWARD_ID = "r_reward_id";
     public static final String R_REWARD_RELIC = "r_reward_relic";
-    public static final String R_REWARD_PART = "r_reward_part";
+    public static final String R_REWARD_COMPONENT = "r_reward_component";
     public static final String R_REWARD_RARITY = "r_reward_rarity";
 
     //Planets Table
@@ -85,10 +85,10 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
     public static final String USER_PRIME_NAME = "user_prime_name";
     public static final String USER_PRIME_OWNED = "user_prime_owned";
 
-    //User Parts Table
-    public static final String USER_PART_TABLE = "USER_PART_TABLE";
-    public static final String USER_PART_ID = "user_part_id";
-    public static final String USER_PART_OWNED = "user_part_owned";
+    //User Components Table
+    public static final String USER_COMPONENT_TABLE = "USER_COMPONENT_TABLE";
+    public static final String USER_COMPONENT_ID = "user_component_id";
+    public static final String USER_COMPONENT_OWNED = "user_component_owned";
 
     //User Settings Table
     public static final String SETTINGS_TABLE = "SETTINGS_TABLE";
@@ -108,14 +108,14 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
 
     public abstract AppDao appDao();
     public abstract PrimeDao primeDao();
-    public abstract PartDao partDao();
+    public abstract ComponentDao componentDao();
     public abstract RelicDao relicDao();
     public abstract RelicRewardDao relicRewardDao();
     public abstract PlanetDao planetDao();
     public abstract MissionDao missionDao();
     public abstract MissionRewardDao missionRewardDao();
     public abstract UserPrimeDao userPrimeDao();
-    public abstract UserPartDao userPartDao();
+    public abstract UserComponentDao userComponentDao();
     public abstract SettingDao settingDao();
 
     private static final RoomDatabase.Callback roomCallback = new RoomDatabase.Callback() {
@@ -161,7 +161,7 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
             String prev_name = "", name, era, relic_id;
 
             JSONArray rewards;
-            String part;
+            String component;
             int rarity;
             for (int i = 0; i < relicArray.length(); i++) {
                 relic = (JSONObject) relicArray.get(i);
@@ -185,16 +185,16 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
                 for (int j = 0; j < rewards.length(); j++) {
                     JSONObject reward = (JSONObject) rewards.get(j);
 
-                    part = reward.getString("itemName");
+                    component = reward.getString("itemName");
 
-                    part = part.replace(" Kubrow Collar", "");
-                    part = part.replace("Blades", "Blade");
+                    component = component.replace(" Kubrow Collar", "");
+                    component = component.replace("Blades", "Blade");
 
-                    if (part.contains(" Prime Blueprint"))
-                        part = part.replace(" Prime Blueprint", " Blueprint");
+                    if (component.contains(" Prime Blueprint"))
+                        component = component.replace(" Prime Blueprint", " Blueprint");
                     else {
-                        part = part.replace(" Blueprint", "");
-                        part = part.replace(" Prime", "");
+                        component = component.replace(" Blueprint", "");
+                        component = component.replace(" Prime", "");
                     }
 
                     String chance = String.valueOf(reward.getDouble("chance"));
@@ -210,7 +210,7 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
                             break;
                     }
 
-                    relicRewardDao.insert(new RelicReward(relic_id, part, rarity));
+                    relicRewardDao.insert(new RelicReward(relic_id, component, rarity));
                 }
             }
         }

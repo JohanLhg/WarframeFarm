@@ -330,7 +330,7 @@ public class WarframeLists {
         return planetImage;
     }
 
-    public static int getImagePart(String name, String prime, String primeType) {
+    public static int getImageComponent(String name, String prime, String primeType) {
         int image = PrimeTypeImage.get(primeType);
         //Set image for the type of prime
         switch (name) {
@@ -338,54 +338,54 @@ public class WarframeLists {
             case BLUEPRINT: return PrimeImage.get(prime);
 
             case NEUROPTICS:
-            case CEREBRUM: return R.drawable.part_neuroptics;
+            case CEREBRUM: return R.drawable.component_neuroptics;
 
             case CHASSIS:
-            case CARAPACE: return R.drawable.part_chassis;
+            case CARAPACE: return R.drawable.component_chassis;
 
             case SYSTEMS:
                 if (primeType.equals(WARFRAME) || primeType.equals(SENTINEL))
-                    return R.drawable.part_systems;
+                    return R.drawable.component_systems;
                 if (primeType.equals(ARCHWING))
-                    return R.drawable.part_archwing_systems;
+                    return R.drawable.component_archwing_systems;
 
-            case HARNESS: return R.drawable.part_archwing_harness;
-            case WINGS: return R.drawable.part_archwing_wings;
+            case HARNESS: return R.drawable.component_archwing_harness;
+            case WINGS: return R.drawable.component_archwing_wings;
             //WEAPONS
-            case BARREL: return R.drawable.part_barrel;
-            case RECEIVER: return R.drawable.part_receiver;
+            case BARREL: return R.drawable.component_barrel;
+            case RECEIVER: return R.drawable.component_receiver;
 
             case STOCK:
             case CHAIN:
-            case STRING: return R.drawable.part_stock;
+            case STRING: return R.drawable.component_stock;
 
             case BLADE:
             case LOWER_LIMB:
             case UPPER_LIMB:
             case STARS:
             case HEAD:
-            case DISC: return R.drawable.part_blade;
+            case DISC: return R.drawable.component_blade;
 
             case BOOT:
-            case GUARD: return R.drawable.part_boot;
+            case GUARD: return R.drawable.component_boot;
 
             case GRIP:
             case POUCH:
-            case BAND: return R.drawable.part_grip;
+            case BAND: return R.drawable.component_grip;
 
             case HANDLE:
             case HILT:
-            case GAUNTLET: return R.drawable.part_handle;
+            case GAUNTLET: return R.drawable.component_handle;
 
             case BUCKLE:
             case ORNAMENT:
-            case LINK: return R.drawable.part_ornament;
+            case LINK: return R.drawable.component_ornament;
         }
 
         return image;
     }
 
-    public static boolean isPartBP(String type, String primeType) {
+    public static boolean isComponentBP(String type, String primeType) {
         switch (type) {
             case BLUEPRINT:
             case NEUROPTICS:

@@ -15,7 +15,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.warframefarm.R;
-import com.warframefarm.activities.details.part.PartFragment;
+import com.warframefarm.activities.details.component.ComponentFragment;
 import com.warframefarm.activities.main.MainActivity;
 import com.warframefarm.database.RelicRewardComplete;
 import com.warframefarm.databinding.RecyclerTinyRelicRewardBinding;
@@ -67,7 +67,7 @@ public class TinyRelicRewardAdapter extends RecyclerView.Adapter<TinyRelicReward
             holder.textRelicRewardName.setText(R.string.forma);
         }
         else {
-            holder.layoutRelicReward.setOnClickListener(v -> showPartDetails(reward.getId()));
+            holder.layoutRelicReward.setOnClickListener(v -> showComponentDetails(reward.getId()));
 
             holder.imageRelicReward.setImageResource(reward.getImage());
 
@@ -85,8 +85,8 @@ public class TinyRelicRewardAdapter extends RecyclerView.Adapter<TinyRelicReward
         return rewards.size();
     }
 
-    private void showPartDetails(String part_id) {
-        ((MainActivity) context).multipleStackNavigator.start(new PartFragment(part_id));
+    private void showComponentDetails(String component_id) {
+        ((MainActivity) context).multipleStackNavigator.start(new ComponentFragment(component_id));
     }
 
     public static class RelicRewardViewHolder extends RecyclerView.ViewHolder {

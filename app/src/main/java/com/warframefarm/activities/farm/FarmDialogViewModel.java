@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.warframefarm.database.PartComplete;
+import com.warframefarm.database.ComponentComplete;
 import com.warframefarm.database.PrimeComplete;
 
 import java.util.List;
@@ -36,16 +36,16 @@ public class FarmDialogViewModel extends AndroidViewModel {
         repository.addPrimes(primeNames, primes);
     }
 
-    public void addParts(List<String> partNames, List<PartComplete> parts) {
-        repository.addParts(partNames, parts);
+    public void addComponents(List<String> componentNames, List<ComponentComplete> components) {
+        repository.addComponents(componentNames, components);
     }
 
     public LiveData<List<PrimeComplete>> getRemainingPrimes() {
         return repository.getRemainingPrimes();
     }
 
-    public LiveData<List<PartComplete>> getRemainingParts() {
-        return repository.getRemainingParts();
+    public LiveData<List<ComponentComplete>> getRemainingComponents() {
+        return repository.getRemainingComponents();
     }
 
     public LiveData<String> getFilter() {

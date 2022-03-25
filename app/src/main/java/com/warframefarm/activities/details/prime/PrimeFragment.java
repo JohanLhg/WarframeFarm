@@ -1,7 +1,7 @@
 package com.warframefarm.activities.details.prime;
 
 import static com.warframefarm.activities.details.prime.PrimeRepository.MISSION;
-import static com.warframefarm.activities.details.prime.PrimeRepository.PART;
+import static com.warframefarm.activities.details.prime.PrimeRepository.COMPONENT;
 import static com.warframefarm.activities.details.prime.PrimeRepository.RELIC;
 
 import android.content.Context;
@@ -29,10 +29,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.warframefarm.R;
 import com.warframefarm.activities.details.RelicDisplayAdapter;
-import com.warframefarm.activities.inventory.InventoryAdapter;
+import com.warframefarm.activities.list.components.ComponentAdapter;
 import com.warframefarm.activities.list.relics.PlanetMissionFarmAdapter;
+import com.warframefarm.database.ComponentComplete;
 import com.warframefarm.database.MissionComplete;
-import com.warframefarm.database.PartComplete;
 import com.warframefarm.database.PrimeComplete;
 import com.warframefarm.database.RelicComplete;
 import com.warframefarm.databinding.FragmentPrimeBinding;
@@ -41,7 +41,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PrimeFragment extends Fragment implements InventoryAdapter.InventoryListener {
+public class PrimeFragment extends Fragment implements ComponentAdapter.ComponentListener {
 
     private Context context;
     private FragmentPrimeBinding binding;
@@ -49,7 +49,7 @@ public class PrimeFragment extends Fragment implements InventoryAdapter.Inventor
     private final String prime;
 
     private ArrayAdapter<String> relicFilterAdapter, missionFilterAdapter;
-    private InventoryAdapter partAdapter;
+    private ComponentAdapter componentAdapter;
     private RelicDisplayAdapter relicAdapter;
     private PlanetMissionFarmAdapter missionAdapter;
 
@@ -61,12 +61,12 @@ public class PrimeFragment extends Fragment implements InventoryAdapter.Inventor
     private ImageView iconSearchbar;
     private Spinner spinnerFilter;
 
-    private RecyclerView recyclerParts, recyclerRelics, recyclerMissions;
+    private RecyclerView recyclerComponents, recyclerRelics, recyclerMissions;
     private TextView textEmptyStatePrime;
 
-    private LinearLayout buttonPart, buttonRelic, buttonMission;
-    private ImageView iconPart, iconRelic, iconMission;
-    private TextView textPart, textRelic, textMission;
+    private LinearLayout buttonComponent, buttonRelic, buttonMission;
+    private ImageView iconComponent, iconRelic, iconMission;
+    private TextView textComponent, textRelic, textMission;
 
     public PrimeFragment(String prime) {
         this.prime = prime;
@@ -97,14 +97,14 @@ public class PrimeFragment extends Fragment implements InventoryAdapter.Inventor
         iconSearchbar = binding.toolbar.iconSearchbar;
         spinnerFilter = binding.toolbar.spinnerSort;
 
-        recyclerParts = binding.recyclerParts;
+        recyclerComponents = binding.recyclerComponents;
         recyclerRelics = binding.recyclerRelics;
         recyclerMissions = binding.recyclerMissions;
         textEmptyStatePrime = binding.textEmptyStatePrime;
 
-        buttonPart = binding.buttonPart;
-        iconPart = binding.iconPart;
-        textPart = binding.textPart;
+        buttonComponent = binding.buttonComponent;
+        iconComponent = binding.iconComponent;
+        textComponent = binding.textComponent;
 
         buttonRelic = binding.buttonRelic;
         iconRelic = binding.iconRelic;
@@ -175,13 +175,13 @@ public class PrimeFragment extends Fragment implements InventoryAdapter.Inventor
         imageOwned.setOnClickListener(v -> primeViewModel.switchPrimeOwned());
 
         //region Adapters
-        partAdapter = new InventoryAdapter(context, this);
-        recyclerParts.setAdapter(partAdapter);
-        recyclerParts.setLayoutManager(new GridLayoutManager(context, 3));
+        componentAdapter = new ComponentAdapter(context, this);
+        recyclerComponents.setAdapter(componentAdapter);
+        recyclerComponents.setLayoutManager(new GridLayoutManager(context, 3));
 
         ArrayList<String> relicFilterOptions = new ArrayList<>();
         Collections.addAll(relicFilterOptions,
-                getString(R.string.part),
+                getString(R.string.component),
                 getString(R.string.relic)
         );
         relicFilterAdapter = new ArrayAdapter<>(context, R.layout.spinner_dropdown_item, relicFilterOptions);
@@ -204,7 +204,7 @@ public class PrimeFragment extends Fragment implements InventoryAdapter.Inventor
         recyclerMissions.setLayoutManager(new LinearLayoutManager(context));
         //endregion
 
-        buttonPart.setOnClickListener(v -> primeViewModel.setMode(PART));
+        buttonComponent.setOnClickListener(v -> primeViewModel.setMode(COMPONENT));
 
         buttonRelic.setOnClickListener(v -> primeViewModel.setMode(RELIC));
 
@@ -240,9 +240,9 @@ public class PrimeFragment extends Fragment implements InventoryAdapter.Inventor
             @Override
             public void onChanged(Integer mode) {
                 switch (mode) {
-                    case PART:
-                        iconPart.setBackgroundTintList(context.getColorStateList(R.color.colorAccent));
-                        textPart.setTextColor(context.getColor(R.color.colorAccent));
+                    case COMPONENT:
+                        iconComponent.setBackgroundTintList(context.getColorStateList(R.color.colorAccent));
+                        textComponent.setTextColor(context.getColor(R.color.colorAccent));
 
                         iconRelic.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
                         textRelic.setTextColor(context.getColor(R.color.colorBackgroundDark));
@@ -254,7 +254,7 @@ public class PrimeFragment extends Fragment implements InventoryAdapter.Inventor
                         recyclerRelics.setVisibility(View.GONE);
                         recyclerMissions.setVisibility(View.GONE);
 
-                        recyclerParts.setVisibility(View.VISIBLE);
+                        recyclerComponents.setVisibility(View.VISIBLE);
 
                         textEmptyStatePrime.setVisibility(View.GONE);
                         break;
@@ -263,13 +263,13 @@ public class PrimeFragment extends Fragment implements InventoryAdapter.Inventor
                         iconRelic.setBackgroundTintList(context.getColorStateList(R.color.colorAccent));
                         textRelic.setTextColor(context.getColor(R.color.colorAccent));
 
-                        iconPart.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
-                        textPart.setTextColor(context.getColor(R.color.colorBackgroundDark));
+                        iconComponent.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                        textComponent.setTextColor(context.getColor(R.color.colorBackgroundDark));
 
                         iconMission.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
                         textMission.setTextColor(context.getColor(R.color.colorBackgroundDark));
 
-                        recyclerParts.setVisibility(View.GONE);
+                        recyclerComponents.setVisibility(View.GONE);
                         recyclerMissions.setVisibility(View.GONE);
 
                         spinnerFilter.setAdapter(relicFilterAdapter);
@@ -283,13 +283,13 @@ public class PrimeFragment extends Fragment implements InventoryAdapter.Inventor
                         iconMission.setBackgroundTintList(context.getColorStateList(R.color.colorAccent));
                         textMission.setTextColor(context.getColor(R.color.colorAccent));
 
-                        iconPart.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
-                        textPart.setTextColor(context.getColor(R.color.colorBackgroundDark));
+                        iconComponent.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                        textComponent.setTextColor(context.getColor(R.color.colorBackgroundDark));
 
                         iconRelic.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
                         textRelic.setTextColor(context.getColor(R.color.colorBackgroundDark));
 
-                        recyclerParts.setVisibility(View.GONE);
+                        recyclerComponents.setVisibility(View.GONE);
                         recyclerRelics.setVisibility(View.GONE);
 
                         spinnerFilter.setAdapter(missionFilterAdapter);
@@ -302,11 +302,11 @@ public class PrimeFragment extends Fragment implements InventoryAdapter.Inventor
             }
         });
 
-        primeViewModel.getParts().observe(getViewLifecycleOwner(), new Observer<List<PartComplete>>() {
+        primeViewModel.getComponents().observe(getViewLifecycleOwner(), new Observer<List<ComponentComplete>>() {
             @Override
-            public void onChanged(List<PartComplete> parts) {
+            public void onChanged(List<ComponentComplete> components) {
                 textEmptyStatePrime.setVisibility(View.GONE);
-                partAdapter.updateParts(parts);
+                componentAdapter.updateComponents(components);
             }
         });
 
@@ -351,7 +351,7 @@ public class PrimeFragment extends Fragment implements InventoryAdapter.Inventor
     }
 
     @Override
-    public void modifyPart(PartComplete part) {
-        primeViewModel.switchPartOwned(part);
+    public void modifyComponent(ComponentComplete component) {
+        primeViewModel.switchComponentOwned(component);
     }
 }

@@ -15,7 +15,7 @@ import com.warframefarm.R;
 import com.warframefarm.data.FirestoreHelper;
 import com.warframefarm.database.Setting;
 import com.warframefarm.database.SettingDao;
-import com.warframefarm.database.UserPartDao;
+import com.warframefarm.database.UserComponentDao;
 import com.warframefarm.database.UserPrimeDao;
 import com.warframefarm.database.WarframeFarmDatabase;
 
@@ -27,7 +27,7 @@ public class MainRepository {
 
     private final SettingDao settingDao;
     private final UserPrimeDao userPrimeDao;
-    private final UserPartDao userPartDao;
+    private final UserComponentDao userComponentDao;
 
     private final FirebaseAuth auth;
     private final FirestoreHelper firestoreHelper;
@@ -41,7 +41,7 @@ public class MainRepository {
         WarframeFarmDatabase database = WarframeFarmDatabase.getInstance(application);
         settingDao = database.settingDao();
         userPrimeDao = database.userPrimeDao();
-        userPartDao = database.userPartDao();
+        userComponentDao = database.userComponentDao();
 
         auth = FirebaseAuth.getInstance();
         firestoreHelper = FirestoreHelper.getInstance(application);
@@ -130,7 +130,7 @@ public class MainRepository {
     public void resetUserData() {
         backgroundThread.execute(() -> {
             userPrimeDao.resetPrimes();
-            userPartDao.resetParts();
+            userComponentDao.resetComponents();
         });
     }
 

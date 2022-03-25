@@ -46,10 +46,10 @@ public interface PrimeDao {
     @Query("UPDATE PRIME_TABLE " +
             "SET prime_vaulted = CASE " +
                 "WHEN prime_name IN (" +
-                    "SELECT DISTINCT part_prime " +
-                    "FROM PART_TABLE " +
-                    "WHERE part_id IN (" +
-                        "SELECT DISTINCT r_reward_part " +
+                    "SELECT DISTINCT component_prime " +
+                    "FROM COMPONENT_TABLE " +
+                    "WHERE component_id IN (" +
+                        "SELECT DISTINCT r_reward_component " +
                         "FROM RELIC_REWARD_TABLE " +
                         "INNER JOIN MISSION_REWARD_TABLE ON m_reward_relic == r_reward_relic" +
                     ")" +

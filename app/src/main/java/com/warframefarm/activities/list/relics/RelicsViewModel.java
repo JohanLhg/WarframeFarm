@@ -18,8 +18,8 @@ public class RelicsViewModel extends AndroidViewModel {
         repository = new RelicsRepository(application);
     }
 
-    public LiveData<List<String>> getPartIDs() {
-        return repository.getPartIDs();
+    public LiveData<List<String>> getComponentIDs() {
+        return repository.getComponentIDs();
     }
 
     public void setSearch(String search) {

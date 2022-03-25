@@ -11,15 +11,15 @@ import static com.warframefarm.database.WarframeFarmDatabase.M_REWARD_MISSION;
 import static com.warframefarm.database.WarframeFarmDatabase.M_REWARD_RELIC;
 import static com.warframefarm.database.WarframeFarmDatabase.M_REWARD_ROTATION;
 import static com.warframefarm.database.WarframeFarmDatabase.M_REWARD_TABLE;
-import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_PART;
+import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_COMPONENT;
 import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_RELIC;
 import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_TABLE;
 import static com.warframefarm.database.WarframeFarmDatabase.TYPE_ARCHWING;
 import static com.warframefarm.database.WarframeFarmDatabase.TYPE_EMPYREAN;
 import static com.warframefarm.database.WarframeFarmDatabase.TYPE_NORMAL;
-import static com.warframefarm.database.WarframeFarmDatabase.USER_PART_ID;
-import static com.warframefarm.database.WarframeFarmDatabase.USER_PART_OWNED;
-import static com.warframefarm.database.WarframeFarmDatabase.USER_PART_TABLE;
+import static com.warframefarm.database.WarframeFarmDatabase.USER_COMPONENT_ID;
+import static com.warframefarm.database.WarframeFarmDatabase.USER_COMPONENT_OWNED;
+import static com.warframefarm.database.WarframeFarmDatabase.USER_COMPONENT_TABLE;
 
 import android.app.Application;
 import android.database.Cursor;
@@ -113,9 +113,9 @@ public class PlanetRepository {
                             " FROM " + MISSION_TABLE +
                             " LEFT JOIN " + M_REWARD_TABLE + " ON " + M_REWARD_MISSION + " == " + MISSION_NAME +
                             " LEFT JOIN " + R_REWARD_TABLE + " ON " + R_REWARD_RELIC + " == " + M_REWARD_RELIC +
-                            " LEFT JOIN " + USER_PART_TABLE + " ON " + USER_PART_ID + " == " + R_REWARD_PART +
+                            " LEFT JOIN " + USER_COMPONENT_TABLE + " ON " + USER_COMPONENT_ID + " == " + R_REWARD_COMPONENT +
                             " WHERE " + MISSION_PLANET + " == '" + p.getName() + "'" +
-                            " AND " + USER_PART_OWNED + " == 0" +
+                            " AND " + USER_COMPONENT_OWNED + " == 0" +
                         ")" +
                         " SELECT " + MISSION_TABLE + ".*, COALESCE(" + M_REWARD_RELIC + ", '') AS " + M_REWARD_RELIC +
                         ", COALESCE(" + M_REWARD_ROTATION + ", '') AS " + M_REWARD_ROTATION +
@@ -136,9 +136,9 @@ public class PlanetRepository {
                             " FROM " + MISSION_TABLE +
                             " LEFT JOIN " + M_REWARD_TABLE + " ON " + M_REWARD_MISSION + " == " + MISSION_NAME +
                             " LEFT JOIN " + R_REWARD_TABLE + " ON " + R_REWARD_RELIC + " == " + M_REWARD_RELIC +
-                            " LEFT JOIN " + USER_PART_TABLE + " ON " + USER_PART_ID + " == " + R_REWARD_PART +
+                            " LEFT JOIN " + USER_COMPONENT_TABLE + " ON " + USER_COMPONENT_ID + " == " + R_REWARD_COMPONENT +
                             " WHERE " + MISSION_PLANET + " == '" + p.getName() + "'" +
-                            " AND " + USER_PART_OWNED + " == 0" +
+                            " AND " + USER_COMPONENT_OWNED + " == 0" +
                         ")" +
                         " SELECT " + MISSION_TABLE + ".*, COALESCE(" + M_REWARD_RELIC + ", '') AS " + M_REWARD_RELIC +
                         ", COALESCE(" + M_REWARD_ROTATION + ", '') AS " + M_REWARD_ROTATION +

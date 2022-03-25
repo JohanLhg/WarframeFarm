@@ -228,10 +228,10 @@ public class FarmFragment extends Fragment implements ItemAdapter.ItemListener, 
     }
 
     @Override
-    public void showAddPartDialog() {
+    public void showAddComponentDialog() {
         final FragmentManager fm = getActivity().getSupportFragmentManager();
-        final AddPartDialog dialog = new AddPartDialog(context);
-        dialog.show(fm, "Add Part Dialog");
+        final AddComponentDialog dialog = new AddComponentDialog(context);
+        dialog.show(fm, "Add Component Dialog");
     }
 
     @Override

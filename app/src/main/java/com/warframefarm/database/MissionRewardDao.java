@@ -23,6 +23,6 @@ public interface MissionRewardDao {
     @Delete
     void delete(MissionReward missionReward);
 
-    @RawQuery(observedEntities = {MissionReward.class, RelicReward.class, Relic.class, UserPart.class})
+    @RawQuery(observedEntities = {MissionReward.class, RelicReward.class, Relic.class, UserComponent.class})
     List<MissionRewardComplete> getMissionRewards(SimpleSQLiteQuery query);
 }

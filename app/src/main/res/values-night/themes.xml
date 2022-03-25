@@ -1,16 +1,65 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.WarframeFarm" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.WarframeFarm" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
+        <item name="colorOnPrimary">@color/text</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <item name="colorSecondary">@color/colorPrimary</item>
+        <item name="colorSecondaryVariant">@color/colorPrimaryDark</item>
+        <item name="colorOnSecondary">@color/text</item>
+
+        <item name="android:statusBarColor">#000000</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="android:navigationBarColor">@color/transparent</item>
+
+        <item name="fontFamily">@font/sui_generis_rg</item>
+        <item name="android:editTextColor">@color/colorBackgroundDark</item>
+        <item name="android:textColor">@color/colorBackgroundDark</item>
+        <item name="android:textColorPrimary">@color/colorBackgroundDark</item>
+        <item name="android:textColorSecondary">@color/colorBackgroundDark</item>
+        <item name="android:textColorTertiary">@color/colorBackgroundDark</item>
+        <item name="android:textColorPrimaryInverse">@color/colorBackgroundDark</item>
+        <item name="android:textColorSecondaryInverse">@color/colorBackgroundDark</item>
+        <item name="android:textColorTertiaryInverse">@color/colorBackgroundDark</item>
+        <item name="android:textColorHint">@color/colorBackgroundDark</item>
+
+        <item name="android:alertDialogTheme">@style/customDialog</item>
+
+        <item name="android:dialogTheme">@style/customDialog</item>
+
+        <item name="android:buttonStyle">@style/customButton</item>
+
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+
+    <style name="navDrawerText" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/sui_generis_rg</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="customButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+        <item name="android:textColor">@color/buttonText</item>
+        <item name="android:shadowColor">@color/buttonShadow</item>
+        <item name="backgroundTint">@color/transparent</item>
+        <item name="backgroundTintMode">add</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@drawable/button</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="customDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:background">@color/transparent</item>
+        <item name="android:textColor">@color/colorBackgroundDark</item>
+    </style>
+
+    <style name="customDropDown" parent="Theme.AppCompat.Light">
+        <item name="android:background">@color/text</item>
+        <item name="android:textColor">@color/colorBackgroundDark</item>
     </style>
 </resources>

@@ -22,11 +22,11 @@ import static com.warframefarm.database.WarframeFarmDatabase.M_REWARD_MISSION;
 import static com.warframefarm.database.WarframeFarmDatabase.M_REWARD_RELIC;
 import static com.warframefarm.database.WarframeFarmDatabase.M_REWARD_ROTATION;
 import static com.warframefarm.database.WarframeFarmDatabase.M_REWARD_TABLE;
-import static com.warframefarm.database.WarframeFarmDatabase.PART_COMPONENT;
-import static com.warframefarm.database.WarframeFarmDatabase.PART_ID;
-import static com.warframefarm.database.WarframeFarmDatabase.PART_NEEDED;
-import static com.warframefarm.database.WarframeFarmDatabase.PART_PRIME;
-import static com.warframefarm.database.WarframeFarmDatabase.PART_TABLE;
+import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_TYPE;
+import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_ID;
+import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_NEEDED;
+import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_PRIME;
+import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_TABLE;
 import static com.warframefarm.database.WarframeFarmDatabase.PLANET_NAME;
 import static com.warframefarm.database.WarframeFarmDatabase.PLANET_TABLE;
 import static com.warframefarm.database.WarframeFarmDatabase.PRIME_NAME;
@@ -38,13 +38,13 @@ import static com.warframefarm.database.WarframeFarmDatabase.RELIC_ID;
 import static com.warframefarm.database.WarframeFarmDatabase.RELIC_NAME;
 import static com.warframefarm.database.WarframeFarmDatabase.RELIC_TABLE;
 import static com.warframefarm.database.WarframeFarmDatabase.RELIC_VAULTED;
-import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_PART;
+import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_COMPONENT;
 import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_RARITY;
 import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_RELIC;
 import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_TABLE;
-import static com.warframefarm.database.WarframeFarmDatabase.USER_PART_ID;
-import static com.warframefarm.database.WarframeFarmDatabase.USER_PART_OWNED;
-import static com.warframefarm.database.WarframeFarmDatabase.USER_PART_TABLE;
+import static com.warframefarm.database.WarframeFarmDatabase.USER_COMPONENT_ID;
+import static com.warframefarm.database.WarframeFarmDatabase.USER_COMPONENT_OWNED;
+import static com.warframefarm.database.WarframeFarmDatabase.USER_COMPONENT_TABLE;
 import static com.warframefarm.database.WarframeFarmDatabase.USER_PRIME_NAME;
 import static com.warframefarm.database.WarframeFarmDatabase.USER_PRIME_TABLE;
 
@@ -56,18 +56,18 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import com.warframefarm.AppExecutors;
+import com.warframefarm.database.Component;
+import com.warframefarm.database.ComponentComplete;
 import com.warframefarm.database.MissionComplete;
 import com.warframefarm.database.MissionDao;
 import com.warframefarm.database.MissionReward;
-import com.warframefarm.database.PartComplete;
-import com.warframefarm.database.PartDao;
+import com.warframefarm.database.ComponentDao;
 import com.warframefarm.database.PrimeComplete;
 import com.warframefarm.database.PrimeDao;
 import com.warframefarm.database.RelicComplete;
 import com.warframefarm.database.RelicDao;
 import com.warframefarm.database.RelicRewardComplete;
 import com.warframefarm.database.WarframeFarmDatabase;
-import com.warframefarm.database.Part;
 import com.warframefarm.database.Item;
 
 import java.util.ArrayList;
@@ -79,7 +79,7 @@ public class FarmRepository {
     private static FarmRepository instance;
 
     private final PrimeDao primeDao;
-    private final PartDao partDao;
+    private final ComponentDao componentDao;
     private final RelicDao relicDao;
     private final MissionDao missionDao;
 
@@ -101,12 +101,12 @@ public class FarmRepository {
     private final MutableLiveData<String> dialogFilter = new MutableLiveData<>("");
     private String dialogSearch = "", dialogOrder = PRIME_VAULTED;
     private final MutableLiveData<List<PrimeComplete>> remainingPrimes = new MutableLiveData<>(new ArrayList<>());
-    private final MutableLiveData<List<PartComplete>> remainingParts = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<List<ComponentComplete>> remainingComponents = new MutableLiveData<>(new ArrayList<>());
 
     private FarmRepository(Application application) {
         WarframeFarmDatabase database = WarframeFarmDatabase.getInstance(application);
         primeDao = database.primeDao();
-        partDao = database.partDao();
+        componentDao = database.componentDao();
         relicDao = database.relicDao();
         missionDao = database.missionDao();
 
@@ -151,8 +151,8 @@ public class FarmRepository {
         return remainingPrimes;
     }
 
-    public LiveData<List<PartComplete>> getRemainingParts() {
-        return remainingParts;
+    public LiveData<List<ComponentComplete>> getRemainingComponents() {
+        return remainingComponents;
     }
 
     public LiveData<String> getDialogFilter() {
@@ -162,7 +162,7 @@ public class FarmRepository {
     public void setDialogSearch(String search) {
         dialogSearch = search;
         updateRemainingPrimes();
-        updateRemainingParts();
+        updateRemainingComponents();
     }
 
     public void setDialogFilter(String filter) {
@@ -171,13 +171,13 @@ public class FarmRepository {
         else
             dialogFilter.setValue(filter);
         updateRemainingPrimes();
-        updateRemainingParts();
+        updateRemainingComponents();
     }
 
     public void setDialogOrder(String order) {
         dialogOrder = order;
         updateRemainingPrimes();
-        updateRemainingParts();
+        updateRemainingComponents();
     }
 
     public void setMode(int mode) {
@@ -204,7 +204,7 @@ public class FarmRepository {
 
     public void addAllNeededItems() {
         backgroundThread.execute(() -> {
-            List<PartComplete> neededItems = getNeededParts();
+            List<ComponentComplete> neededItems = getNeededComponents();
 
             if (neededItems.isEmpty()) return;
 
@@ -213,7 +213,7 @@ public class FarmRepository {
                 itemName = item.getId();
 
                 if (itemNames.contains(itemName) || itemName.equals("") ||
-                        (item instanceof Part && itemNames.contains(((Part) item).getPrime())))
+                        (item instanceof Component && itemNames.contains(((Component) item).getPrime())))
                     continue;
 
                 itemNames.add(itemName);
@@ -234,10 +234,10 @@ public class FarmRepository {
         updateResults();
     }
 
-    public void addParts(List<String> partNames, List<PartComplete> parts) {
-        itemNames.addAll(partNames);
+    public void addComponents(List<String> componentNames, List<ComponentComplete> components) {
+        itemNames.addAll(componentNames);
         List<Item> newList = items.getValue();
-        newList.addAll(parts);
+        newList.addAll(components);
         items.setValue(newList);
 
         updateResults();
@@ -290,16 +290,16 @@ public class FarmRepository {
         });
     }
 
-    public void updateRemainingParts() {
+    public void updateRemainingComponents() {
         backgroundThread.execute(() -> {
-            List<PartComplete> parts = getRemainingPartsFromDB();
+            List<ComponentComplete> components = getRemainingComponentsFromDB();
 
-            mainThread.execute(() -> remainingParts.setValue(parts));
+            mainThread.execute(() -> remainingComponents.setValue(components));
         });
     }
 
-    public List<PartComplete> getNeededParts() {
-        return partDao.getNeededParts();
+    public List<ComponentComplete> getNeededComponents() {
+        return componentDao.getNeededComponents();
     }
 
     public List<RelicComplete> getRelicsForItems(List<String> items, boolean showVaulted) {
@@ -310,21 +310,21 @@ public class FarmRepository {
         String queryString = "SELECT *" +
                 " FROM " + RELIC_TABLE +
                 " LEFT JOIN " + R_REWARD_TABLE + " ON " + R_REWARD_RELIC + " == " + RELIC_ID +
-                " LEFT JOIN " + PART_TABLE + " ON " + PART_ID + " == " + R_REWARD_PART +
-                " LEFT JOIN " + PRIME_TABLE + " ON " + PRIME_NAME + " == " + PART_PRIME +
+                " LEFT JOIN " + COMPONENT_TABLE + " ON " + COMPONENT_ID + " == " + R_REWARD_COMPONENT +
+                " LEFT JOIN " + PRIME_TABLE + " ON " + PRIME_NAME + " == " + COMPONENT_PRIME +
                 " WHERE ";
 
         int size = items.size();
         String item = items.get(0);
         if (size == 1) {
-            queryString += R_REWARD_PART + " LIKE '" + item + "%'";
+            queryString += R_REWARD_COMPONENT + " LIKE '" + item + "%'";
         }
         else {
             queryString += "(";
             for (int i = 0; i < size; i++) {
                 item = items.get(i);
                 if (i != 0) queryString += " OR ";
-                queryString += R_REWARD_PART + " LIKE '" + item + "%'";
+                queryString += R_REWARD_COMPONENT + " LIKE '" + item + "%'";
             }
             queryString += ")";
         }
@@ -345,18 +345,18 @@ public class FarmRepository {
             String prev_id = "", id, era, name;
             boolean vaulted;
 
-            String part_id, prime, component, type;
+            String component_id, prime, component, type;
             int needed, rarity;
 
             int col_id = cursor.getColumnIndex(RELIC_ID),
                     col_era = cursor.getColumnIndex(RELIC_ERA),
                     col_name = cursor.getColumnIndex(RELIC_NAME),
                     col_vaulted = cursor.getColumnIndex(RELIC_VAULTED),
-                    col_part_id = cursor.getColumnIndex(PART_ID),
-                    col_prime = cursor.getColumnIndex(PART_PRIME),
-                    col_component = cursor.getColumnIndex(PART_COMPONENT),
+                    col_component_id = cursor.getColumnIndex(COMPONENT_ID),
+                    col_prime = cursor.getColumnIndex(COMPONENT_PRIME),
+                    col_component = cursor.getColumnIndex(COMPONENT_TYPE),
                     col_type = cursor.getColumnIndex(PRIME_TYPE),
-                    col_needed = cursor.getColumnIndex(PART_NEEDED),
+                    col_needed = cursor.getColumnIndex(COMPONENT_NEEDED),
                     col_rarity = cursor.getColumnIndex(R_REWARD_RARITY);
 
             while (cursor.moveToNext()) {
@@ -373,7 +373,7 @@ public class FarmRepository {
                     prev_id = id;
                 }
 
-                part_id = cursor.getString(col_part_id);
+                component_id = cursor.getString(col_component_id);
                 prime = cursor.getString(col_prime);
                 component = cursor.getString(col_component);
                 type = cursor.getString(col_type);
@@ -381,7 +381,7 @@ public class FarmRepository {
                 rarity = cursor.getInt(col_rarity);
 
                 relic.addNeededReward(
-                        new RelicRewardComplete(id, rarity, part_id, prime, component,
+                        new RelicRewardComplete(id, rarity, component_id, prime, component,
                                 type, needed, false, false)
                 );
             }
@@ -401,14 +401,14 @@ public class FarmRepository {
         int size = items.size();
         String item = items.get(0);
         if (size == 1) {
-            whereClause += " WHERE " + R_REWARD_PART + " LIKE '" + item + "%'";
+            whereClause += " WHERE " + R_REWARD_COMPONENT + " LIKE '" + item + "%'";
         }
         else {
             whereClause += " WHERE (";
             for (int i = 0; i < size; i++) {
                 item = items.get(i);
                 if (i != 0) whereClause += " OR ";
-                whereClause += R_REWARD_PART + " LIKE '" + item + "%'";
+                whereClause += R_REWARD_COMPONENT + " LIKE '" + item + "%'";
             }
             whereClause += ")";
         }
@@ -577,14 +577,14 @@ public class FarmRepository {
         return primeDao.getPrimes(query);
     }
 
-    public List<PartComplete> getRemainingPartsFromDB() {
+    public List<ComponentComplete> getRemainingComponentsFromDB() {
         List<Item> alreadyAddedItems = items.getValue();
         String filter = dialogFilter.getValue();
 
-        String queryString = "SELECT " + PART_ID + ", " + PART_PRIME + ", " + PART_COMPONENT + ", " + PART_NEEDED + ", " + PRIME_TYPE + ", " + PRIME_VAULTED + ", " + USER_PART_OWNED +
-                " FROM " + PART_TABLE +
-                " LEFT JOIN " + USER_PART_TABLE + " ON " + USER_PART_ID + " == " + PART_ID +
-                " LEFT JOIN " + PRIME_TABLE + " ON " + PRIME_NAME + " == " + PART_PRIME +
+        String queryString = "SELECT " + COMPONENT_ID + ", " + COMPONENT_PRIME + ", " + COMPONENT_TYPE + ", " + COMPONENT_NEEDED + ", " + PRIME_TYPE + ", " + PRIME_VAULTED + ", " + USER_COMPONENT_OWNED +
+                " FROM " + COMPONENT_TABLE +
+                " LEFT JOIN " + USER_COMPONENT_TABLE + " ON " + USER_COMPONENT_ID + " == " + COMPONENT_ID +
+                " LEFT JOIN " + PRIME_TABLE + " ON " + PRIME_NAME + " == " + COMPONENT_PRIME +
                 " WHERE 1";
 
         if (!filter.equals(""))
@@ -592,13 +592,13 @@ public class FarmRepository {
 
         if (!dialogSearch.equals("")) {
             queryString += " AND (" + PRIME_NAME + " LIKE '" + dialogSearch + "%'" +
-                    " OR " + PART_ID + " LIKE '" + dialogSearch + "%'" +
-                    " OR " + PART_COMPONENT + " LIKE '" + dialogSearch + "%')";
+                    " OR " + COMPONENT_ID + " LIKE '" + dialogSearch + "%'" +
+                    " OR " + COMPONENT_TYPE + " LIKE '" + dialogSearch + "%')";
         }
 
         if (!alreadyAddedItems.isEmpty()) {
             for (Item item : alreadyAddedItems)
-                queryString += " AND " + PART_ID + " NOT LIKE '" + item.getId() + "%'";
+                queryString += " AND " + COMPONENT_ID + " NOT LIKE '" + item.getId() + "%'";
         }
 
         if (!dialogOrder.equals("")) {
@@ -612,7 +612,7 @@ public class FarmRepository {
                         PRIME_TYPE + " == '" + ARCHWING + "', " +
                         PRIME_TYPE + " == '" + WARFRAME + "', " +
                         PRIME_NAME + ", " +
-                        PART_COMPONENT;
+                        COMPONENT_TYPE;
             else
                 queryString += " ORDER BY " + dialogOrder + ", " +
                         PRIME_TYPE + " == '" + MELEE + "', " +
@@ -623,10 +623,10 @@ public class FarmRepository {
                         PRIME_TYPE + " == '" + ARCHWING + "', " +
                         PRIME_TYPE + " == '" + WARFRAME + "', " +
                         PRIME_NAME + ", " +
-                        PART_COMPONENT;
+                        COMPONENT_TYPE;
         }
 
         SimpleSQLiteQuery query = new SimpleSQLiteQuery(queryString);
-        return partDao.getParts(query);
+        return componentDao.getComponents(query);
     }
 }

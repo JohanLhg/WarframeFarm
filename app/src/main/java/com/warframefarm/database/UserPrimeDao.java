@@ -40,11 +40,11 @@ public interface UserPrimeDao {
     @Query("WITH BASE_TABLE AS (" +
             " SELECT *" +
                 " FROM USER_PRIME_TABLE" +
-                " LEFT JOIN PART_TABLE ON part_prime == user_prime_name" +
-                " LEFT JOIN USER_PART_TABLE ON user_part_id == part_id" +
+                " LEFT JOIN COMPONENT_TABLE ON component_prime == user_prime_name" +
+                " LEFT JOIN USER_COMPONENT_TABLE ON user_component_id == component_id" +
                 " WHERE user_prime_name == :prime" +
             "), PRIME_CORRECT_TABLE AS (" +
-                " SELECT user_prime_name AS prime, (sum(user_part_owned) == count()) == user_prime_owned AS prime_correct" +
+                " SELECT user_prime_name AS prime, (sum(user_component_owned) == count()) == user_prime_owned AS prime_correct" +
                 " FROM BASE_TABLE" +
                 " GROUP BY user_prime_name" +
             ") SELECT user_prime_name, CASE" +
@@ -59,11 +59,11 @@ public interface UserPrimeDao {
     @Query("WITH BASE_TABLE AS (" +
             " SELECT *" +
                 " FROM USER_PRIME_TABLE" +
-                " LEFT JOIN PART_TABLE ON part_prime == user_prime_name" +
-                " LEFT JOIN USER_PART_TABLE ON user_part_id == part_id" +
+                " LEFT JOIN COMPONENT_TABLE ON component_prime == user_prime_name" +
+                " LEFT JOIN USER_COMPONENT_TABLE ON user_component_id == component_id" +
                 " WHERE user_prime_name IN (:prime)" +
             "), PRIME_CORRECT_TABLE AS (" +
-                " SELECT user_prime_name AS prime, (sum(user_part_owned) == count()) == user_prime_owned AS prime_correct" +
+                " SELECT user_prime_name AS prime, (sum(user_component_owned) == count()) == user_prime_owned AS prime_correct" +
                 " FROM BASE_TABLE" +
                 " GROUP BY user_prime_name" +
             ") SELECT user_prime_name, CASE" +

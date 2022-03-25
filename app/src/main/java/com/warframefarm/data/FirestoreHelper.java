@@ -7,14 +7,19 @@ import static com.warframefarm.data.FirestoreTags.INFO_TAG;
 import static com.warframefarm.data.FirestoreTags.MISSIONS_TAG;
 import static com.warframefarm.data.FirestoreTags.MISSION_OBJECTIVE_TAG;
 import static com.warframefarm.data.FirestoreTags.MISSION_PLANET_TAG;
-import static com.warframefarm.data.FirestoreTags.PARTS_TAG;
+import static com.warframefarm.data.FirestoreTags.COMPONENT_TAG;
 import static com.warframefarm.data.FirestoreTags.PLANETS_TAG;
 import static com.warframefarm.data.FirestoreTags.PRIMES_TAG;
 import static com.warframefarm.data.FirestoreTags.TYPE_TAG;
 import static com.warframefarm.data.FirestoreTags.USERS_TAG;
 
 import android.app.Application;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.StrictMode;
+
+import androidx.annotation.NonNull;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,19 +32,19 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.warframefarm.AppExecutors;
 import com.warframefarm.database.AppDao;
+import com.warframefarm.database.ComponentComplete;
+import com.warframefarm.database.ComponentCorrection;
 import com.warframefarm.database.Mission;
 import com.warframefarm.database.MissionDao;
-import com.warframefarm.database.Part;
-import com.warframefarm.database.PartComplete;
-import com.warframefarm.database.PartCorrection;
-import com.warframefarm.database.PartDao;
+import com.warframefarm.database.Component;
+import com.warframefarm.database.ComponentDao;
 import com.warframefarm.database.Planet;
 import com.warframefarm.database.PlanetDao;
 import com.warframefarm.database.Prime;
 import com.warframefarm.database.PrimeCorrection;
 import com.warframefarm.database.PrimeDao;
-import com.warframefarm.database.UserPart;
-import com.warframefarm.database.UserPartDao;
+import com.warframefarm.database.UserComponent;
+import com.warframefarm.database.UserComponentDao;
 import com.warframefarm.database.UserPrime;
 import com.warframefarm.database.UserPrimeDao;
 import com.warframefarm.database.WarframeFarmDatabase;
@@ -63,11 +68,11 @@ public class FirestoreHelper {
     private final WarframeFarmDatabase database;
     private final AppDao appDao;
     private final PrimeDao primeDao;
-    private final PartDao partDao;
+    private final ComponentDao componentDao;
     private final PlanetDao planetDao;
     private final MissionDao missionDao;
     private final UserPrimeDao userPrimeDao;
-    private final UserPartDao userPartDao;
+    private final UserComponentDao userComponentDao;
 
     private final FirebaseFirestore firestore;
     private final FirebaseStorage storage;
@@ -79,11 +84,11 @@ public class FirestoreHelper {
         database = WarframeFarmDatabase.getInstance(application);
         appDao = database.appDao();
         primeDao = database.primeDao();
-        partDao = database.partDao();
+        componentDao = database.componentDao();
         planetDao = database.planetDao();
         missionDao = database.missionDao();
         userPrimeDao = database.userPrimeDao();
-        userPartDao = database.userPartDao();
+        userComponentDao = database.userComponentDao();
 
         firestore = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
@@ -97,6 +102,14 @@ public class FirestoreHelper {
         if (instance == null)
             instance = new FirestoreHelper(application);
         return instance;
+    }
+
+    public static boolean isConnectedToInternet(@NonNull Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null)
+            return false;
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
     public void checkForUpdates() {
@@ -133,18 +146,18 @@ public class FirestoreHelper {
                                             );
                                             userPrimeDao.insert(new UserPrime(primeName, false));
 
-                                            HashMap<String, Long> parts = (HashMap<String, Long>) prime.get(PARTS_TAG);
-                                            Set<String> partNames = parts.keySet();
-                                            String partID;
-                                            for (String partName : partNames) {
-                                                partID = primeName + " " + partName;
-                                                partDao.insert(new Part(
-                                                        partID,
+                                            HashMap<String, Long> components = (HashMap<String, Long>) prime.get(COMPONENT_TAG);
+                                            Set<String> componentNames = components.keySet();
+                                            String componentID;
+                                            for (String componentName : componentNames) {
+                                                componentID = primeName + " " + componentName;
+                                                componentDao.insert(new Component(
+                                                        componentID,
                                                         primeName,
-                                                        partName,
-                                                        Math.toIntExact(parts.get(partName))
+                                                        componentName,
+                                                        Math.toIntExact(components.get(componentName))
                                                 ));
-                                                userPartDao.insert(new UserPart(partID, false));
+                                                userComponentDao.insert(new UserComponent(componentID, false));
                                             }
                                         }
                                     }
@@ -251,12 +264,12 @@ public class FirestoreHelper {
 
         HashMap<String, Object> userInfo = new HashMap<>();
 
-        List<UserPart> userParts = userPartDao.getUserParts();
-        assert userParts != null;
-        HashMap<String, Object> partsInfo = new HashMap<>();
-        for (UserPart userPart : userParts)
-            partsInfo.put(userPart.getPart(), userPart.isOwned());
-        userInfo.put(PARTS_TAG, partsInfo);
+        List<UserComponent> userComponents = userComponentDao.getUserComponents();
+        assert userComponents != null;
+        HashMap<String, Object> componentsInfo = new HashMap<>();
+        for (UserComponent userComponent : userComponents)
+            componentsInfo.put(userComponent.getComponent(), userComponent.isOwned());
+        userInfo.put(COMPONENT_TAG, componentsInfo);
 
         List<UserPrime> userPrimes = userPrimeDao.getUserPrimes();
         assert userPrimes != null;
@@ -284,16 +297,16 @@ public class FirestoreHelper {
                     DocumentSnapshot doc = task.getResult();
                     assert doc != null;
                     if (doc.exists()) {
-                        //Updating parts
-                        HashMap<String, Boolean> parts = (HashMap<String, Boolean>) doc.get(PARTS_TAG);
-                        userPartDao.resetParts();
-                        if (parts != null) {
-                            Set<String> part_names = parts.keySet();
-                            UserPart userPart;
-                            for (String part : part_names) {
-                                userPart = new UserPart(part, parts.get(part));
-                                if (userPartDao.update(userPart) < 1)
-                                    userPartDao.insert(userPart);
+                        //Updating components
+                        HashMap<String, Boolean> components = (HashMap<String, Boolean>) doc.get(COMPONENT_TAG);
+                        userComponentDao.resetComponents();
+                        if (components != null) {
+                            Set<String> component_names = components.keySet();
+                            UserComponent userComponent;
+                            for (String component : component_names) {
+                                userComponent = new UserComponent(component, components.get(component));
+                                if (userComponentDao.update(userComponent) < 1)
+                                    userComponentDao.insert(userComponent);
                             }
                         }
 
@@ -310,7 +323,7 @@ public class FirestoreHelper {
                             }
                         }
                     } else {
-                        userPartDao.resetParts();
+                        userComponentDao.resetComponents();
                         userPrimeDao.resetPrimes();
                     }
                 });
@@ -320,51 +333,51 @@ public class FirestoreHelper {
 
     public void setPrimeOwned(String prime, boolean owned) {
         HashMap<String, Object> primeChanges = new HashMap<>();
-        HashMap<String, Object> partChanges = new HashMap<>();
+        HashMap<String, Object> componentChanges = new HashMap<>();
 
         userPrimeDao.setOwned(prime, owned);
         primeChanges.put(prime, owned);
 
-        String part;
-        boolean partOwned;
-        List<PartCorrection> corrections = userPartDao.getCorrections(prime);
-        for (PartCorrection correction : corrections) {
-            part = correction.getId();
-            partOwned = correction.isOwned();
-            userPartDao.setOwned(part, partOwned);
-            partChanges.put(part, partOwned);
+        String component;
+        boolean componentOwned;
+        List<ComponentCorrection> corrections = userComponentDao.getCorrections(prime);
+        for (ComponentCorrection correction : corrections) {
+            component = correction.getId();
+            componentOwned = correction.isOwned();
+            userComponentDao.setOwned(component, componentOwned);
+            componentChanges.put(component, componentOwned);
         }
 
-        updateUserInfo(primeChanges, partChanges);
+        updateUserInfo(primeChanges, componentChanges);
     }
 
     public void setPrimesOwned(List<String> primes, boolean owned) {
         HashMap<String, Object> primeChanges = new HashMap<>();
-        HashMap<String, Object> partChanges = new HashMap<>();
+        HashMap<String, Object> componentChanges = new HashMap<>();
 
         userPrimeDao.setOwned(primes, owned);
         for (String prime : primes)
             primeChanges.put(prime, owned);
 
-        String part;
-        boolean partOwned;
-        List<PartCorrection> corrections = userPartDao.getCorrections(primes);
-        for (PartCorrection correction : corrections) {
-            part = correction.getId();
-            partOwned = correction.isOwned();
-            userPartDao.setOwned(part, partOwned);
-            partChanges.put(part, partOwned);
+        String component;
+        boolean componentOwned;
+        List<ComponentCorrection> corrections = userComponentDao.getCorrections(primes);
+        for (ComponentCorrection correction : corrections) {
+            component = correction.getId();
+            componentOwned = correction.isOwned();
+            userComponentDao.setOwned(component, componentOwned);
+            componentChanges.put(component, componentOwned);
         }
 
-        updateUserInfo(primeChanges, partChanges);
+        updateUserInfo(primeChanges, componentChanges);
     }
 
-    public void setPartOwned(String part, String prime, boolean owned) {
+    public void setComponentOwned(String component, String prime, boolean owned) {
         HashMap<String, Object> primeChanges = new HashMap<>();
-        HashMap<String, Object> partChanges = new HashMap<>();
+        HashMap<String, Object> componentChanges = new HashMap<>();
 
-        userPartDao.setOwned(part, owned);
-        partChanges.put(part, owned);
+        userComponentDao.setOwned(component, owned);
+        componentChanges.put(component, owned);
 
         PrimeCorrection correction = userPrimeDao.getCorrection(prime);
         if (correction != null) {
@@ -373,25 +386,25 @@ public class FirestoreHelper {
             primeChanges.put(prime, primeOwned);
         }
 
-        updateUserInfo(primeChanges, partChanges);
+        updateUserInfo(primeChanges, componentChanges);
     }
 
-    public void setPartsOwned(List<PartComplete> parts) {
-        if (parts == null || parts.isEmpty())
+    public void setComponentsOwned(List<ComponentComplete> components) {
+        if (components == null || components.isEmpty())
             return;
 
         HashMap<String, Object> primeChanges = new HashMap<>();
-        HashMap<String, Object> partChanges = new HashMap<>();
+        HashMap<String, Object> componentChanges = new HashMap<>();
 
         List<String> primes = new ArrayList<>();
-        String partID;
-        boolean partOwned;
-        for (PartComplete part : parts) {
-            partID = part.getId();
-            partOwned = part.isOwned();
-            userPartDao.setOwned(partID, partOwned);
-            partChanges.put(partID, partOwned);
-            primes.add(part.getPrime());
+        String componentID;
+        boolean componentOwned;
+        for (ComponentComplete component : components) {
+            componentID = component.getId();
+            componentOwned = component.isOwned();
+            userComponentDao.setOwned(componentID, componentOwned);
+            componentChanges.put(componentID, componentOwned);
+            primes.add(component.getPrime());
         }
 
         if (!primes.isEmpty()) {
@@ -408,17 +421,17 @@ public class FirestoreHelper {
             }
         }
 
-        updateUserInfo(primeChanges, partChanges);
+        updateUserInfo(primeChanges, componentChanges);
     }
 
-    public void updateUserInfo(HashMap<String, Object> primes, HashMap<String, Object> parts) {
+    public void updateUserInfo(HashMap<String, Object> primes, HashMap<String, Object> components) {
         FirebaseUser user = auth.getCurrentUser();
 
         if (user != null) {
             DocumentReference docRef = firestore.document(USERS_TAG + "/" + user.getUid());
 
             HashMap<String, Object> userInfo = new HashMap<>();
-            if (!parts.isEmpty()) userInfo.put(PARTS_TAG, parts);
+            if (!components.isEmpty()) userInfo.put(COMPONENT_TAG, components);
             if (!primes.isEmpty()) userInfo.put(PRIMES_TAG, primes);
 
             docRef.set(userInfo, SetOptions.merge());

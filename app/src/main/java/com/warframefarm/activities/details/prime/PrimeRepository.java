@@ -17,11 +17,11 @@ import static com.warframefarm.database.WarframeFarmDatabase.M_REWARD_MISSION;
 import static com.warframefarm.database.WarframeFarmDatabase.M_REWARD_RELIC;
 import static com.warframefarm.database.WarframeFarmDatabase.M_REWARD_ROTATION;
 import static com.warframefarm.database.WarframeFarmDatabase.M_REWARD_TABLE;
-import static com.warframefarm.database.WarframeFarmDatabase.PART_COMPONENT;
-import static com.warframefarm.database.WarframeFarmDatabase.PART_ID;
-import static com.warframefarm.database.WarframeFarmDatabase.PART_NEEDED;
-import static com.warframefarm.database.WarframeFarmDatabase.PART_PRIME;
-import static com.warframefarm.database.WarframeFarmDatabase.PART_TABLE;
+import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_TYPE;
+import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_ID;
+import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_NEEDED;
+import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_PRIME;
+import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_TABLE;
 import static com.warframefarm.database.WarframeFarmDatabase.PLANET_NAME;
 import static com.warframefarm.database.WarframeFarmDatabase.PLANET_TABLE;
 import static com.warframefarm.database.WarframeFarmDatabase.PRIME_NAME;
@@ -32,7 +32,7 @@ import static com.warframefarm.database.WarframeFarmDatabase.RELIC_ID;
 import static com.warframefarm.database.WarframeFarmDatabase.RELIC_NAME;
 import static com.warframefarm.database.WarframeFarmDatabase.RELIC_TABLE;
 import static com.warframefarm.database.WarframeFarmDatabase.RELIC_VAULTED;
-import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_PART;
+import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_COMPONENT;
 import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_RARITY;
 import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_RELIC;
 import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_TABLE;
@@ -49,8 +49,8 @@ import com.warframefarm.data.FirestoreHelper;
 import com.warframefarm.database.MissionComplete;
 import com.warframefarm.database.MissionDao;
 import com.warframefarm.database.MissionReward;
-import com.warframefarm.database.PartComplete;
-import com.warframefarm.database.PartDao;
+import com.warframefarm.database.ComponentComplete;
+import com.warframefarm.database.ComponentDao;
 import com.warframefarm.database.PrimeComplete;
 import com.warframefarm.database.PrimeDao;
 import com.warframefarm.database.RelicComplete;
@@ -66,7 +66,7 @@ import java.util.concurrent.Executor;
 public class PrimeRepository {
 
     private final PrimeDao primeDao;
-    private final PartDao partDao;
+    private final ComponentDao componentDao;
     private final RelicDao relicDao;
     private final MissionDao missionDao;
 
@@ -76,19 +76,19 @@ public class PrimeRepository {
 
     private LiveData<PrimeComplete> prime = new MutableLiveData<>();
 
-    public static final int PART = 0, RELIC = 1, MISSION = 2;
+    public static final int COMPONENT = 0, RELIC = 1, MISSION = 2;
     private final List<String> relicFilterValues = new ArrayList<>(), missionFilterValues = new ArrayList<>();
-    private final MutableLiveData<Integer> mode = new MutableLiveData<>(PART);
-    private String search = "", relicFilter = PART_ID, missionFilter = BEST_PLACES;
+    private final MutableLiveData<Integer> mode = new MutableLiveData<>(COMPONENT);
+    private String search = "", relicFilter = COMPONENT_ID, missionFilter = BEST_PLACES;
 
-    private LiveData<List<PartComplete>> parts = new MutableLiveData<>(new ArrayList<>());
+    private LiveData<List<ComponentComplete>> components = new MutableLiveData<>(new ArrayList<>());
     private final MutableLiveData<List<RelicComplete>> relics = new MutableLiveData<>(new ArrayList<>());
     private final MutableLiveData<List<MissionComplete>> missions = new MutableLiveData<>(new ArrayList<>());
 
     public PrimeRepository(Application application) {
         WarframeFarmDatabase database = WarframeFarmDatabase.getInstance(application);
         primeDao = database.primeDao();
-        partDao = database.partDao();
+        componentDao = database.componentDao();
         relicDao = database.relicDao();
         missionDao = database.missionDao();
 
@@ -99,7 +99,7 @@ public class PrimeRepository {
         mainThread = executors.getMainThread();
 
         Collections.addAll(relicFilterValues,
-                PART_ID,
+                COMPONENT_ID,
                 RELIC_ID
         );
 
@@ -117,7 +117,7 @@ public class PrimeRepository {
 
     public void setPrime(String primeName) {
         prime = primeDao.getPrime(primeName);
-        parts = partDao.getPartsOfPrimeLD(primeName);
+        components = componentDao.getComponentsOfPrimeLD(primeName);
     }
 
     public LiveData<Integer> getMode() {
@@ -164,8 +164,8 @@ public class PrimeRepository {
         return pos == -1 ? 0 : pos;
     }
 
-    public LiveData<List<PartComplete>> getParts() {
-        return parts;
+    public LiveData<List<ComponentComplete>> getComponents() {
+        return components;
     }
 
     public LiveData<List<RelicComplete>> getRelics() {
@@ -184,7 +184,7 @@ public class PrimeRepository {
             updateMissions();
     }
 
-    public void updateParts() {
+    public void updateComponents() {
         /**
         backgroundThread.execute(() -> {
             PrimeComplete p = prime.getValue();
@@ -199,7 +199,7 @@ public class PrimeRepository {
         if (p == null)
             return;
 
-        parts = partDao.getPartsOfPrimeLD(p.getName());
+        components = componentDao.getComponentsOfPrimeLD(p.getName());
     }
 
     public void updateRelics() {
@@ -213,18 +213,18 @@ public class PrimeRepository {
             String queryString = "SELECT *" +
                     " FROM " + RELIC_TABLE +
                     " LEFT JOIN " + R_REWARD_TABLE + " ON " + R_REWARD_RELIC + " == " + RELIC_ID +
-                    " LEFT JOIN " + PART_TABLE + " ON " + PART_ID + " == " + R_REWARD_PART +
-                    " LEFT JOIN " + PRIME_TABLE + " ON " + PRIME_NAME + " == " + PART_PRIME +
-                    " WHERE " + R_REWARD_PART + " LIKE '" + p.getName() + "%'";
+                    " LEFT JOIN " + COMPONENT_TABLE + " ON " + COMPONENT_ID + " == " + R_REWARD_COMPONENT +
+                    " LEFT JOIN " + PRIME_TABLE + " ON " + PRIME_NAME + " == " + COMPONENT_PRIME +
+                    " WHERE " + R_REWARD_COMPONENT + " LIKE '" + p.getName() + "%'";
 
             if (!search.equals(""))
-                queryString += " AND (" + R_REWARD_PART + " LIKE '" + p.getName() + " " + search + "%'" +
+                queryString += " AND (" + R_REWARD_COMPONENT + " LIKE '" + p.getName() + " " + search + "%'" +
                         " OR " + RELIC_ERA + " LIKE '" + search + "%'" +
                         " OR " + RELIC_NAME + " LIKE '" + search + "%')";
 
-            if (relicFilter.equals(PART_ID)) {
+            if (relicFilter.equals(COMPONENT_ID)) {
                 queryString += " ORDER BY " + RELIC_VAULTED + ", " +
-                        R_REWARD_PART + ", " +
+                        R_REWARD_COMPONENT + ", " +
                         RELIC_ERA + " == '" + AXI + "', " +
                         RELIC_ERA + " == '" + NEO + "', " +
                         RELIC_ERA + " == '" + MESO + "', " +
@@ -249,18 +249,18 @@ public class PrimeRepository {
                 String prev_id = "", id, era, name;
                 boolean vaulted;
 
-                String part_id, prime, component, type;
+                String component_id, prime, component, type;
                 int needed, rarity;
 
                 int col_id = cursor.getColumnIndex(RELIC_ID),
                         col_era = cursor.getColumnIndex(RELIC_ERA),
                         col_name = cursor.getColumnIndex(RELIC_NAME),
                         col_vaulted = cursor.getColumnIndex(RELIC_VAULTED),
-                        col_part_id = cursor.getColumnIndex(PART_ID),
-                        col_prime = cursor.getColumnIndex(PART_PRIME),
-                        col_component = cursor.getColumnIndex(PART_COMPONENT),
+                        col_component_id = cursor.getColumnIndex(COMPONENT_ID),
+                        col_prime = cursor.getColumnIndex(COMPONENT_PRIME),
+                        col_component = cursor.getColumnIndex(COMPONENT_TYPE),
                         col_type = cursor.getColumnIndex(PRIME_TYPE),
-                        col_needed = cursor.getColumnIndex(PART_NEEDED),
+                        col_needed = cursor.getColumnIndex(COMPONENT_NEEDED),
                         col_rarity = cursor.getColumnIndex(R_REWARD_RARITY);
 
                 while (cursor.moveToNext()) {
@@ -277,7 +277,7 @@ public class PrimeRepository {
                         prev_id = id;
                     }
 
-                    part_id = cursor.getString(col_part_id);
+                    component_id = cursor.getString(col_component_id);
                     prime = cursor.getString(col_prime);
                     component = cursor.getString(col_component);
                     type = cursor.getString(col_type);
@@ -285,7 +285,7 @@ public class PrimeRepository {
                     rarity = cursor.getInt(col_rarity);
 
                     relic.addNeededReward(
-                            new RelicRewardComplete(id, rarity, part_id, prime, component,
+                            new RelicRewardComplete(id, rarity, component_id, prime, component,
                                     type, needed, false, false)
                     );
                 }
@@ -313,7 +313,7 @@ public class PrimeRepository {
                             " FROM " + M_REWARD_TABLE +
                             " LEFT JOIN " + RELIC_TABLE + " ON " + RELIC_ID + " == " + M_REWARD_RELIC +
                             " LEFT JOIN " + R_REWARD_TABLE + " ON " + R_REWARD_RELIC + " == " + RELIC_ID +
-                            " WHERE " + R_REWARD_PART + " LIKE '" + p.getName() + "%'" +
+                            " WHERE " + R_REWARD_COMPONENT + " LIKE '" + p.getName() + "%'" +
                             " AND " + RELIC_VAULTED + " == 0" +
                             " GROUP BY " + M_REWARD_MISSION + ", " + M_REWARD_ROTATION +
                         ") ";
@@ -326,9 +326,9 @@ public class PrimeRepository {
                             " LEFT JOIN " + RELIC_TABLE + " ON " + RELIC_ID + " == " + M_REWARD_RELIC +
                             " LEFT JOIN " + MISSION_TABLE + " ON " + MISSION_NAME + " == " + M_REWARD_MISSION +
                             " LEFT JOIN " + R_REWARD_TABLE + " ON " + R_REWARD_RELIC + " == " + RELIC_ID +
-                            " WHERE " + R_REWARD_PART + " LIKE '" + p.getName() + "%'" +
+                            " WHERE " + R_REWARD_COMPONENT + " LIKE '" + p.getName() + "%'" +
                             " AND " + RELIC_VAULTED + " == 0" +
-                            " AND (" + R_REWARD_PART + " LIKE \"" + p.getName() + " " + search + "%\"" +
+                            " AND (" + R_REWARD_COMPONENT + " LIKE \"" + p.getName() + " " + search + "%\"" +
                                 " OR " + RELIC_ERA + " LIKE \"" + search + "%\"" +
                                 " OR " + RELIC_NAME + " LIKE \"" + search + "%\"" +
                                 " OR " + MISSION_NAME + " LIKE \"" + search + "%\"" +
@@ -458,7 +458,7 @@ public class PrimeRepository {
         });
     }
 
-    public void switchPartOwned(PartComplete part) {
-        backgroundThread.execute(() -> firestoreHelper.setPartOwned(part.getId(), part.getPrime(), !part.isOwned()));
+    public void switchComponentOwned(ComponentComplete component) {
+        backgroundThread.execute(() -> firestoreHelper.setComponentOwned(component.getId(), component.getPrime(), !component.isOwned()));
     }
 }

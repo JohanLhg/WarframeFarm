@@ -12,10 +12,10 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.warframefarm.R;
-import com.warframefarm.activities.details.part.PartFragment;
+import com.warframefarm.activities.details.component.ComponentFragment;
 import com.warframefarm.activities.details.prime.PrimeFragment;
 import com.warframefarm.activities.main.MainActivity;
-import com.warframefarm.database.PartComplete;
+import com.warframefarm.database.ComponentComplete;
 import com.warframefarm.database.PrimeComplete;
 import com.warframefarm.databinding.RecyclerItemBinding;
 import com.warframefarm.database.Item;
@@ -56,12 +56,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             holder.imageItem.setBackgroundResource(R.color.transparent);
         }
         else {
-            if (item instanceof PartComplete) {
-                PartComplete part = (PartComplete) item;
-                fullName = part.getFullName();
-                image = part.getImage();
+            if (item instanceof ComponentComplete) {
+                ComponentComplete component = (ComponentComplete) item;
+                fullName = component.getFullName();
+                image = component.getImage();
 
-                if (part.isBlueprint())
+                if (component.isBlueprint())
                     holder.imageItem.setBackgroundResource(R.drawable.blueprint_bg);
                 else
                     holder.imageItem.setBackgroundResource(R.color.transparent);
@@ -79,8 +79,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             Item i = items.get(holder.getAdapterPosition());
             if (i instanceof PrimeComplete)
                 showPrimeDetails(i.getId());
-            else if (i instanceof PartComplete)
-                showPartDetails(i.getId());
+            else if (i instanceof ComponentComplete)
+                showComponentDetails(i.getId());
         });
 
         holder.buttonDelete.setOnClickListener(v -> removeItem(holder.getAdapterPosition()));
@@ -104,8 +104,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         ((MainActivity) context).multipleStackNavigator.start(new PrimeFragment(prime_name));
     }
 
-    private void showPartDetails(String part_id) {
-        ((MainActivity) context).multipleStackNavigator.start(new PartFragment(part_id));
+    private void showComponentDetails(String component_id) {
+        ((MainActivity) context).multipleStackNavigator.start(new ComponentFragment(component_id));
     }
 
     public interface ItemListener {

@@ -147,7 +147,7 @@ public class RelicsFragment extends Fragment {
         //endregion
 
         //region Observers
-        relicsViewModel.getPartIDs().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
+        relicsViewModel.getComponentIDs().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
             @Override
             public void onChanged(List<String> ids) {
                 ArrayAdapter<String> searchAdapter = new ArrayAdapter<>(context, R.layout.spinner_dropdown_item, ids);

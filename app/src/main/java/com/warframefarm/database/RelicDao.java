@@ -45,16 +45,16 @@ public interface RelicDao {
             "LEFT JOIN (" +
                 "SELECT r_reward_relic, r_reward_rarity " +
                 "FROM RELIC_REWARD_TABLE " +
-                "LEFT JOIN USER_PART_TABLE ON user_part_id == r_reward_part " +
+                "LEFT JOIN USER_COMPONENT_TABLE ON user_component_id == r_reward_component " +
                 "WHERE r_reward_relic == :id " +
-                "AND user_part_owned == 0" +
+                "AND user_component_owned == 0" +
             ") ON r_reward_relic == relic_id " +
             "WHERE relic_id == :id")
     RelicComplete getRelic(String id);
 
-    @RawQuery(observedEntities = {Relic.class, RelicReward.class, UserPart.class})
+    @RawQuery(observedEntities = {Relic.class, RelicReward.class, UserComponent.class})
     LiveData<List<RelicComplete>> getRelics(SimpleSQLiteQuery query);
 
-    @RawQuery(observedEntities = {Relic.class, RelicReward.class, UserPart.class})
+    @RawQuery(observedEntities = {Relic.class, RelicReward.class, UserComponent.class})
     Cursor getRelicsCursor(SimpleSQLiteQuery query);
 }

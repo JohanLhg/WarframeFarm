@@ -16,7 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.warframefarm.R;
-import com.warframefarm.activities.details.part.PartFragment;
+import com.warframefarm.activities.details.component.ComponentFragment;
 import com.warframefarm.activities.main.MainActivity;
 import com.warframefarm.database.RelicRewardComplete;
 import com.warframefarm.databinding.RecyclerRelicRewardBinding;
@@ -70,7 +70,7 @@ public class RelicRewardAdapter extends RecyclerView.Adapter<RelicRewardAdapter.
             holder.imageRelicRewardOwned.setVisibility(View.GONE);
         }
         else {
-            holder.layoutRelicReward.setOnClickListener(v -> showPartDetails(reward.getId()));
+            holder.layoutRelicReward.setOnClickListener(v -> showComponentDetails(reward.getId()));
 
             if (reward.isBlueprint())
                 holder.imageRelicReward.setBackgroundResource(R.drawable.blueprint_bg);
@@ -96,8 +96,8 @@ public class RelicRewardAdapter extends RecyclerView.Adapter<RelicRewardAdapter.
         return rewards.size();
     }
 
-    private void showPartDetails(String part_id) {
-        ((MainActivity) context).multipleStackNavigator.start(new PartFragment(part_id));
+    private void showComponentDetails(String component_id) {
+        ((MainActivity) context).multipleStackNavigator.start(new ComponentFragment(component_id));
     }
 
     public void setRewards(List<RelicRewardComplete> rewards) {

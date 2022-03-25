@@ -37,9 +37,8 @@ import com.warframefarm.R;
 import com.warframefarm.activities.account.DeleteAccountDialog;
 import com.warframefarm.activities.account.SignInDialog;
 import com.warframefarm.activities.account.SignUpDialog;
-import com.warframefarm.activities.details.prime.PrimeActivity;
 import com.warframefarm.activities.farm.FarmFragment;
-import com.warframefarm.activities.inventory.InventoryFragment;
+import com.warframefarm.activities.list.components.ComponentsFragment;
 import com.warframefarm.activities.list.planets.PlanetsFragment;
 import com.warframefarm.activities.list.primes.PrimeCallback;
 import com.warframefarm.activities.list.primes.PrimesFragment;
@@ -63,9 +62,9 @@ public class MainActivity extends AppCompatActivity implements Navigator.Navigat
     private final List<Function0<Fragment>> rootsFragmentProvider = Arrays
             .asList(
                     () -> new PrimesFragment(),
+                    () -> new ComponentsFragment(),
                     () -> new RelicsFragment(),
                     () -> new PlanetsFragment(),
-                    () -> new InventoryFragment(),
                     () -> new FarmFragment()
             );
 
@@ -77,15 +76,15 @@ public class MainActivity extends AppCompatActivity implements Navigator.Navigat
                     multipleStackNavigator.switchTab(0);
                     return true;
 
-                case R.id.navigation_relics:
+                case R.id.navigation_components:
                     multipleStackNavigator.switchTab(1);
                     return true;
 
-                case R.id.navigation_planets:
+                case R.id.navigation_relics:
                     multipleStackNavigator.switchTab(2);
                     return true;
 
-                case R.id.navigation_inventory:
+                case R.id.navigation_planets:
                     multipleStackNavigator.switchTab(3);
                     return true;
 
@@ -271,6 +270,8 @@ public class MainActivity extends AppCompatActivity implements Navigator.Navigat
         mainViewModel.getSettings().observe(this, new Observer<Setting>() {
             @Override
             public void onChanged(Setting settings) {
+                if (settings == null)
+                    return;
                 boolean limited = settings.isLimited();
                 if (limited) {
                     int loadLimit = settings.getLoadLimit();
@@ -292,17 +293,14 @@ public class MainActivity extends AppCompatActivity implements Navigator.Navigat
     @Override
     protected void onResume() {
         super.onResume();
-
         mainViewModel.updateUser();
     }
 
     @Override
     public void onBackPressed() {
-        if (multipleStackNavigator.canGoBack()) {
+        if (multipleStackNavigator.canGoBack())
             multipleStackNavigator.goBack();
-        } else {
-            super.onBackPressed();
-        }
+        else super.onBackPressed();
     }
 
     @Override
@@ -316,21 +314,21 @@ public class MainActivity extends AppCompatActivity implements Navigator.Navigat
                 break;
 
             case 1:
+                textTitle.setText(R.string.components);
+                imageBackground.setImageResource(R.drawable.mods);
+                drawerNav.setCheckedItem(R.id.navigation_components);
+                break;
+
+            case 2:
                 textTitle.setText(R.string.title_relics);
                 imageBackground.setImageResource(R.drawable.relic_refinery);
                 drawerNav.setCheckedItem(R.id.navigation_relics);
                 break;
 
-            case 2:
+            case 3:
                 textTitle.setText(R.string.title_planets);
                 imageBackground.setImageResource(R.drawable.console);
                 drawerNav.setCheckedItem(R.id.navigation_planets);
-                break;
-
-            case 3:
-                textTitle.setText(R.string.inventory);
-                imageBackground.setImageResource(R.drawable.mods);
-                drawerNav.setCheckedItem(R.id.navigation_inventory);
                 break;
 
             case 4:
@@ -368,6 +366,7 @@ public class MainActivity extends AppCompatActivity implements Navigator.Navigat
     public void onPrimeClick(String prime_name, ImageView background, ImageView type,
                              ImageView typeShadow, ImageView vault, ImageView vaultShadow,
                              ImageView imageOwned, ImageView shadowOwned, TextView name) {
+        /**
         Intent intent = new Intent(this, PrimeActivity.class);
         intent.putExtra(PRIME_NAME, prime_name);
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,
@@ -381,6 +380,7 @@ public class MainActivity extends AppCompatActivity implements Navigator.Navigat
                 Pair.create(name, "name")
         );
         startActivity(intent, options.toBundle());
+         */
     }
 
     @Override

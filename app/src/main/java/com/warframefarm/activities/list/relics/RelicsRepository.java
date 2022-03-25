@@ -10,13 +10,13 @@ import static com.warframefarm.database.WarframeFarmDatabase.RELIC_NAME;
 import static com.warframefarm.database.WarframeFarmDatabase.RELIC_NEEDED;
 import static com.warframefarm.database.WarframeFarmDatabase.RELIC_TABLE;
 import static com.warframefarm.database.WarframeFarmDatabase.RELIC_VAULTED;
-import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_PART;
+import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_COMPONENT;
 import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_RARITY;
 import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_RELIC;
 import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_TABLE;
-import static com.warframefarm.database.WarframeFarmDatabase.USER_PART_ID;
-import static com.warframefarm.database.WarframeFarmDatabase.USER_PART_OWNED;
-import static com.warframefarm.database.WarframeFarmDatabase.USER_PART_TABLE;
+import static com.warframefarm.database.WarframeFarmDatabase.USER_COMPONENT_ID;
+import static com.warframefarm.database.WarframeFarmDatabase.USER_COMPONENT_OWNED;
+import static com.warframefarm.database.WarframeFarmDatabase.USER_COMPONENT_TABLE;
 
 import android.app.Application;
 
@@ -25,7 +25,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import com.warframefarm.AppExecutors;
-import com.warframefarm.database.PartDao;
+import com.warframefarm.database.ComponentDao;
 import com.warframefarm.database.RelicComplete;
 import com.warframefarm.database.RelicDao;
 import com.warframefarm.database.WarframeFarmDatabase;
@@ -38,11 +38,11 @@ import java.util.concurrent.Executor;
 public class RelicsRepository {
 
     private final RelicDao relicDao;
-    private final PartDao partDao;
+    private final ComponentDao componentDao;
 
     private final Executor backgroundThread, mainThread;
 
-    private final LiveData<List<String>> partIDs;
+    private final LiveData<List<String>> componentIDs;
     private String search = "", order = RELIC_NEEDED;
     private final MutableLiveData<String> filter = new MutableLiveData<>("");
     private final List<String> orderValues = new ArrayList<>();
@@ -52,13 +52,13 @@ public class RelicsRepository {
     public RelicsRepository(Application application) {
         WarframeFarmDatabase database = WarframeFarmDatabase.getInstance(application);
         relicDao = database.relicDao();
-        partDao = database.partDao();
+        componentDao = database.componentDao();
 
         AppExecutors executors = new AppExecutors();
         backgroundThread = executors.getBackgroundThread();
         mainThread = executors.getMainThread();
 
-        partIDs = partDao.getPartIDs();
+        componentIDs = componentDao.getComponentIDs();
 
         Collections.addAll(orderValues,
                 RELIC_NEEDED,
@@ -67,8 +67,8 @@ public class RelicsRepository {
         );
     }
 
-    public LiveData<List<String>> getPartIDs() {
-        return partIDs;
+    public LiveData<List<String>> getComponentIDs() {
+        return componentIDs;
     }
 
     public void setSearch(String search) {
@@ -103,8 +103,8 @@ public class RelicsRepository {
                     " LEFT JOIN (" +
                     " SELECT " + R_REWARD_RELIC + ", MAX(" + R_REWARD_RARITY + ", 0) AS " + R_REWARD_RARITY +
                     " FROM " + R_REWARD_TABLE +
-                    " LEFT JOIN " + USER_PART_TABLE + " ON " + USER_PART_ID + " == " + R_REWARD_PART +
-                    " WHERE " + USER_PART_OWNED + " == 0" +
+                    " LEFT JOIN " + USER_COMPONENT_TABLE + " ON " + USER_COMPONENT_ID + " == " + R_REWARD_COMPONENT +
+                    " WHERE " + USER_COMPONENT_OWNED + " == 0" +
                     " GROUP BY " + R_REWARD_RELIC +
                     ") ON " + R_REWARD_RELIC + " == " + RELIC_ID;
 
@@ -114,7 +114,7 @@ public class RelicsRepository {
                         " OR " + RELIC_ID + " IN (" +
                         " SELECT " + R_REWARD_RELIC +
                         " FROM " + R_REWARD_TABLE +
-                        " WHERE " + R_REWARD_PART + " LIKE '" + search + "%'" +
+                        " WHERE " + R_REWARD_COMPONENT + " LIKE '" + search + "%'" +
                         "))";
                 hasCondition = true;
             }

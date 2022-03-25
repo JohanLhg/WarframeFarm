@@ -6,8 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.warframefarm.database.ComponentComplete;
 import com.warframefarm.database.MissionComplete;
-import com.warframefarm.database.PartComplete;
 import com.warframefarm.database.PrimeComplete;
 import com.warframefarm.database.RelicComplete;
 
@@ -54,8 +54,8 @@ public class PrimeViewModel extends AndroidViewModel {
         return repository.getMode();
     }
 
-    public LiveData<List<PartComplete>> getParts() {
-        return repository.getParts();
+    public LiveData<List<ComponentComplete>> getComponents() {
+        return repository.getComponents();
     }
 
     public LiveData<List<RelicComplete>> getRelics() {
@@ -70,15 +70,15 @@ public class PrimeViewModel extends AndroidViewModel {
         repository.updateResults();
     }
 
-    public void updateParts() {
-        repository.updateParts();
+    public void updateComponents() {
+        repository.updateComponents();
     }
 
     public void switchPrimeOwned() {
         repository.switchPrimeOwned();
     }
 
-    public void switchPartOwned(PartComplete part) {
-        repository.switchPartOwned(part);
+    public void switchComponentOwned(ComponentComplete component) {
+        repository.switchComponentOwned(component);
     }
 }

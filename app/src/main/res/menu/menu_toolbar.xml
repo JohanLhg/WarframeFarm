@@ -13,9 +13,9 @@
         android:title="@string/list"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/menuInventory"
+        android:id="@+id/menuComponents"
         android:icon="@drawable/stock"
-        android:title="@string/inventory"
+        android:title="@string/components"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menuFarm"
