@@ -31,6 +31,7 @@ import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.warframefarm.AppExecutors;
+import com.warframefarm.CommunicationHandler;
 import com.warframefarm.database.AppDao;
 import com.warframefarm.database.ComponentComplete;
 import com.warframefarm.database.ComponentCorrection;
@@ -78,7 +79,16 @@ public class FirestoreHelper {
     private final FirebaseStorage storage;
     private final FirebaseAuth auth;
 
-    private final Executor backgroundThread;
+    private CommunicationHandler communicationHandler;
+    public final static int CHECKING_FOR_UPDATES = 0, LOADING_PRIMES = 1, LOADING_COMPONENTS = 2,
+            LOADING_RELICS = 3, LOADING_PLANETS = 4, LOADING_MISSIONS = 5;
+
+    private final Executor backgroundThread, mainThread;
+
+    public FirestoreHelper(Application application, CommunicationHandler communicationHandler) {
+        this(application);
+        this.communicationHandler = communicationHandler;
+    }
 
     private FirestoreHelper(Application application) {
         database = WarframeFarmDatabase.getInstance(application);
@@ -96,6 +106,7 @@ public class FirestoreHelper {
 
         AppExecutors executors = new AppExecutors();
         backgroundThread = executors.getBackgroundThread();
+        mainThread = executors.getMainThread();
     }
 
     public static FirestoreHelper getInstance(Application application) {
@@ -113,6 +124,7 @@ public class FirestoreHelper {
     }
 
     public void checkForUpdates() {
+        startAction(CHECKING_FOR_UPDATES);
         DocumentReference docRef = firestore.collection(APP_TAG).document(INFO_TAG);
 
         docRef.get().addOnCompleteListener(task -> {
@@ -132,6 +144,7 @@ public class FirestoreHelper {
                         Query queryPlanets = firestore.collection(PLANETS_TAG).whereGreaterThan(BUILD_TAG, current_build);
                         Query queryMissions = firestore.collection(MISSIONS_TAG).whereGreaterThan(BUILD_TAG, current_build);
 
+                        startAction(LOADING_PRIMES);
                         queryPrimes.get().addOnCompleteListener(taskPrimes -> {
                             if (taskPrimes.isSuccessful()) {
                                 backgroundThread.execute(() -> {
@@ -161,10 +174,13 @@ public class FirestoreHelper {
                                             }
                                         }
                                     }
+                                    finishAction(LOADING_PRIMES);
                                 });
                             }
+                            else finishAction(LOADING_PRIMES);
                         });
 
+                        startAction(LOADING_PLANETS);
                         queryPlanets.get().addOnCompleteListener(taskPlanets -> {
                             if (taskPlanets.isSuccessful()) {
                                 backgroundThread.execute(() -> {
@@ -175,10 +191,13 @@ public class FirestoreHelper {
                                                     planet.getId(),
                                                     planet.getString(FACTION_TAG)
                                             ));
+                                    finishAction(LOADING_PLANETS);
                                 });
                             }
+                            else finishAction(LOADING_PLANETS);
                         });
 
+                        startAction(LOADING_MISSIONS);
                         queryMissions.get().addOnCompleteListener(taskMissions -> {
                             if (taskMissions.isSuccessful()) {
                                 backgroundThread.execute(() -> {
@@ -195,14 +214,18 @@ public class FirestoreHelper {
 
                                         loadRewards();
                                     }
+                                    finishAction(LOADING_MISSIONS);
                                 });
                             }
+                            else finishAction(LOADING_MISSIONS);
                         });
 
                         appDao.updateBuild(Math.toIntExact(build));
                     }
+                    finishAction(CHECKING_FOR_UPDATES);
                 });
             }
+            else finishAction(CHECKING_FOR_UPDATES);
         });
     }
 
@@ -436,5 +459,15 @@ public class FirestoreHelper {
 
             docRef.set(userInfo, SetOptions.merge());
         }
+    }
+
+    private void startAction(int actionID) {
+        if (communicationHandler != null)
+            mainThread.execute(() -> communicationHandler.startAction(actionID));
+    }
+
+    private void finishAction(int actionID) {
+        if (communicationHandler != null)
+            mainThread.execute(() -> communicationHandler.finishAction(actionID));
     }
 }
