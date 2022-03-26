@@ -38,6 +38,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-storage'
+    implementation 'com.google.firebase:firebase-installations'
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 

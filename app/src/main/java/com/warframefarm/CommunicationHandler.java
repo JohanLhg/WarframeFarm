@@ -1,6 +1,6 @@
 package com.warframefarm;
 
 public interface CommunicationHandler {
-    void startAction(int actionID);
-    void finishAction(int actionID);
+    void startAction(Integer actionID);
+    void finishAction(Integer actionID);
 }

@@ -1,5 +1,9 @@
 package com.warframefarm.activities.startup;
 
+import static com.warframefarm.data.FirestoreHelper.CHECK_FOR_NEW_USER_DATA;
+import static com.warframefarm.data.FirestoreHelper.CHECK_FOR_OFFLINE_CHANGES;
+import static com.warframefarm.data.FirestoreHelper.CHECK_FOR_UPDATES;
+
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
@@ -10,6 +14,7 @@ import com.warframefarm.data.FirestoreHelper;
 import com.warframefarm.database.WarframeFarmDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class StartUpRepository implements CommunicationHandler {
@@ -18,34 +23,48 @@ public class StartUpRepository implements CommunicationHandler {
     private final FirestoreHelper firestoreHelper;
 
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>(true);
-    private final List<Integer> actions = new ArrayList<>();
-
-    public final static int UPDATE = 0;
+    private final List<Integer> queue = new ArrayList<>();
 
     public StartUpRepository(Application application) {
         database = WarframeFarmDatabase.getInstance(application.getApplicationContext());
 
         firestoreHelper = new FirestoreHelper(application, this);
 
-        if (FirestoreHelper.isConnectedToInternet(application.getApplicationContext()))
-            firestoreHelper.checkForUpdates();
+        if (FirestoreHelper.isConnectedToInternet(application.getApplicationContext())) {
+            Collections.addAll(queue, CHECK_FOR_UPDATES, CHECK_FOR_NEW_USER_DATA, CHECK_FOR_OFFLINE_CHANGES);
+            startAction();
+        }
     }
 
     public LiveData<Boolean> isLoading() {
         return loading;
     }
 
-    @Override
-    public void startAction(int actionID) {
-        actions.add(actionID);
-        System.out.println("Actions in progress: " + actions);
+    public void startAction() {
+        int action = queue.get(0);
+        switch (action) {
+            case CHECK_FOR_UPDATES:
+                firestoreHelper.checkForUpdates();
+                break;
+            case CHECK_FOR_NEW_USER_DATA:
+                firestoreHelper.checkForNewUserData();
+                break;
+            case CHECK_FOR_OFFLINE_CHANGES:
+                finishAction(CHECK_FOR_OFFLINE_CHANGES);
+                break;
+        }
     }
 
     @Override
-    public void finishAction(int actionID) {
-        actions.remove((Integer) actionID);
-        if (actions.isEmpty())
+    public void startAction(Integer actionID) {
+
+    }
+
+    @Override
+    public void finishAction(Integer actionID) {
+        queue.remove(actionID);
+        if (queue.isEmpty())
             loading.setValue(false);
-        System.out.println("Actions in progress: " + actions);
+        else startAction();
     }
 }

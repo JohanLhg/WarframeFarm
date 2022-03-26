@@ -2,12 +2,13 @@ package com.warframefarm.data;
 
 import static com.warframefarm.data.FirestoreTags.APP_TAG;
 import static com.warframefarm.data.FirestoreTags.BUILD_TAG;
+import static com.warframefarm.data.FirestoreTags.COMPONENT_TAG;
 import static com.warframefarm.data.FirestoreTags.FACTION_TAG;
 import static com.warframefarm.data.FirestoreTags.INFO_TAG;
+import static com.warframefarm.data.FirestoreTags.LAST_MODIFIED_BY_TAG;
 import static com.warframefarm.data.FirestoreTags.MISSIONS_TAG;
 import static com.warframefarm.data.FirestoreTags.MISSION_OBJECTIVE_TAG;
 import static com.warframefarm.data.FirestoreTags.MISSION_PLANET_TAG;
-import static com.warframefarm.data.FirestoreTags.COMPONENT_TAG;
 import static com.warframefarm.data.FirestoreTags.PLANETS_TAG;
 import static com.warframefarm.data.FirestoreTags.PRIMES_TAG;
 import static com.warframefarm.data.FirestoreTags.TYPE_TAG;
@@ -17,6 +18,7 @@ import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.StrictMode;
 
 import androidx.annotation.NonNull;
@@ -28,17 +30,18 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.installations.FirebaseInstallations;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.warframefarm.AppExecutors;
 import com.warframefarm.CommunicationHandler;
 import com.warframefarm.database.AppDao;
+import com.warframefarm.database.Component;
 import com.warframefarm.database.ComponentComplete;
 import com.warframefarm.database.ComponentCorrection;
+import com.warframefarm.database.ComponentDao;
 import com.warframefarm.database.Mission;
 import com.warframefarm.database.MissionDao;
-import com.warframefarm.database.Component;
-import com.warframefarm.database.ComponentDao;
 import com.warframefarm.database.Planet;
 import com.warframefarm.database.PlanetDao;
 import com.warframefarm.database.Prime;
@@ -57,6 +60,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -79,9 +83,14 @@ public class FirestoreHelper {
     private final FirebaseStorage storage;
     private final FirebaseAuth auth;
 
+    private String ID = "";
     private CommunicationHandler communicationHandler;
-    public final static int CHECKING_FOR_UPDATES = 0, LOADING_PRIMES = 1, LOADING_COMPONENTS = 2,
-            LOADING_RELICS = 3, LOADING_PLANETS = 4, LOADING_MISSIONS = 5;
+    private Integer currentAction;
+    private final List<Integer> taskQueue = new ArrayList<>();
+    public final static int CHECK_FOR_UPDATES = 0, CHECK_FOR_NEW_USER_DATA = 1,
+            CHECK_FOR_OFFLINE_CHANGES = 2;
+    public final static int LOADING_PRIMES = -1, LOADING_COMPONENTS = -2, LOADING_RELICS = -3, LOADING_PLANETS = -4,
+            LOADING_MISSIONS = -5;
 
     private final Executor backgroundThread, mainThread;
 
@@ -91,6 +100,8 @@ public class FirestoreHelper {
     }
 
     private FirestoreHelper(Application application) {
+        setID();
+
         database = WarframeFarmDatabase.getInstance(application);
         appDao = database.appDao();
         primeDao = database.primeDao();
@@ -123,8 +134,14 @@ public class FirestoreHelper {
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
+    public void setID() {
+        ID = "";
+        FirebaseInstallations.getInstance().getId().addOnSuccessListener(result -> ID = result);
+    }
+
     public void checkForUpdates() {
-        startAction(CHECKING_FOR_UPDATES);
+        Collections.addAll(taskQueue, LOADING_PRIMES, LOADING_PLANETS, LOADING_MISSIONS, LOADING_RELICS);
+        currentAction = CHECK_FOR_UPDATES;
         DocumentReference docRef = firestore.collection(APP_TAG).document(INFO_TAG);
 
         docRef.get().addOnCompleteListener(task -> {
@@ -144,7 +161,6 @@ public class FirestoreHelper {
                         Query queryPlanets = firestore.collection(PLANETS_TAG).whereGreaterThan(BUILD_TAG, current_build);
                         Query queryMissions = firestore.collection(MISSIONS_TAG).whereGreaterThan(BUILD_TAG, current_build);
 
-                        startAction(LOADING_PRIMES);
                         queryPrimes.get().addOnCompleteListener(taskPrimes -> {
                             if (taskPrimes.isSuccessful()) {
                                 backgroundThread.execute(() -> {
@@ -174,13 +190,12 @@ public class FirestoreHelper {
                                             }
                                         }
                                     }
-                                    finishAction(LOADING_PRIMES);
+                                    finishTask(LOADING_PRIMES);
                                 });
                             }
-                            else finishAction(LOADING_PRIMES);
+                            else finishTask(LOADING_PRIMES);
                         });
 
-                        startAction(LOADING_PLANETS);
                         queryPlanets.get().addOnCompleteListener(taskPlanets -> {
                             if (taskPlanets.isSuccessful()) {
                                 backgroundThread.execute(() -> {
@@ -191,13 +206,12 @@ public class FirestoreHelper {
                                                     planet.getId(),
                                                     planet.getString(FACTION_TAG)
                                             ));
-                                    finishAction(LOADING_PLANETS);
+                                    finishTask(LOADING_PLANETS);
                                 });
                             }
-                            else finishAction(LOADING_PLANETS);
+                            else finishTask(LOADING_PLANETS);
                         });
 
-                        startAction(LOADING_MISSIONS);
                         queryMissions.get().addOnCompleteListener(taskMissions -> {
                             if (taskMissions.isSuccessful()) {
                                 backgroundThread.execute(() -> {
@@ -214,65 +228,71 @@ public class FirestoreHelper {
 
                                         loadRewards();
                                     }
-                                    finishAction(LOADING_MISSIONS);
+                                    finishTask(LOADING_MISSIONS);
                                 });
                             }
-                            else finishAction(LOADING_MISSIONS);
+                            else finishTask(LOADING_MISSIONS);
                         });
 
                         appDao.updateBuild(Math.toIntExact(build));
                     }
-                    finishAction(CHECKING_FOR_UPDATES);
+                    else finishAction(CHECK_FOR_UPDATES);
                 });
             }
-            else finishAction(CHECKING_FOR_UPDATES);
+            else finishAction(CHECK_FOR_UPDATES);
         });
     }
 
     public void loadRewards() {
         StorageReference fileRef = storage.getReference().child("all.json");
-        fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
-            HttpURLConnection connection = null;
-            BufferedReader reader = null;
+        fileRef.getDownloadUrl().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Uri uri = task.getResult();
+                HttpURLConnection connection = null;
+                BufferedReader reader = null;
 
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
 
-            try {
-                URL url = new URL(uri.toString());
-                connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-
-
-                InputStream stream = connection.getInputStream();
-
-                reader = new BufferedReader(new InputStreamReader(stream));
-
-                StringBuilder buffer = new StringBuilder();
-                String line;
-
-                while ((line = reader.readLine()) != null)
-                    buffer.append(line + "\n");
-
-                backgroundThread.execute(() -> {
-                    database.setUpRelics(buffer.toString());
-                    database.setUpMissionRewards(buffer.toString());
-                });
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (connection != null) {
-                    connection.disconnect();
-                }
                 try {
-                    if (reader != null) {
-                        reader.close();
-                    }
+                    URL url = new URL(uri.toString());
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.connect();
+
+
+                    InputStream stream = connection.getInputStream();
+
+                    reader = new BufferedReader(new InputStreamReader(stream));
+
+                    StringBuilder buffer = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null)
+                        buffer.append(line + "\n");
+
+                    backgroundThread.execute(() -> {
+                        database.setUpRelics(buffer.toString());
+                        database.setUpMissionRewards(buffer.toString());
+                        finishTask(LOADING_RELICS);
+                    });
+
                 } catch (IOException e) {
                     e.printStackTrace();
+                    finishTask(LOADING_RELICS);
+                } finally {
+                    if (connection != null) {
+                        connection.disconnect();
+                    }
+                    try {
+                        if (reader != null) {
+                            reader.close();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
+            else finishTask(LOADING_RELICS);
         });
     }
 
@@ -351,6 +371,71 @@ public class FirestoreHelper {
                     }
                 });
             }
+        });
+    }
+
+    public void checkForNewUserData() {
+        FirebaseUser user = auth.getCurrentUser();
+
+        if (user == null) {
+            finishAction(CHECK_FOR_NEW_USER_DATA);
+            return;
+        }
+
+        Collections.addAll(taskQueue, LOADING_PRIMES, LOADING_COMPONENTS);
+        currentAction = CHECK_FOR_NEW_USER_DATA;
+
+        String userID = user.getUid();
+        DocumentReference docRef = firestore.collection(USERS_TAG).document(userID);
+
+        docRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                backgroundThread.execute(() -> {
+                    DocumentSnapshot doc = task.getResult();
+                    assert doc != null;
+                    if (doc.exists()) {
+                        String lastAuthor = doc.getString(LAST_MODIFIED_BY_TAG);
+                        if (lastAuthor == null || lastAuthor.equals("") || (!ID.equals("") && lastAuthor.equals(ID))) {
+                            finishAction(CHECK_FOR_NEW_USER_DATA);
+                            return;
+                        }
+
+                        //Updating components
+                        HashMap<String, Boolean> components = (HashMap<String, Boolean>) doc.get(COMPONENT_TAG);
+                        userComponentDao.resetComponents();
+                        if (components != null) {
+                            Set<String> component_names = components.keySet();
+                            UserComponent userComponent;
+                            for (String component : component_names) {
+                                userComponent = new UserComponent(component, components.get(component));
+                                if (userComponentDao.update(userComponent) < 1)
+                                    userComponentDao.insert(userComponent);
+                            }
+                        }
+                        finishTask(LOADING_COMPONENTS);
+
+                        //Updating primes
+                        HashMap<String, Boolean> primes = (HashMap<String, Boolean>) doc.get(PRIMES_TAG);
+                        userPrimeDao.resetPrimes();
+                        if (primes != null) {
+                            Set<String> prime_names = primes.keySet();
+                            UserPrime userPrime;
+                            for (String prime : prime_names) {
+                                userPrime = new UserPrime(prime, primes.get(prime));
+                                if (userPrimeDao.update(userPrime) < 1)
+                                    userPrimeDao.insert(userPrime);
+                            }
+                        }
+                        finishTask(LOADING_PRIMES);
+                    }
+                    else {
+                        userComponentDao.resetComponents();
+                        userPrimeDao.resetPrimes();
+                        finishAction(CHECK_FOR_NEW_USER_DATA);
+                    }
+                });
+            }
+            else finishAction(CHECK_FOR_NEW_USER_DATA);
         });
     }
 
@@ -456,17 +541,25 @@ public class FirestoreHelper {
             HashMap<String, Object> userInfo = new HashMap<>();
             if (!components.isEmpty()) userInfo.put(COMPONENT_TAG, components);
             if (!primes.isEmpty()) userInfo.put(PRIMES_TAG, primes);
+            userInfo.put(LAST_MODIFIED_BY_TAG, ID);
 
             docRef.set(userInfo, SetOptions.merge());
         }
     }
 
-    private void startAction(int actionID) {
+    private void finishTask(Integer taskID) {
+        taskQueue.remove(taskID);
+        if (taskQueue.isEmpty())
+            finishAction(currentAction);
+    }
+
+    private void startAction(Integer actionID) {
         if (communicationHandler != null)
             mainThread.execute(() -> communicationHandler.startAction(actionID));
     }
 
-    private void finishAction(int actionID) {
+    private void finishAction(Integer actionID) {
+        taskQueue.clear();
         if (communicationHandler != null)
             mainThread.execute(() -> communicationHandler.finishAction(actionID));
     }

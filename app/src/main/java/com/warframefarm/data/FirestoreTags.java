@@ -5,6 +5,7 @@ public class FirestoreTags {
             APP_TAG = "app",
             INFO_TAG = "info",
             BUILD_TAG = "build",
+            LAST_MODIFIED_BY_TAG = "last modified by",
             PRIMES_TAG = "primes",
             COMPONENT_TAG = "components",
             PLANETS_TAG = "planets",
