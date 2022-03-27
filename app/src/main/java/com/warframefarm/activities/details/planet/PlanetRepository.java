@@ -106,61 +106,36 @@ public class PlanetRepository {
 
             String NEEDED_MISSION_REWARDS = "NEEDED_MISSION_REWARDS";
 
-            String queryString;
-            if (search.isEmpty()) {
-                queryString ="WITH " + NEEDED_MISSION_REWARDS + " AS (" +
-                            " SELECT DISTINCT " + M_REWARD_TABLE + ".*" +
-                            " FROM " + MISSION_TABLE +
-                            " LEFT JOIN " + M_REWARD_TABLE + " ON " + M_REWARD_MISSION + " == " + MISSION_NAME +
-                            " LEFT JOIN " + R_REWARD_TABLE + " ON " + R_REWARD_RELIC + " == " + M_REWARD_RELIC +
-                            " LEFT JOIN " + USER_COMPONENT_TABLE + " ON " + USER_COMPONENT_ID + " == " + R_REWARD_COMPONENT +
-                            " WHERE " + MISSION_PLANET + " == '" + p.getName() + "'" +
-                            " AND " + USER_COMPONENT_OWNED + " == 0" +
-                        ")" +
-                        " SELECT " + MISSION_TABLE + ".*, COALESCE(" + M_REWARD_RELIC + ", '') AS " + M_REWARD_RELIC +
-                        ", COALESCE(" + M_REWARD_ROTATION + ", '') AS " + M_REWARD_ROTATION +
-                        ", COALESCE(SUM(" + M_REWARD_DROP_CHANCE + "), 0) AS " + M_REWARD_DROP_CHANCE +
+            String queryString ="WITH " + NEEDED_MISSION_REWARDS + " AS (" +
+                        " SELECT DISTINCT " + M_REWARD_TABLE + ".*" +
                         " FROM " + MISSION_TABLE +
-                        " LEFT JOIN " + NEEDED_MISSION_REWARDS + " ON " + M_REWARD_MISSION + " == " + MISSION_NAME +
-                        " WHERE " + MISSION_PLANET + " == '" + p.getName() + "'";
-
-                if (filter)
-                    queryString += " AND " + M_REWARD_RELIC + " != ''";
-
-                queryString += " GROUP BY " + MISSION_NAME + ", " + M_REWARD_ROTATION +
-                        " ORDER BY " + MISSION_NAME + ", " + M_REWARD_ROTATION;
-            }
-            else {
-                queryString ="WITH " + NEEDED_MISSION_REWARDS + " AS (" +
-                            " SELECT DISTINCT " + M_REWARD_TABLE + ".*" +
-                            " FROM " + MISSION_TABLE +
-                            " LEFT JOIN " + M_REWARD_TABLE + " ON " + M_REWARD_MISSION + " == " + MISSION_NAME +
-                            " LEFT JOIN " + R_REWARD_TABLE + " ON " + R_REWARD_RELIC + " == " + M_REWARD_RELIC +
-                            " LEFT JOIN " + USER_COMPONENT_TABLE + " ON " + USER_COMPONENT_ID + " == " + R_REWARD_COMPONENT +
-                            " WHERE " + MISSION_PLANET + " == '" + p.getName() + "'" +
-                            " AND " + USER_COMPONENT_OWNED + " == 0" +
-                        ")" +
-                        " SELECT " + MISSION_TABLE + ".*, COALESCE(" + M_REWARD_RELIC + ", '') AS " + M_REWARD_RELIC +
-                        ", COALESCE(" + M_REWARD_ROTATION + ", '') AS " + M_REWARD_ROTATION +
-                        ", COALESCE(SUM(" + M_REWARD_DROP_CHANCE + "), 0) AS " + M_REWARD_DROP_CHANCE +
-                        " FROM " + MISSION_TABLE +
-                        " LEFT JOIN " + NEEDED_MISSION_REWARDS + " ON " + M_REWARD_MISSION + " == " + MISSION_NAME +
+                        " LEFT JOIN " + M_REWARD_TABLE + " ON " + M_REWARD_MISSION + " == " + MISSION_NAME +
+                        " LEFT JOIN " + R_REWARD_TABLE + " ON " + R_REWARD_RELIC + " == " + M_REWARD_RELIC +
+                        " LEFT JOIN " + USER_COMPONENT_TABLE + " ON " + USER_COMPONENT_ID + " == " + R_REWARD_COMPONENT +
                         " WHERE " + MISSION_PLANET + " == '" + p.getName() + "'" +
+                        " AND " + USER_COMPONENT_OWNED + " == 0" +
+                    ")" +
+                    " SELECT " + MISSION_TABLE + ".*, COALESCE(" + M_REWARD_RELIC + ", '') AS " + M_REWARD_RELIC +
+                    ", COALESCE(" + M_REWARD_ROTATION + ", '') AS " + M_REWARD_ROTATION +
+                    ", COALESCE(SUM(" + M_REWARD_DROP_CHANCE + "), 0) AS " + M_REWARD_DROP_CHANCE +
+                    " FROM " + MISSION_TABLE +
+                    " LEFT JOIN " + NEEDED_MISSION_REWARDS + " ON " + M_REWARD_MISSION + " == " + MISSION_NAME +
+                    " WHERE " + MISSION_PLANET + " == '" + p.getName() + "'" +
+                    (search.isEmpty() ?
+                        "" :
                         " AND (" + MISSION_NAME + " LIKE \"" + search + "%\"" +
-                        " OR " + MISSION_OBJECTIVE + " LIKE \"" + search + "%\"" +
-                        " OR " + MISSION_TYPE + " == (CASE" +
-                            " WHEN 'Normal' LIKE \"" + search + "%\" THEN " + TYPE_NORMAL +
-                            " WHEN 'Archwing' LIKE \"" + search + "%\" THEN " + TYPE_ARCHWING +
-                            " WHEN 'Empyrean' LIKE \"" + search + "%\"" +
-                            " OR 'Railjack' LIKE \"" + search + "%\" THEN " + TYPE_EMPYREAN +
-                        " END) OR " + MISSION_FACTION + " LIKE \"" + search + "%\")";
-
-                if (filter)
-                    queryString += " AND " + M_REWARD_RELIC + " != ''";
-
-                queryString += " GROUP BY " + MISSION_NAME + ", " + M_REWARD_ROTATION +
-                        " ORDER BY " + MISSION_NAME + ", " + M_REWARD_ROTATION;
-            }
+                            " OR " + MISSION_OBJECTIVE + " LIKE \"" + search + "%\"" +
+                            " OR " + MISSION_TYPE + " == (CASE" +
+                                " WHEN 'Normal' LIKE \"" + search + "%\" THEN " + TYPE_NORMAL +
+                                " WHEN 'Archwing' LIKE \"" + search + "%\" THEN " + TYPE_ARCHWING +
+                                " WHEN 'Empyrean' LIKE \"" + search + "%\"" +
+                                " OR 'Railjack' LIKE \"" + search + "%\" THEN " + TYPE_EMPYREAN +
+                            " END)" +
+                        " OR " + MISSION_FACTION + " LIKE \"" + search + "%\")"
+                    ) +
+                    (filter ? " AND " + M_REWARD_RELIC + " != ''" : "") +
+                    " GROUP BY " + MISSION_NAME + ", " + M_REWARD_ROTATION +
+                    " ORDER BY " + M_REWARD_DROP_CHANCE + " == 0 DESC, " + MISSION_TYPE + ", " + MISSION_NAME + ", " + M_REWARD_ROTATION;
 
             List<MissionComplete> missionList = new ArrayList<>();
 
