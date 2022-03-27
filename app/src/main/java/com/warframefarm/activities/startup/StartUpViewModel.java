@@ -18,4 +18,8 @@ public class StartUpViewModel extends AndroidViewModel {
     public LiveData<Boolean> isLoading() {
         return repository.isLoading();
     }
+
+    public LiveData<Integer> getLoadingTextRes() {
+        return repository.getLoadingTextRes();
+    }
 }

@@ -40,5 +40,11 @@ public class StartUpActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        viewModel.getLoadingTextRes().observe(this, res -> {
+            if (res == -1)
+                return;
+            binding.textLoading.setText(res);
+        });
     }
 }

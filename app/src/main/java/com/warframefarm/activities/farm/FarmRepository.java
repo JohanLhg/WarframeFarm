@@ -422,35 +422,40 @@ public class FarmRepository {
                     whereClause +
                     " AND " + RELIC_VAULTED + " == 0" +
                     " GROUP BY " + M_REWARD_MISSION + ", " + M_REWARD_ROTATION +
-                ") ";
+                "), MISSION_DROP_CHANCE AS (" +
+                    " SELECT " + MISSION_NAME + " AS mission, " + MISSION_OBJECTIVE + " AS objective, " +
+                    MISSION_TYPE + " AS type, SUM(dropChances) AS dropChance" +
+                    " FROM " + MISSION_TABLE +
+                    " LEFT JOIN (" +
+                        " SELECT " + M_REWARD_MISSION + " AS mission, " +
+                        " CASE " + M_REWARD_ROTATION +
+                            " WHEN 'Z' THEN " + M_REWARD_DROP_CHANCE +
+                            " WHEN 'A' THEN " + M_REWARD_DROP_CHANCE + "/2" +
+                            " WHEN 'B' THEN " + M_REWARD_DROP_CHANCE + "/4" +
+                            " WHEN 'C' THEN " + M_REWARD_DROP_CHANCE + "/4" +
+                            " ELSE 0" +
+                        " END AS dropChances" +
+                        " FROM SELECTED_REWARDS" +
+                    ") ON mission == " + MISSION_NAME +
+                    " WHERE dropChances != 0" +
+                    " GROUP BY " + MISSION_NAME +
+                    " ORDER BY dropChance DESC, " + MISSION_PLANET +
+                ")";
 
         if (bestPlaces) {
             queryString += "SELECT " + MISSION_PLANET + ", " + MISSION_NAME + ", " + MISSION_OBJECTIVE + ", " + MISSION_FACTION + ", " +
                     MISSION_TYPE + ", " + M_REWARD_RELIC + ", dropChance, " + M_REWARD_ROTATION + ", " + M_REWARD_DROP_CHANCE +
                     " FROM " + MISSION_TABLE +
                     " LEFT JOIN (" +
-                        " SELECT mission, MAX(dropChance) AS dropChance" +
-                        " FROM (" +
-                            " SELECT " + MISSION_NAME + " AS mission, " + MISSION_OBJECTIVE + " AS objective, " +
-                            MISSION_TYPE + " AS type, SUM(dropChances) AS dropChance" +
-                            " FROM " + MISSION_TABLE +
-                            " LEFT JOIN (" +
-                                " SELECT " + M_REWARD_MISSION + " AS mission, " +
-                                " CASE " + M_REWARD_ROTATION +
-                                    " WHEN 'Z' THEN " + M_REWARD_DROP_CHANCE +
-                                    " WHEN 'A' THEN " + M_REWARD_DROP_CHANCE + "/2" +
-                                    " WHEN 'B' THEN " + M_REWARD_DROP_CHANCE + "/4" +
-                                    " WHEN 'C' THEN " + M_REWARD_DROP_CHANCE + "/4" +
-                                    " ELSE 0" +
-                                " END AS dropChances" +
-                                " FROM SELECTED_REWARDS" +
-                            ") ON mission == " + MISSION_NAME +
-                            " WHERE dropChances != 0" +
-                            " GROUP BY " + MISSION_NAME +
-                            " ORDER BY dropChance DESC, " + MISSION_PLANET +
-                        ") GROUP BY objective, type" +
+                        " SELECT mission, dropChance" +
+                        " FROM MISSION_DROP_CHANCE" +
+                        " JOIN (" +
+                            " SELECT objective AS obj, MAX(dropChance) AS max" +
+                            " FROM MISSION_DROP_CHANCE" +
+                            " GROUP BY obj" +
+                        ") AS MISSION_MAX ON dropCHANCE == max AND objective == obj" +
                     ") ON mission == " + MISSION_NAME +
-                    " JOIN SELECTED_REWARDS ON " + M_REWARD_MISSION + "==" + MISSION_NAME +
+                    " JOIN SELECTED_REWARDS ON " + M_REWARD_MISSION + " == " + MISSION_NAME +
                     " LEFT JOIN " + RELIC_TABLE + " ON " + RELIC_ID + " == " + M_REWARD_RELIC +
                     " WHERE dropChance != 0" +
                     " ORDER BY dropChance DESC, " +
@@ -461,25 +466,8 @@ public class FarmRepository {
             queryString += "SELECT " + MISSION_PLANET + ", " + MISSION_NAME + ", " + MISSION_OBJECTIVE + ", " + MISSION_FACTION + ", " +
                     MISSION_TYPE + ", " + M_REWARD_RELIC + ", dropChance, " + M_REWARD_ROTATION + ", " + M_REWARD_DROP_CHANCE +
                     " FROM " + MISSION_TABLE +
-                    " LEFT JOIN (" +
-                        " SELECT " + MISSION_NAME + " AS mission, SUM(dropChances) AS dropChance" +
-                        " FROM " + MISSION_TABLE +
-                        " LEFT JOIN (" +
-                            " SELECT " + M_REWARD_MISSION + " AS mission, " +
-                            " CASE " + M_REWARD_ROTATION +
-                                " WHEN 'Z' THEN " + M_REWARD_DROP_CHANCE +
-                                " WHEN 'A' THEN " + M_REWARD_DROP_CHANCE + "/2" +
-                                " WHEN 'B' THEN " + M_REWARD_DROP_CHANCE + "/4" +
-                                " WHEN 'C' THEN " + M_REWARD_DROP_CHANCE + "/4" +
-                                " ELSE 0" +
-                            " END AS dropChances" +
-                            " FROM SELECTED_REWARDS" +
-                        ") ON mission == " + MISSION_NAME +
-                        " WHERE dropChances != 0" +
-                        " GROUP BY " + MISSION_NAME +
-                        " ORDER BY dropChance DESC, " + MISSION_PLANET +
-                    ") ON mission == " + MISSION_NAME +
-                    " JOIN SELECTED_REWARDS ON " + M_REWARD_MISSION + "==" + MISSION_NAME +
+                    " LEFT JOIN MISSION_DROP_CHANCE ON mission == " + MISSION_NAME +
+                    " JOIN SELECTED_REWARDS ON " + M_REWARD_MISSION + " == " + MISSION_NAME +
                     " LEFT JOIN " + PLANET_TABLE + " ON " + PLANET_NAME + " == " + MISSION_PLANET +
                     " LEFT JOIN " + RELIC_TABLE + " ON " + RELIC_ID + " == " + M_REWARD_RELIC +
                     " WHERE dropChance != 0" +
