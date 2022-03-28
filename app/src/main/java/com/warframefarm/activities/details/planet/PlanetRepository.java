@@ -37,6 +37,7 @@ import com.warframefarm.database.PlanetDao;
 import com.warframefarm.database.WarframeFarmDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -48,9 +49,11 @@ public class PlanetRepository {
     private final Executor backgroundThread, mainThread;
 
     private final MutableLiveData<Planet> planet = new MutableLiveData<>();
+    private final MutableLiveData<List<Integer>> typeList = new MutableLiveData<>(new ArrayList<>());
 
     private String search = "";
-    private final MutableLiveData<Boolean> filter = new MutableLiveData<>(false);
+    private final MutableLiveData<Boolean> relicFilter = new MutableLiveData<>(false);
+    private final MutableLiveData<Integer> typeFilter = new MutableLiveData<>(-1);
 
     private final MutableLiveData<List<MissionComplete>> missions = new MutableLiveData<>(new ArrayList<>());
 
@@ -69,6 +72,7 @@ public class PlanetRepository {
             Planet p = planetDao.getPlanet(name);
             mainThread.execute(() -> {
                 planet.setValue(p);
+                setTypeList();
                 updateMissions();
             });
         });
@@ -83,13 +87,37 @@ public class PlanetRepository {
         updateMissions();
     }
 
-    public void switchFilter() {
-        filter.setValue(!filter.getValue());
+    public void setTypeList() {
+        backgroundThread.execute(() -> {
+            List<Integer> types = planetDao.getPlanetMissionTypes(planet.getValue().getName());
+            mainThread.execute(() -> typeList.setValue(types));
+        });
+    }
+
+    public LiveData<List<Integer>> getTypeList() {
+        return typeList;
+    }
+
+    public void switchRelicFilter() {
+        relicFilter.setValue(!relicFilter.getValue());
         updateMissions();
     }
 
-    public LiveData<Boolean> getFilter() {
-        return filter;
+    public LiveData<Boolean> getRelicFilter() {
+        return relicFilter;
+    }
+
+    public void setTypeFilter(int type) {
+        int currentType = typeFilter.getValue();
+        if (currentType != type)
+            typeFilter.setValue(type);
+        else
+            typeFilter.setValue(-1);
+        updateMissions();
+    }
+
+    public MutableLiveData<Integer> getTypeFilter() {
+        return typeFilter;
     }
 
     public LiveData<List<MissionComplete>> getMissions() {
@@ -102,7 +130,8 @@ public class PlanetRepository {
             if (p == null)
                 return;
 
-            boolean filter = this.filter.getValue();
+            boolean relicFilter = this.relicFilter.getValue();
+            int typeFilter = this.typeFilter.getValue();
 
             String NEEDED_MISSION_REWARDS = "NEEDED_MISSION_REWARDS";
 
@@ -121,6 +150,10 @@ public class PlanetRepository {
                     " FROM " + MISSION_TABLE +
                     " LEFT JOIN " + NEEDED_MISSION_REWARDS + " ON " + M_REWARD_MISSION + " == " + MISSION_NAME +
                     " WHERE " + MISSION_PLANET + " == '" + p.getName() + "'" +
+                    (typeFilter == -1 ?
+                            "" :
+                            " AND " + MISSION_TYPE + " == " + typeFilter
+                    ) +
                     (search.isEmpty() ?
                         "" :
                         " AND (" + MISSION_NAME + " LIKE \"" + search + "%\"" +
@@ -133,7 +166,7 @@ public class PlanetRepository {
                             " END)" +
                         " OR " + MISSION_FACTION + " LIKE \"" + search + "%\")"
                     ) +
-                    (filter ? " AND " + M_REWARD_RELIC + " != ''" : "") +
+                    (relicFilter ? " AND " + M_REWARD_RELIC + " != ''" : "") +
                     " GROUP BY " + MISSION_NAME + ", " + M_REWARD_ROTATION +
                     " ORDER BY " + M_REWARD_DROP_CHANCE + " == 0 DESC, " + MISSION_TYPE + ", " + MISSION_NAME + ", " + M_REWARD_ROTATION;
 

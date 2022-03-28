@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.warframefarm.database.MissionComplete;
 import com.warframefarm.database.Planet;
@@ -24,20 +25,32 @@ public class PlanetViewModel extends AndroidViewModel {
         repository.setPlanet(name);
     }
 
+    public LiveData<Planet> getPlanet() {
+        return repository.getPlanet();
+    }
+
+    public LiveData<List<Integer>> getTypeList() {
+        return repository.getTypeList();
+    }
+
     public void setSearch(String search) {
         repository.setSearch(search);
     }
 
-    public void switchFilter() {
-        repository.switchFilter();
+    public void switchRelicFilter() {
+        repository.switchRelicFilter();
     }
 
-    public LiveData<Boolean> getFilter() {
-        return repository.getFilter();
+    public LiveData<Boolean> getRelicFilter() {
+        return repository.getRelicFilter();
     }
 
-    public LiveData<Planet> getPlanet() {
-        return repository.getPlanet();
+    public void setTypeFilter(int type) {
+        repository.setTypeFilter(type);
+    }
+
+    public MutableLiveData<Integer> getTypeFilter() {
+        return repository.getTypeFilter();
     }
 
     public LiveData<List<MissionComplete>> getMissions() {

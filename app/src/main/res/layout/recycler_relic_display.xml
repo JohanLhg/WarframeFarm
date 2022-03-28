@@ -33,10 +33,12 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="5dp"
+        android:tintMode="multiply"
         app:layout_constraintBottom_toTopOf="@+id/separator"
         app:layout_constraintStart_toEndOf="@+id/textRelic"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/reward_rare" />
+        app:srcCompat="@drawable/reward_rare"
+        app:tint="@color/colorBackgroundDark" />
 
     <ImageView
         android:id="@+id/imageVault"
@@ -70,5 +72,5 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"></LinearLayout>
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

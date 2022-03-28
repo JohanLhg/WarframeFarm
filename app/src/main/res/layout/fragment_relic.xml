@@ -42,7 +42,9 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/reward_rare" />
+                android:tintMode="multiply"
+                app:srcCompat="@drawable/reward_rare"
+                app:tint="@color/colorBackgroundDark" />
 
             <TextView
                 android:id="@+id/textRelic"

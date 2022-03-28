@@ -48,6 +48,7 @@
             android:id="@+id/imageRarityNeeded"
             android:layout_width="25dp"
             android:layout_height="25dp"
+            android:tintMode="multiply"
             app:srcCompat="@drawable/reward_common"
             app:tint="@color/colorBackgroundDark" />
 

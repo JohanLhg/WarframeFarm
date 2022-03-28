@@ -1,5 +1,9 @@
 package com.warframefarm.activities.details.planet;
 
+import static com.warframefarm.database.WarframeFarmDatabase.TYPE_ARCHWING;
+import static com.warframefarm.database.WarframeFarmDatabase.TYPE_EMPYREAN;
+import static com.warframefarm.database.WarframeFarmDatabase.TYPE_NORMAL;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
@@ -39,7 +43,8 @@ public class PlanetFragment extends Fragment {
 
     private MissionAdapter missionAdapter;
 
-    private ImageView imageSpecial, imagePlanet, imageFaction, imageWantedFilter;
+    private ImageView imageSpecial, imagePlanet, imageFaction, imageNormalFilter,
+            imageArchwingFilter, imageEmpyreanFilter, imageWantedFilter;
     private TextView textPlanet;
 
     private AutoCompleteTextView searchbar;
@@ -73,6 +78,9 @@ public class PlanetFragment extends Fragment {
         textPlanet = binding.textPlanet;
         imageSpecial = binding.imageSpecial;
         imagePlanet = binding.imagePlanet;
+        imageNormalFilter = binding.imageNormalFilter;
+        imageArchwingFilter = binding.imageArchwingFilter;
+        imageEmpyreanFilter = binding.imageEmpyreanFilter;
         imageWantedFilter = binding.imageWantedFilter;
 
         searchbar = binding.searchbarPlanet;
@@ -124,7 +132,10 @@ public class PlanetFragment extends Fragment {
         });
         //endregion
 
-        imageWantedFilter.setOnClickListener(v -> planetViewModel.switchFilter());
+        imageNormalFilter.setOnClickListener(v -> planetViewModel.setTypeFilter(TYPE_NORMAL));
+        imageArchwingFilter.setOnClickListener(v -> planetViewModel.setTypeFilter(TYPE_ARCHWING));
+        imageEmpyreanFilter.setOnClickListener(v -> planetViewModel.setTypeFilter(TYPE_EMPYREAN));
+        imageWantedFilter.setOnClickListener(v -> planetViewModel.switchRelicFilter());
 
         missionAdapter = new MissionAdapter(context);
         recyclerMissions.setAdapter(missionAdapter);
@@ -158,11 +169,56 @@ public class PlanetFragment extends Fragment {
             }
         });
 
-        planetViewModel.getFilter().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+        planetViewModel.getTypeList().observe(getViewLifecycleOwner(), new Observer<List<Integer>>() {
+            @Override
+            public void onChanged(List<Integer> types) {
+                imageNormalFilter.setVisibility(View.GONE);
+                imageArchwingFilter.setVisibility(View.GONE);
+                imageEmpyreanFilter.setVisibility(View.GONE);
+                if (types.size() == 1)
+                    return;
+                if (types.contains(TYPE_NORMAL))
+                    imageNormalFilter.setVisibility(View.VISIBLE);
+                if (types.contains(TYPE_ARCHWING))
+                    imageArchwingFilter.setVisibility(View.VISIBLE);
+                if (types.contains(TYPE_EMPYREAN))
+                    imageEmpyreanFilter.setVisibility(View.VISIBLE);
+            }
+        });
+
+        planetViewModel.getRelicFilter().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean filter) {
-                if (filter) imageWantedFilter.setImageResource(R.drawable.reward_rare);
-                else imageWantedFilter.setImageResource(R.drawable.reward_no_filter);
+                if (filter) imageWantedFilter.setImageTintList(context.getColorStateList(R.color.colorPrimary));
+                else imageWantedFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
+            }
+        });
+
+        planetViewModel.getTypeFilter().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer type) {
+                switch (type) {
+                    case TYPE_NORMAL:
+                        imageNormalFilter.setImageTintList(context.getColorStateList(R.color.colorPrimary));
+                        imageArchwingFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                        imageEmpyreanFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                        break;
+                    case TYPE_ARCHWING:
+                        imageNormalFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                        imageArchwingFilter.setImageTintList(context.getColorStateList(R.color.colorPrimary));
+                        imageEmpyreanFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                        break;
+                    case TYPE_EMPYREAN:
+                        imageNormalFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                        imageArchwingFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                        imageEmpyreanFilter.setImageTintList(context.getColorStateList(R.color.colorPrimary));
+                        break;
+                    default:
+                        imageNormalFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                        imageArchwingFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                        imageEmpyreanFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                        break;
+                }
             }
         });
 
