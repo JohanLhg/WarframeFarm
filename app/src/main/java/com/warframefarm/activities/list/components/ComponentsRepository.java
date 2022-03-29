@@ -1,6 +1,7 @@
 package com.warframefarm.activities.list.components;
 
 import static com.warframefarm.data.WarframeConstants.ARCHWING;
+import static com.warframefarm.data.WarframeConstants.ARCH_GUN;
 import static com.warframefarm.data.WarframeConstants.MELEE;
 import static com.warframefarm.data.WarframeConstants.PET;
 import static com.warframefarm.data.WarframeConstants.PRIMARY;
@@ -171,7 +172,8 @@ public class ComponentsRepository {
                     queryString += " WHERE " + PRIME_NAME + " LIKE '" + search + "%'";
             }
 
-            String defaultOrder = PRIME_TYPE + " == '" + MELEE + "', " +
+            String defaultOrder = PRIME_TYPE + " == '" + ARCH_GUN + "', " +
+                    PRIME_TYPE + " == '" + MELEE + "', " +
                     PRIME_TYPE + " == '" + SECONDARY + "', " +
                     PRIME_TYPE + " == '" + PRIMARY + "', " +
                     PRIME_TYPE + " == '" + SENTINEL + "', " +

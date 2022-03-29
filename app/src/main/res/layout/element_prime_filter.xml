@@ -67,5 +67,13 @@
             android:layout_margin="5dp"
             android:src="@drawable/prime_melee"
             app:tint="@color/colorBackgroundDark" />
+
+        <ImageView
+            android:id="@+id/imageArchGunFilter"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/prime_archgun"
+            app:tint="@color/colorBackgroundDark" />
     </LinearLayout>
 </HorizontalScrollView>

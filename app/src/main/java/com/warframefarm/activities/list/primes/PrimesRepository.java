@@ -1,6 +1,7 @@
 package com.warframefarm.activities.list.primes;
 
 import static com.warframefarm.data.WarframeConstants.ARCHWING;
+import static com.warframefarm.data.WarframeConstants.ARCH_GUN;
 import static com.warframefarm.data.WarframeConstants.MELEE;
 import static com.warframefarm.data.WarframeConstants.PET;
 import static com.warframefarm.data.WarframeConstants.PRIMARY;
@@ -142,7 +143,8 @@ public class PrimesRepository {
                     queryString += " WHERE " + PRIME_TYPE + " == '" + filter + "'";
             }
 
-            String defaultOrder = PRIME_TYPE + " == '" + MELEE + "', " +
+            String defaultOrder = PRIME_TYPE + " == '" + ARCH_GUN + "', " +
+                    PRIME_TYPE + " == '" + MELEE + "', " +
                     PRIME_TYPE + " == '" + SECONDARY + "', " +
                     PRIME_TYPE + " == '" + PRIMARY + "', " +
                     PRIME_TYPE + " == '" + SENTINEL + "', " +

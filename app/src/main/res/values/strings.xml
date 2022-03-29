@@ -142,5 +142,86 @@
     <string name="sign_up">Sign Up</string>
     <string name="sign_in">Sign In</string>
 
-    <!-- DATABASE -->
+    <!-- MISSION TYPE INFO -->
+    <string name="disruption_mission">Disruption</string>
+    <string name="disruption_description">Disruption is an endless mission type tasking the Tenno with recovering items from conduits, asset security systems which Alad V has marketed and sold across the system. Similar to Mobile Defense, the squad must fight high-ranking enemies to loot a conduit key and activate a terminal, then defend it from a Demo unit that tries to destroy that terminal.</string>
+    <string name="disruption_rotations">Mission rewards are based on the number of conduits successfully defended and the round. It goes as follow :</string>
+    <string name="disruption_efficiency">You can make your runs more efficient by using this\n- A :\n -> 1 conduit on each round\n -> extract at the end of the 3rd round\n - B :\n -> round 1 : 4 conduits\n -> round 2 : 3 conduits\n -> round 3 : 2 conduits\n -> round 4+ : 1 conduit\n - C :\n -> round 1 : /\n -> round 2 : /\n -> round 3 : 4 conduits\n -> round 4+ : 3 conduits</string>
+    <string name="conduit">CONDUIT</string>
+    <string name="round">R\nO\nU\nN\nD</string>
+
+    <string name="defense_mission">Defense</string>
+    <string name="defense_description">Defense is an endless mission type in which the players must defend the assigned primary objective or objectives from being destroyed by attacking waves of enemies. The wave will be considered cleared when all the enemies in the wave have been killed.</string>
+    <string name="defense_rotations">Mission rewards change every 5 waves and follows a repeating rotation A-A-B-C pattern.</string>
+
+    <string name="survival_mission">Survival</string>
+    <string name="survival_description">Survival is an endless mission type where players will have to fight an endless, steady stream of enemies to survive for as long as possible while slowly losing life support, distracting enemies as a Tenno operative secretly gathers supplies behind the scenes.</string>
+    <string name="survival_rotations">Mission rewards change every 5 minutes and follows a repeating rotation A-A-B-C pattern.</string>
+
+    <string name="spy_mission">Spy</string>
+    <string name="spy_description">Spy is a mission type where players are tasked with extracting confidential data from enemy data servers (Data Vaults).</string>
+    <string name="spy_rotations">Mission rewards are based on the number of Data Vaults hacked :\n- 1/3 Data Vaults : A\n- 2/3 Data Vaults : B\n- 3/3 Data Vaults : C</string>
+
+    <string name="exterminate_mission">Exterminate</string>
+    <string name="exterminate_description">Exterminate missions require players to kill a limited number of enemies in the area and then make it to extraction. A counter will be displayed below the minimap showing the number of enemies remaining.</string>
+
+    <string name="capture_mission">Capture</string>
+    <string name="capture_description">Capture is a mission type requiring the player to find a person of interest, incapacitate them before they escape, and capture said target before heading to extraction.</string>
+
+    <string name="mobile_defense_mission">Mobile Defense</string>
+    <string name="mobile_defense_description">Mobile Defense is a mission type requiring players to carry a data-mass to 2-3 computer terminals and upload it to them. Once uploaded at each terminal, players will have to defend the terminal until hacking is completed. The mission will fail if a single terminal is destroyed.</string>
+
+    <string name="interception_mission">Interception</string>
+    <string name="interception_description">Interception is an endless mission type requiring players to capture and hold set locations on the map in order to intercept enemy transmissions by reaching 100% control sooner than the enemy faction does.</string>
+    <string name="interception_rotations">Mission rewards change every round and follows a repeating rotation A-A-B-C pattern.</string>
+
+    <string name="assault_mission">Assault</string>
+    <string name="assault_description">Assault is a mission type identical to Sabotage, requiring Tenno to breach into the Kuva Fortress and destroy its navar cannon.</string>
+
+    <string name="sabotage_mission">Sabotage</string>
+    <string name="sabotage_description">Sabotage is a mission type requiring players to reach an objective, and then destroy it before heading to extraction. The objective that needs to be destroyed differs depending on the mission\'s tileset.</string>
+
+    <string name="rescue_mission">Rescue</string>
+    <string name="rescue_description">Rescue is a mission type requiring the player to locate a hostage and escort them to extraction without alerting the base\'s security.</string>
+
+    <string name="assassination_mission">Assassination</string>
+    <string name="assassination_description">Assassination is a mission type that tasks the Tenno to seek and eliminate a unique enemy boss and then return to extraction.</string>
+
+    <string name="rush_mission">Rush</string>
+    <string name="rush_description">Rush is a mission type exclusive to Archwing that has players navigate a Corpus Ship within the time limit to destroy up to 3 Corpus transports before they escape.</string>
+    <string name="rush_rotations">Mission rewards are based on the number of transports destroyed :\n- 1/3 transports : A\n- 2/3 transports : B\n- 3/3 transports : C</string>
+
+    <string name="volatile_mission">Volatile</string>
+    <string name="volatile_description">Volatile is a Empyrean mission type where the Tenno recalibrate a Corpus Ship\'s reactor to remove its defenses and allow its destruction from Railjack armaments.</string>
+
+    <string name="orphix_mission">Orphix</string>
+    <string name="orphix_description">Orphix is an empyrean mission type where Tenno must fight against Sentient Orphix boarding Corpus Ships using Necramechs.</string>
+    <string name="orphix_rotations">Mission rewards change every 3 destroyed Orphix and follows a repeating rotation A-A-B-C pattern.</string>
+
+    <string name="rathuum_mission">Rathuum</string>
+    <string name="rathuum_description">Rathuum is a Grineer Arena mission hosted by Kela De Thaym on Sedna which pits Tenno against Kela\'s Executioners to earn the Judgement Points necessary to face Kela herself.</string>
+
+    <string name="hijack_mission">Hijack</string>
+    <string name="hijack_description">Hijack is a Mission type where players must take control of a large, mobile objective and safely lead it to extraction.</string>
+
+    <string name="pursuit_mission">Pursuit</string>
+    <string name="pursuit_description">Pursuit is a mission type exclusive to Archwing that has players pursue the enemy\'s ship to disable it and retrieve its Black box.</string>
+
+    <string name="defection_mission">Defection</string>
+    <string name="defection_description">Defection is an endless mission type that tasks players with escorting small squads of Kavor Defectors to an extraction point while defending against the Infested.</string>
+    <string name="defection_rotations">Mission rewards change every 2 escorted squads and follows a repeating rotation A-A-B-C pattern.</string>
+
+    <string name="skirmish_mission">Skirmish</string>
+    <string name="skirmish_description">Skirmish is the standard empyrean mission in Proxima nodes, requiring players to destroy a limited number of fighters and Crewships in the area, with an occasional third objective to take out an orbital installation like a hangar. Counters will be displayed below the minimap showing the number of enemies remaining.</string>
+
+    <string name="arena_mission">Arena</string>
+    <string name="arena_description">Arena is a game mode in which players must defeat special enemies in modified Conclave maps until a certain number of opponents has been defeated. Tenno do not need to extract and the mission will only end with their victory or defeat.</string>
+
+    <string name="excavation_mission">Excavation</string>
+    <string name="excavation_description">Excavation is an endless mission type that tasks players with searching and then extracting various artifacts buried deep within a planet\'s surface. This mission is the primary source of Cryotic.</string>
+    <string name="excavation_rotations">Mission rewards change every 200 unearthed Cryotics (100 per excavator fully done) and follows a repeating rotation A-A-B-C pattern.</string>
+
+    <string name="infested_salvage_mission">Infested Salvage</string>
+    <string name="infested_salvage_description">Infested Salvage is an endless mission type that tasks players with retrieving a shipping manifest from an Infested Ship.</string>
+    <string name="infested_salvage_rotations">Mission rewards change every decrypted console and follows a repeating rotation A-A-B-C pattern.</string>
 </resources>

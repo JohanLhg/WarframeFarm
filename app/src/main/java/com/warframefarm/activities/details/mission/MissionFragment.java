@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -40,7 +41,7 @@ public class MissionFragment extends Fragment {
 
     private MissionRotationAdapter missionRotationAdapter;
 
-    private ImageView imageSpecial, imagePlanet, imageType, imageFaction, imageWantedFilter;
+    private ImageView imageSpecial, imagePlanet, imageType, imageFaction, imageWantedFilter, buttonObjectiveInfo;
     private TextView textMission, textMissionObjective;
 
     private AutoCompleteTextView searchbar;
@@ -72,6 +73,7 @@ public class MissionFragment extends Fragment {
 
         imagePlanet = binding.imagePlanet;
         imageType = binding.imageType;
+        buttonObjectiveInfo = binding.buttonObjectiveInfo;
         imageFaction = binding.imageFaction;
         imageWantedFilter = binding.imageWantedFilter;
         textMission = binding.textMission;
@@ -162,14 +164,20 @@ public class MissionFragment extends Fragment {
                 textMissionObjective.setText(mission.getObjective());
 
                 imageFaction.setImageResource(mission.getImageFaction());
+
+                buttonObjectiveInfo.setOnClickListener(v -> {
+                    FragmentManager fm = getParentFragmentManager();
+                    InfoMissionObjectiveDialog dialog = new InfoMissionObjectiveDialog(mission.getObjective());
+                    dialog.show(fm, "Info Mission Objective Dialog");
+                });
             }
         });
 
         missionViewModel.getFilter().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean filter) {
-                if (filter) imageWantedFilter.setImageResource(R.drawable.reward_rare);
-                else imageWantedFilter.setImageResource(R.drawable.reward_no_filter);
+                if (filter) imageWantedFilter.setImageTintList(context.getColorStateList(R.color.colorPrimary));
+                else imageWantedFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
             }
         });
 

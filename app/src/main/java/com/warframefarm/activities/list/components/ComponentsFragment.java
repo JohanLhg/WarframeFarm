@@ -1,6 +1,7 @@
 package com.warframefarm.activities.list.components;
 
 import static com.warframefarm.data.WarframeConstants.ARCHWING;
+import static com.warframefarm.data.WarframeConstants.ARCH_GUN;
 import static com.warframefarm.data.WarframeConstants.MELEE;
 import static com.warframefarm.data.WarframeConstants.PET;
 import static com.warframefarm.data.WarframeConstants.PRIMARY;
@@ -52,8 +53,8 @@ public class ComponentsFragment extends Fragment implements ComponentAdapter.Com
     private AutoCompleteTextView searchbar;
     private ImageView iconSearchbar;
     private Spinner spinnerSort;
-    private ImageView imageWarframeFilter, imageArchwingFilter, imagePetFilter,
-            imageSentinelFilter, imagePrimaryFilter, imageSecondaryFilter, imageMeleeFilter;
+    private ImageView imageWarframeFilter, imageArchwingFilter, imagePetFilter, imageSentinelFilter,
+            imagePrimaryFilter, imageSecondaryFilter, imageMeleeFilter, imageArchGunFilter;
 
     private TextView textEmptyState;
     private RecyclerView recycler;
@@ -84,6 +85,7 @@ public class ComponentsFragment extends Fragment implements ComponentAdapter.Com
         imagePrimaryFilter = binding.primeFilter.imagePrimaryFilter;
         imageSecondaryFilter = binding.primeFilter.imageSecondaryFilter;
         imageMeleeFilter = binding.primeFilter.imageMeleeFilter;
+        imageArchGunFilter = binding.primeFilter.imageArchGunFilter;
 
         textEmptyState = binding.textEmptyStateComponents;
         recycler = binding.recyclerComponents;
@@ -168,6 +170,7 @@ public class ComponentsFragment extends Fragment implements ComponentAdapter.Com
         imagePrimaryFilter.setOnClickListener(v -> componentsViewModel.setFilter(PRIMARY));
         imageSecondaryFilter.setOnClickListener(v -> componentsViewModel.setFilter(SECONDARY));
         imageMeleeFilter.setOnClickListener(v -> componentsViewModel.setFilter(MELEE));
+        imageArchGunFilter.setOnClickListener(v -> componentsViewModel.setFilter(ARCH_GUN));
         //endregion
         //endregion
 
@@ -190,6 +193,7 @@ public class ComponentsFragment extends Fragment implements ComponentAdapter.Com
                 imagePrimaryFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
                 imageSecondaryFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
                 imageMeleeFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                imageArchGunFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
 
                 switch (filter) {
                     case WARFRAME:
@@ -212,6 +216,9 @@ public class ComponentsFragment extends Fragment implements ComponentAdapter.Com
                         break;
                     case MELEE:
                         imageMeleeFilter.setImageTintList(context.getColorStateList(R.color.colorPrimary));
+                        break;
+                    case ARCH_GUN:
+                        imageArchGunFilter.setImageTintList(context.getColorStateList(R.color.colorPrimary));
                         break;
                 }
             }

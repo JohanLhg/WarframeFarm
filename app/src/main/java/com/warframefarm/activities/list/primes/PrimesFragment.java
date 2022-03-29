@@ -1,6 +1,7 @@
 package com.warframefarm.activities.list.primes;
 
 import static com.warframefarm.data.WarframeConstants.ARCHWING;
+import static com.warframefarm.data.WarframeConstants.ARCH_GUN;
 import static com.warframefarm.data.WarframeConstants.MELEE;
 import static com.warframefarm.data.WarframeConstants.PET;
 import static com.warframefarm.data.WarframeConstants.PRIMARY;
@@ -34,7 +35,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.warframefarm.R;
 import com.warframefarm.activities.details.prime.PrimeFragment;
 import com.warframefarm.activities.main.MainActivity;
-import com.warframefarm.activities.main.MainViewModel;
 import com.warframefarm.database.PrimeComplete;
 import com.warframefarm.databinding.FragmentPrimesBinding;
 
@@ -48,12 +48,11 @@ public class PrimesFragment extends Fragment implements PrimeAdapter.PrimeListen
     private MainActivity mainActivity;
     private FragmentPrimesBinding binding;
     private PrimesViewModel primesViewModel;
-    private MainViewModel mainViewModel;
 
     private AutoCompleteTextView searchbar;
     private ImageView iconSearchbar;
-    private ImageView imageWarframeFilter, imageArchwingFilter, imagePetFilter,
-            imageSentinelFilter, imagePrimaryFilter, imageSecondaryFilter, imageMeleeFilter;
+    private ImageView imageWarframeFilter, imageArchwingFilter, imagePetFilter, imageSentinelFilter,
+            imagePrimaryFilter, imageSecondaryFilter, imageMeleeFilter, imageArchGunFilter;
     private Spinner spinnerSort;
     private RecyclerView recyclerPrimes;
 
@@ -72,10 +71,6 @@ public class PrimesFragment extends Fragment implements PrimeAdapter.PrimeListen
                 .getInstance(getActivity().getApplication())
                 .create(PrimesViewModel.class);
 
-        mainViewModel = ViewModelProvider.AndroidViewModelFactory
-                .getInstance(getActivity().getApplication())
-                .create(MainViewModel.class);
-
         //region Binding
         searchbar = binding.searchbar.searchbar;
         iconSearchbar = binding.searchbar.iconSearchbar;
@@ -88,6 +83,7 @@ public class PrimesFragment extends Fragment implements PrimeAdapter.PrimeListen
         imagePrimaryFilter = binding.primeFilter.imagePrimaryFilter;
         imageSecondaryFilter = binding.primeFilter.imageSecondaryFilter;
         imageMeleeFilter = binding.primeFilter.imageMeleeFilter;
+        imageArchGunFilter = binding.primeFilter.imageArchGunFilter;
 
         recyclerPrimes = binding.recyclerPrimes;
 
@@ -172,6 +168,7 @@ public class PrimesFragment extends Fragment implements PrimeAdapter.PrimeListen
         imagePrimaryFilter.setOnClickListener(v -> primesViewModel.setFilter(PRIMARY));
         imageSecondaryFilter.setOnClickListener(v -> primesViewModel.setFilter(SECONDARY));
         imageMeleeFilter.setOnClickListener(v -> primesViewModel.setFilter(MELEE));
+        imageArchGunFilter.setOnClickListener(v -> primesViewModel.setFilter(ARCH_GUN));
         //endregion
         //endregion
 
@@ -207,6 +204,7 @@ public class PrimesFragment extends Fragment implements PrimeAdapter.PrimeListen
                 imagePrimaryFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
                 imageSecondaryFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
                 imageMeleeFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                imageArchGunFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
 
                 switch (filter) {
                     case WARFRAME:
@@ -229,6 +227,9 @@ public class PrimesFragment extends Fragment implements PrimeAdapter.PrimeListen
                         break;
                     case MELEE:
                         imageMeleeFilter.setImageTintList(context.getColorStateList(R.color.colorPrimary));
+                        break;
+                    case ARCH_GUN:
+                        imageArchGunFilter.setImageTintList(context.getColorStateList(R.color.colorPrimary));
                         break;
                 }
             }

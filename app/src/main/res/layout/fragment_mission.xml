@@ -92,6 +92,14 @@
                         android:text="Capture"
                         android:textColor="@color/colorBackgroundLight"
                         android:textSize="20sp" />
+
+                    <ImageView
+                        android:id="@+id/buttonObjectiveInfo"
+                        android:layout_width="15dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:scaleType="fitStart"
+                        app:srcCompat="@drawable/details" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -154,10 +162,11 @@
                 android:layout_marginBottom="5dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
+                android:tintMode="multiply"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/searchbarMission"
-                app:srcCompat="@drawable/reward_no_filter"
+                app:srcCompat="@drawable/reward_rare"
                 app:tint="@color/colorBackgroundDark" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

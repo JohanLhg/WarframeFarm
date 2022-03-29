@@ -1,6 +1,7 @@
 package com.warframefarm.data;
 
 import static com.warframefarm.data.WarframeConstants.ARCHWING;
+import static com.warframefarm.data.WarframeConstants.ARCH_GUN;
 import static com.warframefarm.data.WarframeConstants.AXI;
 import static com.warframefarm.data.WarframeConstants.BAND;
 import static com.warframefarm.data.WarframeConstants.BARREL;
@@ -81,6 +82,7 @@ public class WarframeLists {
         primeTypeImage.put("Equinox", R.drawable.prime_warframe_equinox);
         primeTypeImage.put("Frost", R.drawable.prime_warframe_frost);
         primeTypeImage.put("Gara", R.drawable.prime_warframe_gara);
+        primeTypeImage.put("Garuda", R.drawable.prime_warframe_garuda);
         primeTypeImage.put("Harrow", R.drawable.prime_warframe_harrow);
         primeTypeImage.put("Hydroid", R.drawable.prime_warframe_hydroid);
         primeTypeImage.put("Inaros", R.drawable.prime_warframe_inaros);
@@ -131,6 +133,7 @@ public class WarframeLists {
         primeTypeImage.put("Cernos", R.drawable.prime_primary_cernos);
         primeTypeImage.put("Corinth", R.drawable.prime_primary_corinth);
         primeTypeImage.put("Latron", R.drawable.prime_primary_latron);
+        primeTypeImage.put("Nagantaka", R.drawable.prime_primary_nagantaka);
         primeTypeImage.put("Panthera", R.drawable.prime_primary_panthera);
         primeTypeImage.put("Paris", R.drawable.prime_primary_paris);
         primeTypeImage.put("Rubico", R.drawable.prime_primary_rubico);
@@ -198,6 +201,10 @@ public class WarframeLists {
         primeTypeImage.put("Venka", R.drawable.prime_melee_venka);
         primeTypeImage.put("Volnus", R.drawable.prime_melee_volnus);
         //endregion
+
+        //region Arch-Gun
+        primeTypeImage.put("Corvas", R.drawable.prime_archgun_corvas);
+        //endregion
         return primeTypeImage;
     }
 
@@ -210,6 +217,7 @@ public class WarframeLists {
         primeTypeImage.put(PRIMARY, R.drawable.prime_primary);
         primeTypeImage.put(SECONDARY, R.drawable.prime_secondary);
         primeTypeImage.put(MELEE, R.drawable.prime_melee);
+        primeTypeImage.put(ARCH_GUN, R.drawable.prime_archgun);
         return primeTypeImage;
     }
 
@@ -253,7 +261,7 @@ public class WarframeLists {
 
     private static HashMap<Integer, Integer> setMissionTypeImage() {
         HashMap<Integer, Integer> missionTypeImage = new HashMap<>();
-        missionTypeImage.put(TYPE_ARCHWING, R.drawable.prime_archwing);
+        missionTypeImage.put(TYPE_ARCHWING, R.drawable.archwing);
         missionTypeImage.put(TYPE_EMPYREAN, R.drawable.empyrean);
         return missionTypeImage;
     }

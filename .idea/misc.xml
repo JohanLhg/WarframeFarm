@@ -70,15 +70,17 @@
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/element_top_bar.xml" value="0.6" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/fragment_farm.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/fragment_inventory.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/fragment_mission.xml" value="0.6433430515063168" />
+        <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/fragment_mission.xml" value="0.4" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/fragment_part.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/fragment_planet.xml" value="0.264" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/fragment_planets.xml" value="0.23324275362318841" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/fragment_prime.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/fragment_primes.xml" value="0.2" />
+        <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/fragment_primes.xml" value="0.264" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/fragment_primes_alt.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/fragment_relic.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/fragment_relics.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/info_disruption.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/info_mission_type.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/panel_settings.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/popup_add_item_menu.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/popup_add_prime.xml" value="0.25416666666666665" />
@@ -97,6 +99,7 @@
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/recycler_inventory_popup.xml" value="0.4" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/recycler_item.xml" value="0.536" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/recycler_mission.xml" value="0.4" />
+        <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/recycler_mission_alt.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/recycler_mission_farm.xml" value="0.264" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/recycler_mission_farm_new.xml" value="0.4" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/recycler_mission_reward.xml" value="0.4" />
@@ -119,7 +122,7 @@
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/recycler_relic_display.xml" value="0.4" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/recycler_relic_old.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/recycler_relic_reward.xml" value="0.8" />
-        <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/recycler_reward_chance.xml" value="0.23324275362318841" />
+        <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/recycler_reward_chance.xml" value="0.4" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/recycler_select_item.xml" value="0.536" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/recycler_tiny_relic_reward.xml" value="0.72" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/spinner_dropdown_item.xml" value="0.25317028985507245" />

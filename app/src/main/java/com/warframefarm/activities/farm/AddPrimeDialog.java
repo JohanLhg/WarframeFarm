@@ -1,6 +1,7 @@
 package com.warframefarm.activities.farm;
 
 import static com.warframefarm.data.WarframeConstants.ARCHWING;
+import static com.warframefarm.data.WarframeConstants.ARCH_GUN;
 import static com.warframefarm.data.WarframeConstants.MELEE;
 import static com.warframefarm.data.WarframeConstants.PET;
 import static com.warframefarm.data.WarframeConstants.PRIMARY;
@@ -54,7 +55,7 @@ public class AddPrimeDialog extends DialogFragment {
     private AutoCompleteTextView searchbar;
     private Spinner spinnerSort;
     private ImageView iconSearchbar, imageWarframeFilter, imageArchwingFilter, imagePetFilter,
-            imageSentinelFilter, imagePrimaryFilter, imageSecondaryFilter, imageMeleeFilter;
+            imageSentinelFilter, imagePrimaryFilter, imageSecondaryFilter, imageMeleeFilter, imageArchGunFilter;
     private RecyclerView recyclerItems;
     private Button buttonAddItems, buttonCancel;
 
@@ -93,6 +94,7 @@ public class AddPrimeDialog extends DialogFragment {
         imagePrimaryFilter = binding.primeFilter.imagePrimaryFilter;
         imageSecondaryFilter = binding.primeFilter.imageSecondaryFilter;
         imageMeleeFilter = binding.primeFilter.imageMeleeFilter;
+        imageArchGunFilter = binding.primeFilter.imageArchGunFilter;
 
         recyclerItems = binding.recyclerItems;
 
@@ -180,6 +182,7 @@ public class AddPrimeDialog extends DialogFragment {
         imagePrimaryFilter.setOnClickListener(v -> dialogViewModel.setFilter(PRIMARY));
         imageSecondaryFilter.setOnClickListener(v -> dialogViewModel.setFilter(SECONDARY));
         imageMeleeFilter.setOnClickListener(v -> dialogViewModel.setFilter(MELEE));
+        imageArchGunFilter.setOnClickListener(v -> dialogViewModel.setFilter(ARCH_GUN));
         //endregion
         //endregion
 
@@ -215,6 +218,7 @@ public class AddPrimeDialog extends DialogFragment {
                 imagePrimaryFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
                 imageSecondaryFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
                 imageMeleeFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                imageArchGunFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
 
                 switch (filter) {
                     case WARFRAME:
@@ -237,6 +241,9 @@ public class AddPrimeDialog extends DialogFragment {
                         break;
                     case MELEE:
                         imageMeleeFilter.setImageTintList(context.getColorStateList(R.color.colorAccent));
+                        break;
+                    case ARCH_GUN:
+                        imageArchGunFilter.setImageTintList(context.getColorStateList(R.color.colorAccent));
                         break;
                 }
             }

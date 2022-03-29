@@ -7,7 +7,8 @@ public class WarframeConstants {
             SENTINEL = "Sentinel",
             PRIMARY = "Primary",
             SECONDARY = "Secondary",
-            MELEE = "Melee";
+            MELEE = "Melee",
+            ARCH_GUN = "Arch-Gun";
     public static final String LITH = "LITH",
             MESO = "MESO",
             NEO = "NEO",

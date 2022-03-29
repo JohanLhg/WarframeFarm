@@ -1,6 +1,7 @@
 package com.warframefarm.activities.farm;
 
 import static com.warframefarm.data.WarframeConstants.ARCHWING;
+import static com.warframefarm.data.WarframeConstants.ARCH_GUN;
 import static com.warframefarm.data.WarframeConstants.AXI;
 import static com.warframefarm.data.WarframeConstants.LITH;
 import static com.warframefarm.data.WarframeConstants.MELEE;
@@ -541,6 +542,7 @@ public class FarmRepository {
         if (!dialogOrder.equals("")) {
             if (dialogOrder.equals(PRIME_TYPE))
                 queryString += " ORDER BY " +
+                        PRIME_TYPE + " == '" + ARCH_GUN + "', " +
                         PRIME_TYPE + " == '" + MELEE + "', " +
                         PRIME_TYPE + " == '" + SECONDARY + "', " +
                         PRIME_TYPE + " == '" + PRIMARY + "', " +
@@ -551,6 +553,7 @@ public class FarmRepository {
                         PRIME_NAME;
             else
                 queryString += " ORDER BY " + dialogOrder + ", " +
+                        PRIME_TYPE + " == '" + ARCH_GUN + "', " +
                         PRIME_TYPE + " == '" + MELEE + "', " +
                         PRIME_TYPE + " == '" + SECONDARY + "', " +
                         PRIME_TYPE + " == '" + PRIMARY + "', " +
@@ -592,6 +595,7 @@ public class FarmRepository {
         if (!dialogOrder.equals("")) {
             if (dialogOrder.equals(PRIME_TYPE))
                 queryString += " ORDER BY " +
+                        PRIME_TYPE + " == '" + ARCH_GUN + "', " +
                         PRIME_TYPE + " == '" + MELEE + "', " +
                         PRIME_TYPE + " == '" + SECONDARY + "', " +
                         PRIME_TYPE + " == '" + PRIMARY + "', " +
@@ -603,6 +607,7 @@ public class FarmRepository {
                         COMPONENT_TYPE;
             else
                 queryString += " ORDER BY " + dialogOrder + ", " +
+                        PRIME_TYPE + " == '" + ARCH_GUN + "', " +
                         PRIME_TYPE + " == '" + MELEE + "', " +
                         PRIME_TYPE + " == '" + SECONDARY + "', " +
                         PRIME_TYPE + " == '" + PRIMARY + "', " +
