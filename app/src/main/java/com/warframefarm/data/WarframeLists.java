@@ -210,14 +210,14 @@ public class WarframeLists {
 
     private static HashMap<String, Integer> setPrimeTypeImage() {
         HashMap<String, Integer> primeTypeImage = new HashMap<>();
-        primeTypeImage.put(WARFRAME, R.drawable.prime_warframe);
-        primeTypeImage.put(ARCHWING, R.drawable.prime_archwing);
-        primeTypeImage.put(PET, R.drawable.prime_pet);
-        primeTypeImage.put(SENTINEL, R.drawable.prime_sentinel);
-        primeTypeImage.put(PRIMARY, R.drawable.prime_primary);
-        primeTypeImage.put(SECONDARY, R.drawable.prime_secondary);
-        primeTypeImage.put(MELEE, R.drawable.prime_melee);
-        primeTypeImage.put(ARCH_GUN, R.drawable.prime_archgun);
+        primeTypeImage.put(WARFRAME, R.drawable.type_warframe);
+        primeTypeImage.put(ARCHWING, R.drawable.type_archwing);
+        primeTypeImage.put(PET, R.drawable.type_pet);
+        primeTypeImage.put(SENTINEL, R.drawable.type_sentinel);
+        primeTypeImage.put(PRIMARY, R.drawable.type_primary);
+        primeTypeImage.put(SECONDARY, R.drawable.type_secondary);
+        primeTypeImage.put(MELEE, R.drawable.type_melee);
+        primeTypeImage.put(ARCH_GUN, R.drawable.type_archgun);
         return primeTypeImage;
     }
 
@@ -287,6 +287,7 @@ public class WarframeLists {
         planetImage.put("Lua", R.drawable.planet_lua);
         planetImage.put("Kuva Fortress", R.drawable.planet_kuva_fortress);
         planetImage.put("Veil", R.drawable.planet_veil);
+        planetImage.put("Zariman", R.drawable.planet_zariman);
         return planetImage;
     }
 
@@ -311,6 +312,7 @@ public class WarframeLists {
         planetImage.put("Lua", R.drawable.planet_square_lua);
         planetImage.put("Kuva Fortress", R.drawable.planet_square_kuva_fortress);
         planetImage.put("Veil", R.drawable.planet_square_veil);
+        planetImage.put("Zariman", R.drawable.planet_square_zariman);
         return planetImage;
     }
 
@@ -335,6 +337,7 @@ public class WarframeLists {
         planetImage.put("Lua", R.drawable.planet_top_lua);
         planetImage.put("Kuva Fortress", R.drawable.planet_top_kuva_fortress);
         planetImage.put("Veil", R.drawable.planet_top_veil);
+        planetImage.put("Zariman", R.drawable.planet_top_zariman);
         return planetImage;
     }
 

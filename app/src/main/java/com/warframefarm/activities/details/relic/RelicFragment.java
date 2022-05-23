@@ -31,7 +31,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.warframefarm.R;
 import com.warframefarm.activities.list.relics.PlanetMissionFarmAdapter;
 import com.warframefarm.activities.main.MainActivity;
-import com.warframefarm.database.MissionComplete;
+import com.warframefarm.database.Mission;
 import com.warframefarm.database.RelicComplete;
 import com.warframefarm.database.RelicRewardComplete;
 import com.warframefarm.databinding.FragmentRelicBinding;
@@ -276,9 +276,9 @@ public class RelicFragment extends Fragment {
             }
         });
 
-        relicViewModel.getMissions().observe(getViewLifecycleOwner(), new Observer<List<MissionComplete>>() {
+        relicViewModel.getMissions().observe(getViewLifecycleOwner(), new Observer<List<Mission>>() {
             @Override
-            public void onChanged(List<MissionComplete> missions) {
+            public void onChanged(List<Mission> missions) {
                 missionAdapter.updateMissions(missions);
             }
         });

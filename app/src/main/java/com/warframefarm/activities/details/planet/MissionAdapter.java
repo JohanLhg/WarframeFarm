@@ -19,7 +19,7 @@ import com.warframefarm.R;
 import com.warframefarm.activities.details.mission.MissionFragment;
 import com.warframefarm.activities.list.relics.RewardChanceAdapter;
 import com.warframefarm.activities.main.MainActivity;
-import com.warframefarm.database.MissionComplete;
+import com.warframefarm.database.Mission;
 import com.warframefarm.database.MissionReward;
 import com.warframefarm.databinding.RecyclerMissionBinding;
 
@@ -31,7 +31,7 @@ import java.util.List;
 public class MissionAdapter extends RecyclerView.Adapter<MissionAdapter.MissionViewHolder> {
 
     private final Context context;
-    private List<MissionComplete> missions = new ArrayList<>();
+    private List<Mission> missions = new ArrayList<>();
 
     public MissionAdapter(Context context) {
         this.context = context;
@@ -48,7 +48,7 @@ public class MissionAdapter extends RecyclerView.Adapter<MissionAdapter.MissionV
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull MissionViewHolder holder, int position) {
-        MissionComplete mission = missions.get(position);
+        Mission mission = missions.get(position);
 
         switch (mission.getType()) {
             case TYPE_ARCHWING:
@@ -93,7 +93,7 @@ public class MissionAdapter extends RecyclerView.Adapter<MissionAdapter.MissionV
         return missions.size();
     }
 
-    public void updateMissions(List<MissionComplete> missions) {
+    public void updateMissions(List<Mission> missions) {
         this.missions = missions;
         notifyDataSetChanged();
     }

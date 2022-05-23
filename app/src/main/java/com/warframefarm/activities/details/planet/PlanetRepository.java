@@ -29,7 +29,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import com.warframefarm.AppExecutors;
-import com.warframefarm.database.MissionComplete;
+import com.warframefarm.database.Mission;
 import com.warframefarm.database.MissionDao;
 import com.warframefarm.database.MissionReward;
 import com.warframefarm.database.Planet;
@@ -55,7 +55,7 @@ public class PlanetRepository {
     private final MutableLiveData<Boolean> relicFilter = new MutableLiveData<>(false);
     private final MutableLiveData<Integer> typeFilter = new MutableLiveData<>(-1);
 
-    private final MutableLiveData<List<MissionComplete>> missions = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<List<Mission>> missions = new MutableLiveData<>(new ArrayList<>());
 
     public PlanetRepository(Application application) {
         WarframeFarmDatabase database = WarframeFarmDatabase.getInstance(application);
@@ -120,7 +120,7 @@ public class PlanetRepository {
         return typeFilter;
     }
 
-    public LiveData<List<MissionComplete>> getMissions() {
+    public LiveData<List<Mission>> getMissions() {
         return missions;
     }
 
@@ -170,12 +170,12 @@ public class PlanetRepository {
                     " GROUP BY " + MISSION_NAME + ", " + M_REWARD_ROTATION +
                     " ORDER BY " + M_REWARD_DROP_CHANCE + " == 0 DESC, " + MISSION_TYPE + ", " + MISSION_NAME + ", " + M_REWARD_ROTATION;
 
-            List<MissionComplete> missionList = new ArrayList<>();
+            List<Mission> missionList = new ArrayList<>();
 
             SimpleSQLiteQuery query = new SimpleSQLiteQuery(queryString);
             Cursor cursor = missionDao.getMissions(query);
             if (cursor != null) {
-                MissionComplete mission = null;
+                Mission mission = null;
                 String mission_planet, mission_name, mission_objective, mission_faction;
                 int mission_type;
 
@@ -199,7 +199,7 @@ public class PlanetRepository {
                         mission_objective = cursor.getString(col_objective);
                         mission_faction = cursor.getString(col_faction);
                         mission_type = cursor.getInt(col_type);
-                        mission = new MissionComplete(mission_name, mission_planet, mission_objective, mission_faction, mission_type);
+                        mission = new Mission(mission_name, mission_planet, mission_objective, mission_faction, mission_type);
                         missionList.add(mission);
                     }
 

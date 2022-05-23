@@ -32,7 +32,7 @@ import com.warframefarm.activities.details.RelicDisplayAdapter;
 import com.warframefarm.activities.list.components.ComponentAdapter;
 import com.warframefarm.activities.list.relics.PlanetMissionFarmAdapter;
 import com.warframefarm.database.ComponentComplete;
-import com.warframefarm.database.MissionComplete;
+import com.warframefarm.database.Mission;
 import com.warframefarm.database.PrimeComplete;
 import com.warframefarm.database.RelicComplete;
 import com.warframefarm.databinding.FragmentPrimeBinding;
@@ -325,9 +325,9 @@ public class PrimeFragment extends Fragment implements ComponentAdapter.Componen
             }
         });
 
-        primeViewModel.getMissions().observe(getViewLifecycleOwner(), new Observer<List<MissionComplete>>() {
+        primeViewModel.getMissions().observe(getViewLifecycleOwner(), new Observer<List<Mission>>() {
             @Override
-            public void onChanged(List<MissionComplete> missions) {
+            public void onChanged(List<Mission> missions) {
                 if (missions.isEmpty()) {
                     textEmptyStatePrime.setText(R.string.empty_state_missions);
                     recyclerMissions.setVisibility(View.GONE);

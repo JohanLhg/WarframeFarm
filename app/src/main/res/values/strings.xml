@@ -7,6 +7,10 @@
     <string name="title_rewards">Rewards</string>
     <string name="title_planets">Planets</string>
     <string name="title_missions">Missions</string>
+    <string name="title_bounties">Bounties</string>
+    <string name="title_caches">Caches</string>
+    <string name="title_points_of_interest">Point of Interest</string>
+    <string name="title_abandoned_derelict">Abandoned Derelict</string>
 
     <string name="parts_label">Parts:</string>
     <string name="relics_label">Relics:</string>
@@ -102,6 +106,11 @@
 
     <!-- Mission Rewards -->
     <string name="title_rotation">Rotation %1$s</string>
+
+    <!-- Cache Rewards -->
+    <string name="title_first_cache">First cache</string>
+    <string name="title_second_cache">Second cache</string>
+    <string name="title_third_cache">Third cache</string>
 
     <!-- Farm -->
     <string name="label_drop_chance">Drop Chance:</string>

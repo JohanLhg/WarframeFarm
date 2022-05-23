@@ -14,11 +14,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Executor;
 
-@Database(entities = {App.class, Prime.class, Component.class, Relic.class, RelicReward.class, Planet.class,
-        Mission.class, MissionReward.class, UserPrime.class, UserComponent.class, Setting.class}, version = 1)
+@Database(entities = {App.class, Prime.class, Component.class, Relic.class, RelicReward.class,
+        Planet.class, Mission.class, MissionReward.class, CacheReward.class, BountyReward.class,
+        UserPrime.class, UserComponent.class, Setting.class}, version = 1)
 public abstract class WarframeFarmDatabase extends RoomDatabase {
 
     private static WarframeFarmDatabase instance;
@@ -79,6 +82,24 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
     public static final String M_REWARD_ROTATION = "m_reward_rotation";
     public static final String M_REWARD_DROP_CHANCE = "m_reward_drop_chance";
 
+    //Cache Rewards Table
+    public static final String C_REWARD_TABLE = "CACHE_REWARD_TABLE";
+    public static final String C_REWARD_ID = "c_reward_id";
+    public static final String C_REWARD_MISSION = "c_reward_mission";
+    public static final String C_REWARD_RELIC = "c_reward_relic";
+    public static final String C_REWARD_ROTATION = "c_reward_number";
+    public static final String C_REWARD_DROP_CHANCE = "c_reward_drop_chance";
+
+    //Bounty Rewards Table
+    public static final String B_REWARD_TABLE = "BOUNTY_REWARD_TABLE";
+    public static final String B_REWARD_ID = "b_reward_id";
+    public static final String B_REWARD_MISSION = "b_reward_mission";
+    public static final String B_REWARD_LEVEL = "b_reward_level";
+    public static final String B_REWARD_STAGE = "b_reward_stage";
+    public static final String B_REWARD_RELIC = "b_reward_relic";
+    public static final String B_REWARD_ROTATION = "b_reward_rotation";
+    public static final String B_REWARD_DROP_CHANCE = "b_reward_drop_chance";
+
     //region User Tables
     //User Primes Table
     public static final String USER_PRIME_TABLE = "USER_PRIME_TABLE";
@@ -114,6 +135,8 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
     public abstract PlanetDao planetDao();
     public abstract MissionDao missionDao();
     public abstract MissionRewardDao missionRewardDao();
+    public abstract CacheRewardDao cacheRewardDao();
+    public abstract BountyRewardDao bountyRewardDao();
     public abstract UserPrimeDao userPrimeDao();
     public abstract UserComponentDao userComponentDao();
     public abstract SettingDao settingDao();
@@ -152,6 +175,9 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
     public void setUpRelics(String json) {
         RelicDao relicDao = relicDao();
         RelicRewardDao relicRewardDao = relicRewardDao();
+
+        relicDao.clear();
+        relicRewardDao.clear();
 
         try {
             JSONObject jsonObject = new JSONObject(json);
@@ -221,6 +247,9 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
     public void setUpMissionRewards(String json) {
         PlanetDao planetDao = planetDao();
         MissionDao missionDao = missionDao();
+        MissionRewardDao missionRewardDao = missionRewardDao();
+
+        missionRewardDao.clear();
 
         try {
             JSONObject jsonObject = new JSONObject(json);
@@ -228,31 +257,59 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
 
             List<String> planets = planetDao.getPlanetNames();
             assert planets != null;
+            JSONObject planet;
+            List<String> missions;
+            JSONObject mission;
+            Object r;
+            JSONArray rewardsA;
+            JSONArray rewardsB;
+            JSONArray rewardsC;
             for (String p : planets) {
-                JSONObject planet = missionRewards.getJSONObject(p);
+                planet = missionRewards.getJSONObject(p);
 
-                List<String> missions = missionDao.getPlanetMissions(p);
+                missions = missionDao.getPlanetMissions(p);
                 assert missions != null;
                 for (String mission_name : missions) {
                     if (planet.has(mission_name)) {
-                        JSONObject mission = planet.getJSONObject(mission_name);
+                        mission = planet.getJSONObject(mission_name);
 
-                        Object r = mission.get("rewards");
+                        r = mission.get("rewards");
                         //If it has rotations
                         if (r instanceof JSONObject) {
                             JSONObject rewards = (JSONObject) r;
 
-                            JSONArray rewardsA = rewards.getJSONArray("A");
-                            generateRewardFromArray(rewardsA, mission_name, "A");
+                            rewardsA = rewards.getJSONArray("A");
+                            generateMissionRewardFromArray(rewardsA, mission_name, "A");
 
-                            JSONArray rewardsB = rewards.getJSONArray("B");
-                            generateRewardFromArray(rewardsB, mission_name, "B");
+                            rewardsB = rewards.getJSONArray("B");
+                            generateMissionRewardFromArray(rewardsB, mission_name, "B");
 
-                            JSONArray rewardsC = rewards.getJSONArray("C");
-                            generateRewardFromArray(rewardsC, mission_name, "C");
+                            rewardsC = rewards.getJSONArray("C");
+                            generateMissionRewardFromArray(rewardsC, mission_name, "C");
                         } else {
                             JSONArray rewards = (JSONArray) r;
-                            generateRewardFromArray(rewards, mission_name, "Z");
+                            generateMissionRewardFromArray(rewards, mission_name, "Z");
+                        }
+                    }
+                    if (planet.has(mission_name + " (Caches)")) {
+                        mission = planet.getJSONObject(mission_name + " (Caches)");
+
+                        r = mission.get("rewards");
+                        //If it has rotations
+                        if (r instanceof JSONObject) {
+                            JSONObject rewards = (JSONObject) r;
+
+                            rewardsA = rewards.getJSONArray("A");
+                            generateCacheRewardFromArray(rewardsA, mission_name, "A");
+
+                            rewardsB = rewards.getJSONArray("B");
+                            generateCacheRewardFromArray(rewardsB, mission_name, "B");
+
+                            rewardsC = rewards.getJSONArray("C");
+                            generateCacheRewardFromArray(rewardsC, mission_name, "C");
+                        } else {
+                            JSONArray rewards = (JSONArray) r;
+                            generateCacheRewardFromArray(rewards, mission_name, "A");
                         }
                     }
                 }
@@ -264,24 +321,126 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
         primeDao().setVaultStates();
     }
 
-    public void generateRewardFromArray(JSONArray rewards, String mission_name, String rotation) {
+    public void setUpBountyRewards(String json) {
+        CacheRewardDao cacheRewardDao = cacheRewardDao();
+        cacheRewardDao.clear();
+
+        HashMap<String, String> bountyMap = new HashMap<>();
+        bountyMap.put("Plains of Eidolon", "cetusBountyRewards");
+        bountyMap.put("Orb Vallis", "solarisBountyRewards");
+        bountyMap.put("Cambion Drift", "deimosRewards");
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            Set<String> missions = bountyMap.keySet();
+            JSONArray bountiesArray;
+            JSONObject bounty;
+            String level;
+            JSONObject rewards;
+            JSONArray rewardsA;
+            JSONArray rewardsB;
+            JSONArray rewardsC;
+            for (String mission : missions) {
+                bountiesArray = jsonObject.getJSONArray(bountyMap.get(mission));
+
+                for (int i = 0; i < bountiesArray.length(); i++) {
+                    bounty = bountiesArray.getJSONObject(i);
+                    level = bounty.getString("bountyLevel");
+
+                    rewards = bounty.getJSONObject("rewards");
+
+                    rewardsA = rewards.getJSONArray("A");
+                    generateBountyRewardFromArray(rewardsA, mission, level, "A");
+
+                    rewardsB = rewards.getJSONArray("B");
+                    generateBountyRewardFromArray(rewardsB, mission, level, "B");
+
+                    rewardsC = rewards.getJSONArray("C");
+                    generateBountyRewardFromArray(rewardsC, mission, level, "C");
+                }
+            }
+        }
+        catch (JSONException e) { e.printStackTrace(); }
+    }
+
+    public void generateMissionRewardFromArray(JSONArray rewards, String mission_name, String rotation) {
         MissionRewardDao missionRewardDao = missionRewardDao();
 
+        JSONObject reward;
+        String name, relic;
+        double chance;
         for (int i = 0; i < rewards.length(); i++) {
             try {
-                JSONObject reward = rewards.getJSONObject(i);
+                reward = rewards.getJSONObject(i);
 
-                String name = reward.getString("itemName");
+                name = reward.getString("itemName");
                 if (!name.endsWith("Relic"))
                     continue;
                 name = name.replace(" Relic", "");
                 int firstSpace = name.indexOf(" ");
-                String relic = name.substring(firstSpace + 1);
+                relic = name.substring(firstSpace + 1);
 
                 relic = name.charAt(0) + relic;
 
-                double chance = reward.getDouble("chance");
+                chance = reward.getDouble("chance");
                 missionRewardDao.insert(new MissionReward(mission_name, relic, rotation, chance));
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void generateCacheRewardFromArray(JSONArray rewards, String mission_name, String rotation) {
+        CacheRewardDao cacheRewardDao = cacheRewardDao();
+
+        JSONObject reward;
+        String name, relic;
+        double chance;
+        for (int i = 0; i < rewards.length(); i++) {
+            try {
+                reward = rewards.getJSONObject(i);
+
+                name = reward.getString("itemName");
+                if (!name.endsWith("Relic"))
+                    continue;
+                name = name.replace(" Relic", "");
+                int firstSpace = name.indexOf(" ");
+                relic = name.substring(firstSpace + 1);
+
+                relic = name.charAt(0) + relic;
+
+                chance = reward.getDouble("chance");
+                cacheRewardDao.insert(new CacheReward(mission_name, relic, rotation, chance));
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void generateBountyRewardFromArray(JSONArray rewards, String mission_name, String level, String rotation) {
+        BountyRewardDao bountyRewardDao = bountyRewardDao();
+
+        JSONObject reward;
+        String name, relic, stage;
+        double chance;
+        for (int i = 0; i < rewards.length(); i++) {
+            try {
+                reward = rewards.getJSONObject(i);
+
+                name = reward.getString("itemName");
+                if (!name.endsWith("Relic"))
+                    continue;
+                name = name.replace(" Relic", "");
+                int firstSpace = name.indexOf(" ");
+                relic = name.substring(firstSpace + 1);
+
+                relic = name.charAt(0) + relic;
+
+                stage = reward.getString("stage");
+
+                chance = reward.getDouble("chance");
+                bountyRewardDao.insert(new BountyReward(mission_name, relic, level, stage, rotation, chance));
             }
             catch (JSONException e) {
                 e.printStackTrace();

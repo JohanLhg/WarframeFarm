@@ -17,7 +17,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="5dp"
-            android:src="@drawable/prime_warframe"
+            android:src="@drawable/type_warframe"
             app:tint="@color/colorBackgroundDark" />
 
         <ImageView
@@ -25,7 +25,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="5dp"
-            android:src="@drawable/prime_archwing"
+            android:src="@drawable/type_archwing"
             app:tint="@color/colorBackgroundDark" />
 
         <ImageView
@@ -33,7 +33,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="5dp"
-            android:src="@drawable/prime_pet"
+            android:src="@drawable/type_pet"
             app:tint="@color/colorBackgroundDark" />
 
         <ImageView
@@ -41,7 +41,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="5dp"
-            android:src="@drawable/prime_sentinel"
+            android:src="@drawable/type_sentinel"
             app:tint="@color/colorBackgroundDark" />
 
         <ImageView
@@ -49,7 +49,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="5dp"
-            android:src="@drawable/prime_primary"
+            android:src="@drawable/type_primary"
             app:tint="@color/colorBackgroundDark" />
 
         <ImageView
@@ -57,7 +57,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="5dp"
-            android:src="@drawable/prime_secondary"
+            android:src="@drawable/type_secondary"
             app:tint="@color/colorBackgroundDark" />
 
         <ImageView
@@ -65,7 +65,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="5dp"
-            android:src="@drawable/prime_melee"
+            android:src="@drawable/type_melee"
             app:tint="@color/colorBackgroundDark" />
 
         <ImageView
@@ -73,7 +73,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="5dp"
-            android:src="@drawable/prime_archgun"
+            android:src="@drawable/type_archgun"
             app:tint="@color/colorBackgroundDark" />
     </LinearLayout>
 </HorizontalScrollView>

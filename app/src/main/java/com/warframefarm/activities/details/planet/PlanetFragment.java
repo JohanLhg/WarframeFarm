@@ -26,7 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.warframefarm.R;
 import com.warframefarm.activities.main.MainActivity;
-import com.warframefarm.database.MissionComplete;
+import com.warframefarm.database.Mission;
 import com.warframefarm.database.Planet;
 import com.warframefarm.databinding.FragmentPlanetBinding;
 
@@ -160,6 +160,12 @@ public class PlanetFragment extends Fragment {
                         imageSpecial.setImageResource(R.drawable.planet_background_veil);
                         break;
 
+                    case "Zariman":
+                        imagePlanet.setVisibility(View.GONE);
+                        imageSpecial.setVisibility(View.VISIBLE);
+                        imageSpecial.setImageResource(R.drawable.planet_background_zariman);
+                        break;
+
                     default:
                         imagePlanet.setImageResource(planet.getImage());
                         break;
@@ -222,9 +228,9 @@ public class PlanetFragment extends Fragment {
             }
         });
 
-        planetViewModel.getMissions().observe(getViewLifecycleOwner(), new Observer<List<MissionComplete>>() {
+        planetViewModel.getMissions().observe(getViewLifecycleOwner(), new Observer<List<Mission>>() {
             @Override
-            public void onChanged(List<MissionComplete> missions) {
+            public void onChanged(List<Mission> missions) {
                 if (missions.isEmpty()) {
                     textEmptyStatePlanet.setVisibility(View.VISIBLE);
                     recyclerMissions.setVisibility(View.GONE);

@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.warframefarm.database.MissionComplete;
+import com.warframefarm.database.Mission;
 import com.warframefarm.database.RelicComplete;
 import com.warframefarm.database.RelicRewardComplete;
 
@@ -49,7 +49,7 @@ public class RelicViewModel extends AndroidViewModel {
         return repository.getRewards();
     }
 
-    public LiveData<List<MissionComplete>> getMissions() {
+    public LiveData<List<Mission>> getMissions() {
         return repository.getMissions();
     }
 }

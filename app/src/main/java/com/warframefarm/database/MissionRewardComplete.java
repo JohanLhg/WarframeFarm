@@ -8,7 +8,7 @@ import androidx.room.ColumnInfo;
 
 import java.text.DecimalFormat;
 
-public class MissionRewardComplete extends RelicComplete {
+public class MissionRewardComplete extends RelicComplete implements RewardComplete {
 
     @ColumnInfo(name = M_REWARD_MISSION)
     private String mission;
@@ -43,8 +43,12 @@ public class MissionRewardComplete extends RelicComplete {
         return numberFormat.format(dropChance) + "%";
     }
 
-    public String getFormattedRotationDropChance() {
-        DecimalFormat numberFormat = new DecimalFormat("#.##");
-        return rotation + ": " + numberFormat.format(dropChance) + "%";
+    @Override
+    public String toString() {
+        return "MissionRewardComplete{" +
+                "mission='" + mission + '\'' +
+                ", rotation='" + rotation + '\'' +
+                ", dropChance=" + dropChance +
+                '}';
     }
 }

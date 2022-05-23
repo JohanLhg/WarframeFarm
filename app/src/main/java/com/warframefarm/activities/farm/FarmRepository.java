@@ -59,7 +59,7 @@ import androidx.sqlite.db.SimpleSQLiteQuery;
 import com.warframefarm.AppExecutors;
 import com.warframefarm.database.Component;
 import com.warframefarm.database.ComponentComplete;
-import com.warframefarm.database.MissionComplete;
+import com.warframefarm.database.Mission;
 import com.warframefarm.database.MissionDao;
 import com.warframefarm.database.MissionReward;
 import com.warframefarm.database.ComponentDao;
@@ -95,7 +95,7 @@ public class FarmRepository {
     private final MutableLiveData<List<Item>> items = new MutableLiveData<>(new ArrayList<>());
     private final List<String> itemNames = new ArrayList<>();
     private final MutableLiveData<List<RelicComplete>> relics = new MutableLiveData<>(new ArrayList<>());
-    private final MutableLiveData<List<MissionComplete>> missions = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<List<Mission>> missions = new MutableLiveData<>(new ArrayList<>());
     //endregion
 
     //Dialogs
@@ -144,7 +144,7 @@ public class FarmRepository {
         return relics;
     }
 
-    public LiveData<List<MissionComplete>> getMissions() {
+    public LiveData<List<Mission>> getMissions() {
         return missions;
     }
 
@@ -278,7 +278,7 @@ public class FarmRepository {
 
     public void updateMissions() {
         backgroundThread.execute(() -> {
-            List<MissionComplete> missionList = getMissionsForItems(itemNames, missionFilter.getValue());
+            List<Mission> missionList = getMissionsForItems(itemNames, missionFilter.getValue());
             mainThread.execute(() -> missions.setValue(missionList));
         });
     }
@@ -394,7 +394,7 @@ public class FarmRepository {
         return relics;
     }
 
-    public List<MissionComplete> getMissionsForItems(List<String> items, boolean bestPlaces) {
+    public List<Mission> getMissionsForItems(List<String> items, boolean bestPlaces) {
         if (items.isEmpty())
             return new ArrayList<>();
 
@@ -479,9 +479,9 @@ public class FarmRepository {
 
         SimpleSQLiteQuery query = new SimpleSQLiteQuery(queryString);
         Cursor cursor = missionDao.getMissions(query);
-        List<MissionComplete> missions = new ArrayList<>();
+        List<Mission> missions = new ArrayList<>();
         if (cursor != null) {
-            MissionComplete mission = null;
+            Mission mission = null;
             String mission_planet, mission_name, mission_objective, mission_faction;
             int mission_type;
 
@@ -505,7 +505,7 @@ public class FarmRepository {
                     mission_objective = cursor.getString(col_objective);
                     mission_faction = cursor.getString(col_faction);
                     mission_type = cursor.getInt(col_type);
-                    mission = new MissionComplete(mission_name, mission_planet, mission_objective, mission_faction, mission_type);
+                    mission = new Mission(mission_name, mission_planet, mission_objective, mission_faction, mission_type);
                     missions.add(mission);
                 }
 

@@ -228,10 +228,14 @@ public class FirestoreHelper {
 
                                         loadRewards();
                                     }
+                                    loadRewards();
                                     finishTask(LOADING_MISSIONS);
                                 });
                             }
-                            else finishTask(LOADING_MISSIONS);
+                            else {
+                                finishTask(LOADING_MISSIONS);
+                                finishTask(LOADING_RELICS);
+                            }
                         });
 
                         appDao.updateBuild(Math.toIntExact(build));
@@ -271,8 +275,10 @@ public class FirestoreHelper {
                         buffer.append(line + "\n");
 
                     backgroundThread.execute(() -> {
-                        database.setUpRelics(buffer.toString());
-                        database.setUpMissionRewards(buffer.toString());
+                        String json = buffer.toString();
+                        database.setUpRelics(json);
+                        database.setUpMissionRewards(json);
+                        database.setUpBountyRewards(json);
                         finishTask(LOADING_RELICS);
                     });
 

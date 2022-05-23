@@ -31,7 +31,7 @@ import com.warframefarm.activities.details.prime.PrimeFragment;
 import com.warframefarm.activities.list.relics.PlanetMissionFarmAdapter;
 import com.warframefarm.activities.main.MainActivity;
 import com.warframefarm.database.ComponentComplete;
-import com.warframefarm.database.MissionComplete;
+import com.warframefarm.database.Mission;
 import com.warframefarm.database.RelicComplete;
 import com.warframefarm.databinding.FragmentComponentBinding;
 
@@ -271,9 +271,9 @@ public class ComponentFragment extends Fragment {
             });
         });
 
-        componentViewModel.getMissions().observe(getViewLifecycleOwner(), new Observer<List<MissionComplete>>() {
+        componentViewModel.getMissions().observe(getViewLifecycleOwner(), new Observer<List<Mission>>() {
             @Override
-            public void onChanged(List<MissionComplete> missions) {
+            public void onChanged(List<Mission> missions) {
                 if (missions.isEmpty()) {
                     textEmptyState.setText(R.string.empty_state_missions);
                     recyclerMissions.setVisibility(View.INVISIBLE);

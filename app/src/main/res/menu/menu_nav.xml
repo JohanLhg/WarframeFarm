@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/navigation_primes"
-        android:icon="@drawable/prime_warframe"
+        android:icon="@drawable/type_warframe"
         android:title="@string/title_primes" />
 
     <item

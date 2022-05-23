@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.warframefarm.activities.details.relic.RelicFragment;
 import com.warframefarm.activities.main.MainActivity;
-import com.warframefarm.database.MissionRewardComplete;
+import com.warframefarm.database.RewardComplete;
 import com.warframefarm.databinding.RecyclerMissionRewardBinding;
 
 import org.jetbrains.annotations.NotNull;
@@ -23,9 +23,9 @@ import java.util.List;
 public class MissionRewardAdapter extends RecyclerView.Adapter<MissionRewardAdapter.MissionRewardViewHolder> {
 
     private final Context context;
-    private List<MissionRewardComplete> missionRewards;
+    private List<RewardComplete> missionRewards;
 
-    public MissionRewardAdapter(Context context, List<MissionRewardComplete> missionRewards) {
+    public MissionRewardAdapter(Context context, List<RewardComplete> missionRewards) {
         this.context = context;
         this.missionRewards = missionRewards;
     }
@@ -42,7 +42,7 @@ public class MissionRewardAdapter extends RecyclerView.Adapter<MissionRewardAdap
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull MissionRewardViewHolder holder, int position) {
-        MissionRewardComplete missionReward = missionRewards.get(position);
+        RewardComplete missionReward = missionRewards.get(position);
 
         holder.imageItem.setImageResource(missionReward.getImage());
 
@@ -58,9 +58,7 @@ public class MissionRewardAdapter extends RecyclerView.Adapter<MissionRewardAdap
 
         holder.textItemChance.setText(missionReward.getFormattedDropChance());
 
-        holder.layoutRelic.setOnClickListener(v -> {
-            showRelicDetails(missionReward.getId());
-        });
+        holder.layoutRelic.setOnClickListener(v -> showRelicDetails(missionReward.getId()));
     }
 
     @Override
@@ -71,7 +69,7 @@ public class MissionRewardAdapter extends RecyclerView.Adapter<MissionRewardAdap
             return missionRewards.size();
     }
 
-    public void updateMissionRewards(List<MissionRewardComplete> missionRewards) {
+    public void updateMissionRewards(List<RewardComplete> missionRewards) {
         this.missionRewards = missionRewards;
         notifyDataSetChanged();
     }

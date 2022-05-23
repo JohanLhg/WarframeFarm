@@ -25,7 +25,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import com.warframefarm.AppExecutors;
-import com.warframefarm.database.MissionComplete;
+import com.warframefarm.database.Mission;
 import com.warframefarm.database.MissionDao;
 import com.warframefarm.database.MissionReward;
 import com.warframefarm.database.RelicComplete;
@@ -55,7 +55,7 @@ public class RelicRepository {
     private final List<String> filterValues = new ArrayList<>();
 
     private final MutableLiveData<List<RelicRewardComplete>> rewards = new MutableLiveData<>(new ArrayList<>());
-    private final MutableLiveData<List<MissionComplete>> missions = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<List<Mission>> missions = new MutableLiveData<>(new ArrayList<>());
 
     public RelicRepository(Application application) {
         WarframeFarmDatabase database = WarframeFarmDatabase.getInstance(application);
@@ -117,7 +117,7 @@ public class RelicRepository {
         return rewards;
     }
 
-    public MutableLiveData<List<MissionComplete>> getMissions() {
+    public MutableLiveData<List<Mission>> getMissions() {
         return missions;
     }
 
@@ -211,9 +211,9 @@ public class RelicRepository {
 
             SimpleSQLiteQuery query = new SimpleSQLiteQuery(queryString);
             Cursor cursor = missionDao.getMissions(query);
-            List<MissionComplete> missionList = new ArrayList<>();
+            List<Mission> missionList = new ArrayList<>();
             if (cursor != null) {
-                MissionComplete mission = null;
+                Mission mission = null;
                 String mission_planet, mission_name, mission_objective, mission_faction;
                 int mission_type;
 
@@ -237,7 +237,7 @@ public class RelicRepository {
                         mission_objective = cursor.getString(col_objective);
                         mission_faction = cursor.getString(col_faction);
                         mission_type = cursor.getInt(col_type);
-                        mission = new MissionComplete(mission_name, mission_planet, mission_objective, mission_faction, mission_type);
+                        mission = new Mission(mission_name, mission_planet, mission_objective, mission_faction, mission_type);
                         missionList.add(mission);
                     }
 

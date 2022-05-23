@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.warframefarm.activities.details.mission.MissionFragment;
 import com.warframefarm.activities.main.MainActivity;
-import com.warframefarm.database.MissionComplete;
+import com.warframefarm.database.Mission;
 import com.warframefarm.databinding.RecyclerPlanetMissionFarmBinding;
 
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +28,7 @@ import java.util.List;
 public class PlanetMissionFarmAdapter extends RecyclerView.Adapter<PlanetMissionFarmAdapter.MissionFarmViewHolder> {
 
     private final Context context;
-    private List<MissionComplete> missions = new ArrayList<>();
+    private List<Mission> missions = new ArrayList<>();
 
     public PlanetMissionFarmAdapter(Context context) {
         this.context = context;
@@ -45,7 +45,7 @@ public class PlanetMissionFarmAdapter extends RecyclerView.Adapter<PlanetMission
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull MissionFarmViewHolder holder, int position) {
-        MissionComplete mission = missions.get(position);
+        Mission mission = missions.get(position);
 
         holder.imagePlanet.setImageResource(mission.getImagePlanetTop());
 
@@ -81,7 +81,7 @@ public class PlanetMissionFarmAdapter extends RecyclerView.Adapter<PlanetMission
         return missions.size();
     }
 
-    public void updateMissions(List<MissionComplete> missions) {
+    public void updateMissions(List<Mission> missions) {
         this.missions = missions;
         notifyDataSetChanged();
     }

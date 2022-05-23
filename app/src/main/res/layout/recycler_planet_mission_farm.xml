@@ -24,10 +24,8 @@
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/planet_top_earth" />
 
         <TextView
@@ -104,7 +102,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/textMissionObjective"
         app:layout_constraintEnd_toStartOf="@+id/textMissionObjective"
         app:layout_constraintTop_toTopOf="@+id/textMissionObjective"
-        app:srcCompat="@drawable/prime_archwing"
+        app:srcCompat="@drawable/type_archwing"
         app:tint="@color/colorBackgroundDark" />
 
     <LinearLayout

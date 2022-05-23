@@ -33,7 +33,7 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:visibility="gone"
-                app:srcCompat="@drawable/prime_archwing"
+                app:srcCompat="@drawable/type_archwing"
                 app:tint="@color/colorBackgroundDark" />
 
             <TextView

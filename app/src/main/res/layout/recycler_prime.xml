@@ -86,7 +86,7 @@
             android:transitionName="type"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/prime_warframe"
+            app:srcCompat="@drawable/type_warframe"
             app:tint="@color/colorBackgroundDark" />
 
         <TextView

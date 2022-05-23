@@ -7,7 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.warframefarm.database.ComponentComplete;
-import com.warframefarm.database.MissionComplete;
+import com.warframefarm.database.Mission;
 import com.warframefarm.database.PrimeComplete;
 import com.warframefarm.database.RelicComplete;
 
@@ -62,7 +62,7 @@ public class PrimeViewModel extends AndroidViewModel {
         return repository.getRelics();
     }
 
-    public LiveData<List<MissionComplete>> getMissions() {
+    public LiveData<List<Mission>> getMissions() {
         return repository.getMissions();
     }
 

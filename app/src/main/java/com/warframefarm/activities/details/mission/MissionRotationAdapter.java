@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.warframefarm.R;
 import com.warframefarm.database.MissionRewardComplete;
+import com.warframefarm.databinding.RecyclerMissionRewardCategoryBinding;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MissionRotationAdapter extends RecyclerView.Adapter<MissionRotationAdapter.MissionRotationViewHolder> {
+public class MissionRotationAdapter extends RecyclerView.Adapter<MissionRewardCategoryViewHolder> {
 
     private final Context context;
     private final ArrayList<String> rotations = new ArrayList<>();
@@ -32,24 +32,25 @@ public class MissionRotationAdapter extends RecyclerView.Adapter<MissionRotation
     @NonNull
     @NotNull
     @Override
-    public MissionRotationViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.recycler_mission_rotation_rewards, parent, false);
-        return new MissionRotationViewHolder(view);
+    public MissionRewardCategoryViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+        RecyclerMissionRewardCategoryBinding binding =
+                RecyclerMissionRewardCategoryBinding.inflate(
+                        LayoutInflater.from(context), parent, false);
+        return new MissionRewardCategoryViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull MissionRotationViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull MissionRewardCategoryViewHolder holder, int position) {
         String rotation = rotations.get(position);
         List<MissionRewardComplete> rewards = missionRotations.get(rotation);
 
-        if (rotation.equals("Z")) holder.textRotation.setVisibility(View.GONE);
+        if (rotation.equals("Z")) holder.textCategory.setVisibility(View.GONE);
         else {
-            holder.textRotation.setText(context.getString(R.string.title_rotation, rotation));
-            holder.textRotation.setVisibility(View.VISIBLE);
+            holder.textCategory.setText(context.getString(R.string.title_rotation, rotation));
+            holder.textCategory.setVisibility(View.VISIBLE);
         }
 
-        MissionRewardAdapter adapter = new MissionRewardAdapter(context, rewards);
+        MissionRewardAdapter adapter = new MissionRewardAdapter(context, new ArrayList<>(rewards));
         holder.recyclerMissionRewards.setAdapter(adapter);
         holder.recyclerMissionRewards.setLayoutManager(new LinearLayoutManager(context));
     }
@@ -87,16 +88,5 @@ public class MissionRotationAdapter extends RecyclerView.Adapter<MissionRotation
         this.missionRotations = missionRotations;
         notifyDataSetChanged();
     }
-
-    public static class MissionRotationViewHolder extends RecyclerView.ViewHolder {
-
-        TextView textRotation;
-        RecyclerView recyclerMissionRewards;
-
-        public MissionRotationViewHolder(@NonNull @NotNull View itemView) {
-            super(itemView);
-            textRotation = itemView.findViewById(R.id.textRotation);
-            recyclerMissionRewards = itemView.findViewById(R.id.recyclerMissionRewards);
-        }
-    }
 }
+
