@@ -5,8 +5,6 @@ import static com.warframefarm.activities.details.mission.MissionViewModel.CACHE
 import static com.warframefarm.activities.details.mission.MissionViewModel.REWARDS;
 import static com.warframefarm.data.WarframeLists.FactionImage;
 import static com.warframefarm.data.WarframeLists.MissionTypeImage;
-import static com.warframefarm.data.WarframeLists.PlanetImage;
-import static com.warframefarm.data.WarframeLists.PlanetTopImage;
 import static com.warframefarm.database.WarframeFarmDatabase.MISSION_FACTION;
 import static com.warframefarm.database.WarframeFarmDatabase.MISSION_NAME;
 import static com.warframefarm.database.WarframeFarmDatabase.MISSION_OBJECTIVE;
@@ -47,7 +45,7 @@ public class MissionWithRewardTypes {
     @Ignore
     private final List<MissionReward> missionRewards = new ArrayList<>();
     @Ignore
-    private int imagePlanet = -2, imagePlanetTop = -2, imageFaction = -2, imageType = -2;
+    private int imageFaction = -2, imageType = -2;
 
     public MissionWithRewardTypes(@NonNull String name, String planet, String objective, String faction, int type, boolean rewards, boolean bounties, boolean caches) {
         this.name = name;
@@ -106,24 +104,6 @@ public class MissionWithRewardTypes {
 
     public void addMissionReward(MissionReward missionReward) {
         missionRewards.add(missionReward);
-    }
-
-    public int getImagePlanet() {
-        if (imagePlanet == -2) {
-            if (PlanetImage.containsKey(planet))
-                imagePlanet = PlanetImage.get(planet);
-            else imagePlanet = R.color.transparent;
-        }
-        return imagePlanet;
-    }
-
-    public int getImagePlanetTop() {
-        if (imagePlanetTop == -2) {
-            if (PlanetTopImage.containsKey(planet))
-                imagePlanetTop = PlanetTopImage.get(planet);
-            else imagePlanetTop = R.color.transparent;
-        }
-        return imagePlanetTop;
     }
 
     public int getImageFaction() {

@@ -2,10 +2,10 @@ package com.warframefarm.database;
 
 import static com.warframefarm.data.WarframeLists.getImageComponent;
 import static com.warframefarm.data.WarframeLists.isComponentBP;
-import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_TYPE;
 import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_ID;
 import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_NEEDED;
 import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_PRIME;
+import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_TYPE;
 import static com.warframefarm.database.WarframeFarmDatabase.PRIME_TYPE;
 import static com.warframefarm.database.WarframeFarmDatabase.PRIME_VAULTED;
 import static com.warframefarm.database.WarframeFarmDatabase.USER_COMPONENT_OWNED;
@@ -15,7 +15,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Ignore;
 
 import com.warframefarm.R;
-import com.warframefarm.data.WarframeLists;
 
 import java.util.Objects;
 
@@ -37,7 +36,7 @@ public class ComponentComplete implements Item {
     private boolean owned;
 
     @Ignore
-    private int image = -2, imagePrime = -2;
+    private int image = -2;
     @Ignore
     private boolean blueprint = false;
 
@@ -98,14 +97,9 @@ public class ComponentComplete implements Item {
         if (image == -2) {
             if (id == null || id.equals(""))
                 image = R.color.transparent;
-            else image = getImageComponent(type, prime, primeType);
+            else image = getImageComponent(type, primeType);
         }
         return image;
-    }
-
-    public int getImagePrime() {
-        if (imagePrime == -2) imagePrime = WarframeLists.getPrimeImage(prime, type);
-        return imagePrime;
     }
 
     public boolean isBlueprint() {

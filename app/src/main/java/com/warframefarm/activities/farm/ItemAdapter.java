@@ -1,5 +1,7 @@
 package com.warframefarm.activities.farm;
 
+import static com.warframefarm.data.WarframeConstants.BLUEPRINT;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -15,10 +17,11 @@ import com.warframefarm.R;
 import com.warframefarm.activities.details.component.ComponentFragment;
 import com.warframefarm.activities.details.prime.PrimeFragment;
 import com.warframefarm.activities.main.MainActivity;
+import com.warframefarm.data.FirestoreHelper;
 import com.warframefarm.database.ComponentComplete;
+import com.warframefarm.database.Item;
 import com.warframefarm.database.PrimeComplete;
 import com.warframefarm.databinding.RecyclerItemBinding;
-import com.warframefarm.database.Item;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -47,33 +50,28 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public void onBindViewHolder(@NonNull @NotNull ItemViewHolder holder, int position) {
         Item item = items.get(position);
         String fullName = "";
-        int image = 0;
 
         if (item instanceof PrimeComplete) {
             PrimeComplete prime = (PrimeComplete) item;
             fullName = prime.getFullName();
-            image = prime.getImage();
             holder.imageItem.setBackgroundResource(R.color.transparent);
+            FirestoreHelper.loadPrimeImage(prime.getName(), context, holder.imageItem);
         }
         else {
             if (item instanceof ComponentComplete) {
                 ComponentComplete component = (ComponentComplete) item;
                 fullName = component.getFullName();
-                image = component.getImage();
 
-                if (component.isBlueprint())
-                    holder.imageItem.setBackgroundResource(R.drawable.blueprint_bg);
+                holder.imageItem.setBackgroundResource(component.isBlueprint() ? R.drawable.blueprint_bg : R.color.transparent);
+
+                if (component.getType().equals(BLUEPRINT))
+                    FirestoreHelper.loadPrimeImage(component.getPrime(), context, holder.imageItem);
                 else
-                    holder.imageItem.setBackgroundResource(R.color.transparent);
+                    holder.imageItem.setImageResource(component.getImage());
             }
         }
 
         holder.textItemName.setText(fullName);
-
-        if (image == 0)
-            holder.imageItem.setImageResource(R.drawable.primes);
-        else
-            holder.imageItem.setImageResource(image);
 
         holder.layoutItem.setOnClickListener(v -> {
             Item i = items.get(holder.getAdapterPosition());

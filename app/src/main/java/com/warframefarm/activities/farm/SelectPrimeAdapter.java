@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.warframefarm.R;
+import com.warframefarm.data.FirestoreHelper;
 import com.warframefarm.database.PrimeComplete;
 import com.warframefarm.databinding.RecyclerSelectItemBinding;
 
@@ -43,14 +44,10 @@ public class SelectPrimeAdapter extends RecyclerView.Adapter<SelectItemViewHolde
         PrimeComplete prime = primes.get(position);
         String fullName = prime.getFullName();
         String itemId = prime.getName();
-        int image = prime.getImage();
 
         holder.textItemName.setText(fullName);
 
-        if (image == 0)
-            holder.imageItem.setImageResource(R.drawable.primes);
-        else
-            holder.imageItem.setImageResource(image);
+        FirestoreHelper.loadPrimeImage(itemId, context, holder.imageItem);
 
         holder.layoutItem.setOnClickListener(v -> {
             String id = prime.getName();

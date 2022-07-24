@@ -1,5 +1,6 @@
 package com.warframefarm.activities.details.relic;
 
+import static com.warframefarm.data.WarframeConstants.BLUEPRINT;
 import static com.warframefarm.database.WarframeFarmDatabase.REWARD_COMMON;
 import static com.warframefarm.database.WarframeFarmDatabase.REWARD_RARE;
 import static com.warframefarm.database.WarframeFarmDatabase.REWARD_UNCOMMON;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.warframefarm.R;
 import com.warframefarm.activities.details.component.ComponentFragment;
 import com.warframefarm.activities.main.MainActivity;
+import com.warframefarm.data.FirestoreHelper;
 import com.warframefarm.database.RelicRewardComplete;
 import com.warframefarm.databinding.RecyclerRelicRewardBinding;
 
@@ -72,12 +74,12 @@ public class RelicRewardAdapter extends RecyclerView.Adapter<RelicRewardAdapter.
         else {
             holder.layoutRelicReward.setOnClickListener(v -> showComponentDetails(reward.getId()));
 
-            if (reward.isBlueprint())
-                holder.imageRelicReward.setBackgroundResource(R.drawable.blueprint_bg);
-            else
-                holder.imageRelicReward.setBackgroundResource(R.color.transparent);
+            holder.imageRelicReward.setBackgroundResource(reward.isBlueprint() ? R.drawable.blueprint_bg : R.color.transparent);
 
-            holder.imageRelicReward.setImageResource(reward.getImage());
+            if (reward.getType().equals(BLUEPRINT))
+                FirestoreHelper.loadPrimeImage(reward.getPrime(), context, holder.imageRelicReward);
+            else
+                holder.imageRelicReward.setImageResource(reward.getImage());
 
             holder.textRelicRewardName.setText(reward.getFullName());
 

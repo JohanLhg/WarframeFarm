@@ -20,9 +20,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.StrictMode;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -35,6 +37,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.warframefarm.AppExecutors;
 import com.warframefarm.CommunicationHandler;
+import com.warframefarm.R;
 import com.warframefarm.database.AppDao;
 import com.warframefarm.database.Component;
 import com.warframefarm.database.ComponentComplete;
@@ -536,6 +539,35 @@ public class FirestoreHelper {
         }
 
         updateUserInfo(primeChanges, componentChanges);
+    }
+
+    public static void loadPrimeImage(String prime, Context context, ImageView view) {
+        loadImage("Images/Primes/" + prime + ".png", context, view);
+    }
+
+    public static void loadPlanetImage(String planet, Context context, ImageView view) {
+        loadImage("Images/Planets/Complete/" + planet + ".png", context, view);
+    }
+
+    public static void loadPlanetBackgroundImage(String planet, Context context, ImageView view) {
+        loadImage("Images/Planets/Background/" + planet + ".png", context, view);
+    }
+
+    public static void loadPlanetSquareImage(String planet, Context context, ImageView view) {
+        loadImage("Images/Planets/Square/" + planet + ".png", context, view);
+    }
+
+    public static void loadPlanetTopImage(String planet, Context context, ImageView view) {
+        loadImage("Images/Planets/Top/" + planet + ".png", context, view);
+    }
+
+    private static void loadImage(String path, Context context, ImageView view) {
+        StorageReference reference = FirebaseStorage.getInstance().getReference().child(path);
+        Glide.with(context)
+                .load(reference)
+                .thumbnail(Glide.with(context).load(R.drawable.loading))
+                .centerInside()
+                .into(view);
     }
 
     public void updateUserInfo(HashMap<String, Object> primes, HashMap<String, Object> components) {

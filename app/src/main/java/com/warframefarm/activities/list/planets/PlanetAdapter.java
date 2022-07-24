@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.warframefarm.activities.details.planet.PlanetFragment;
 import com.warframefarm.activities.main.MainActivity;
+import com.warframefarm.data.FirestoreHelper;
 import com.warframefarm.database.Planet;
 import com.warframefarm.databinding.RecyclerPlanetBinding;
 
@@ -43,7 +44,7 @@ public class PlanetAdapter extends RecyclerView.Adapter<PlanetAdapter.PlanetView
         Planet planet = planets.get(position);
         String name = planet.getName();
 
-        holder.imagePlanet.setImageResource(planet.getSquareImage());
+        FirestoreHelper.loadPlanetSquareImage(name, context, holder.imagePlanet);
 
         holder.textPlanetName.setText(name);
 

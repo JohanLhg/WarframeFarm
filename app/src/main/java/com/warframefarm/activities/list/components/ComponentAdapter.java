@@ -1,5 +1,7 @@
 package com.warframefarm.activities.list.components;
 
+import static com.warframefarm.data.WarframeConstants.BLUEPRINT;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.warframefarm.R;
 import com.warframefarm.activities.details.component.ComponentFragment;
 import com.warframefarm.activities.main.MainActivity;
+import com.warframefarm.data.FirestoreHelper;
 import com.warframefarm.database.ComponentComplete;
 import com.warframefarm.databinding.RecyclerComponentBinding;
 
@@ -46,9 +49,12 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentViewHolder> 
         holder.layoutComponent.setOnClickListener(v -> onClickComponent(id));
 
         //Set image for the type of prime
-        holder.imageComponent.setImageResource(component.getImage());
-
         holder.imageComponent.setBackgroundResource(component.isBlueprint() ? R.drawable.blueprint_bg : R.color.transparent);
+
+        if (component.getType().equals(BLUEPRINT))
+            FirestoreHelper.loadPrimeImage(component.getPrime(), context, holder.imageComponent);
+        else
+            holder.imageComponent.setImageResource(component.getImage());
 
         holder.imageVault.setVisibility(component.isVaulted() ? View.VISIBLE : View.GONE);
 

@@ -63,6 +63,9 @@ public class WarframeConstants {
             SKIRMISH = "Skirmish",
             SPY = "Spy",
             SURVIVAL = "Survival",
+            VOID_ARMAGEDDON = "Void Armageddon",
+            VOID_CASCADE = "Void Cascade",
+            VOID_FLOOD = "Void Flood",
             VOLATILE = "Volatile",
             ORPHIX = "Orphix";
 }

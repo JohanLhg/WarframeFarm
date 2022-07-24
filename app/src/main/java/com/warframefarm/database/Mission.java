@@ -2,8 +2,6 @@ package com.warframefarm.database;
 
 import static com.warframefarm.data.WarframeLists.FactionImage;
 import static com.warframefarm.data.WarframeLists.MissionTypeImage;
-import static com.warframefarm.data.WarframeLists.PlanetImage;
-import static com.warframefarm.data.WarframeLists.PlanetTopImage;
 import static com.warframefarm.database.WarframeFarmDatabase.MISSION_FACTION;
 import static com.warframefarm.database.WarframeFarmDatabase.MISSION_NAME;
 import static com.warframefarm.database.WarframeFarmDatabase.MISSION_OBJECTIVE;
@@ -43,7 +41,7 @@ public class Mission {
     private final List<MissionReward> missionRewards = new ArrayList<>();
 
     @Ignore
-    private int imagePlanet = -2, imagePlanetTop = -2, imageFaction = -2, imageType = -2;
+    private int imageFaction = -2, imageType = -2;
 
     public Mission(@NonNull String name, String planet, String objective, String faction, int type) {
         this.name = name;
@@ -80,24 +78,6 @@ public class Mission {
 
     public void addMissionReward(MissionReward missionReward) {
         missionRewards.add(missionReward);
-    }
-
-    public int getImagePlanet() {
-        if (imagePlanet == -2) {
-            if (PlanetImage.containsKey(planet))
-                imagePlanet = PlanetImage.get(planet);
-            else imagePlanet = R.color.transparent;
-        }
-        return imagePlanet;
-    }
-
-    public int getImagePlanetTop() {
-        if (imagePlanetTop == -2) {
-            if (PlanetTopImage.containsKey(planet))
-                imagePlanetTop = PlanetTopImage.get(planet);
-            else imagePlanetTop = R.color.transparent;
-        }
-        return imagePlanetTop;
     }
 
     public int getImageFaction() {

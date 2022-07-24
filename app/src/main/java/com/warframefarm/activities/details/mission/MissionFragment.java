@@ -4,6 +4,7 @@ import static com.warframefarm.activities.details.mission.BountyCategoryAdapter.
 import static com.warframefarm.activities.details.mission.MissionViewModel.BOUNTIES;
 import static com.warframefarm.activities.details.mission.MissionViewModel.CACHES;
 import static com.warframefarm.activities.details.mission.MissionViewModel.REWARDS;
+import static com.warframefarm.data.WarframeLists.MissionDescription;
 import static com.warframefarm.database.WarframeFarmDatabase.TYPE_EMPYREAN;
 import static com.warframefarm.database.WarframeFarmDatabase.TYPE_NORMAL;
 
@@ -30,6 +31,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.warframefarm.R;
 import com.warframefarm.activities.main.MainActivity;
+import com.warframefarm.data.FirestoreHelper;
 import com.warframefarm.database.BountyRewardComplete;
 import com.warframefarm.database.CacheRewardComplete;
 import com.warframefarm.database.MissionRewardComplete;
@@ -162,7 +164,6 @@ public class MissionFragment extends Fragment {
 
         recyclerRotations.setLayoutManager(new LinearLayoutManager(context));
 
-
         buttonReward.setOnClickListener(v -> missionViewModel.setMode(REWARDS));
         buttonBounty.setOnClickListener(v -> missionViewModel.setMode(BOUNTIES));
         buttonCache.setOnClickListener(v -> missionViewModel.setMode(CACHES));
@@ -173,25 +174,15 @@ public class MissionFragment extends Fragment {
             public void onChanged(MissionWithRewardTypes mission) {
                 switch (mission.getPlanet()) {
                     case "Void":
-                        imagePlanet.setVisibility(View.GONE);
-                        imageSpecial.setVisibility(View.VISIBLE);
-                        imageSpecial.setImageResource(R.drawable.planet_background_void);
-                        break;
-
                     case "Veil":
-                        imagePlanet.setVisibility(View.GONE);
-                        imageSpecial.setVisibility(View.VISIBLE);
-                        imageSpecial.setImageResource(R.drawable.planet_background_veil);
-                        break;
-
                     case "Zariman":
                         imagePlanet.setVisibility(View.GONE);
                         imageSpecial.setVisibility(View.VISIBLE);
-                        imageSpecial.setImageResource(R.drawable.planet_background_zariman);
+                        FirestoreHelper.loadPlanetBackgroundImage(mission.getPlanet(), context, imageSpecial);
                         break;
 
                     default:
-                        imagePlanet.setImageResource(mission.getImagePlanet());
+                        FirestoreHelper.loadPlanetImage(mission.getPlanet(), context, imagePlanet);
                         break;
                 }
 
@@ -215,11 +206,14 @@ public class MissionFragment extends Fragment {
 
                 imageFaction.setImageResource(mission.getImageFaction());
 
-                buttonObjectiveInfo.setOnClickListener(v -> {
-                    FragmentManager fm = getParentFragmentManager();
-                    InfoMissionObjectiveDialog dialog = new InfoMissionObjectiveDialog(mission.getObjective());
-                    dialog.show(fm, "Info Mission Objective Dialog");
-                });
+                if (MissionDescription.containsKey(mission.getObjective())) {
+                    buttonObjectiveInfo.setVisibility(View.VISIBLE);
+                    buttonObjectiveInfo.setOnClickListener(v -> {
+                        FragmentManager fm = getParentFragmentManager();
+                        InfoMissionObjectiveDialog dialog = new InfoMissionObjectiveDialog(mission.getObjective());
+                        dialog.show(fm, "Info Mission Objective Dialog");
+                    });
+                } else buttonObjectiveInfo.setVisibility(View.GONE);
 
                 if (mission.getRewardTypes().size() > 1) {
                     bottomNavMission.setVisibility(View.VISIBLE);

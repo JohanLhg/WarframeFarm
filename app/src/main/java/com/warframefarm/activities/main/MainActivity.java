@@ -35,7 +35,6 @@ import com.warframefarm.activities.account.SignUpDialog;
 import com.warframefarm.activities.farm.FarmFragment;
 import com.warframefarm.activities.list.components.ComponentsFragment;
 import com.warframefarm.activities.list.planets.PlanetsFragment;
-import com.warframefarm.activities.list.primes.PrimeCallback;
 import com.warframefarm.activities.list.primes.PrimesFragment;
 import com.warframefarm.activities.list.relics.RelicsFragment;
 import com.warframefarm.database.Setting;
@@ -47,7 +46,7 @@ import java.util.concurrent.Executor;
 
 import kotlin.jvm.functions.Function0;
 
-public class MainActivity extends AppCompatActivity implements Navigator.NavigatorListener, PrimeCallback, DeleteAccountDialog.DeleteAccountDialogListener, SignInDialog.SignInListener, SignUpDialog.SignUpListener {
+public class MainActivity extends AppCompatActivity implements Navigator.NavigatorListener, DeleteAccountDialog.DeleteAccountDialogListener, SignInDialog.SignInListener, SignUpDialog.SignUpListener {
 
     private ActivityMainBinding binding;
 
@@ -355,27 +354,6 @@ public class MainActivity extends AppCompatActivity implements Navigator.Navigat
 
         buttonModifyEmail.setImageResource(R.drawable.back);
         buttonModifyEmail.setOnClickListener(v -> displayEmail());
-    }
-
-    @Override
-    public void onPrimeClick(String prime_name, ImageView background, ImageView type,
-                             ImageView typeShadow, ImageView vault, ImageView vaultShadow,
-                             ImageView imageOwned, ImageView shadowOwned, TextView name) {
-        /**
-        Intent intent = new Intent(this, PrimeActivity.class);
-        intent.putExtra(PRIME_NAME, prime_name);
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,
-                Pair.create(background, "background"),
-                Pair.create(type, "type"),
-                Pair.create(typeShadow, "typeShadow"),
-                Pair.create(vault, "vault"),
-                Pair.create(vaultShadow, "vaultShadow"),
-                Pair.create(imageOwned, "imageOwned"),
-                Pair.create(shadowOwned, "ownedShadow"),
-                Pair.create(name, "name")
-        );
-        startActivity(intent, options.toBundle());
-         */
     }
 
     @Override

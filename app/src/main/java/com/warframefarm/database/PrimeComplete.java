@@ -10,7 +10,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Ignore;
 
 import com.warframefarm.R;
-import com.warframefarm.data.WarframeLists;
 
 import java.util.Objects;
 
@@ -26,7 +25,7 @@ public class PrimeComplete implements Item {
     private boolean owned;
 
     @Ignore
-    private int image = -2, imageType = -2;
+    private int imageType = -2;
 
     public PrimeComplete(String name, String type, boolean vaulted, boolean owned) {
         this.name = name;
@@ -58,11 +57,6 @@ public class PrimeComplete implements Item {
 
     public boolean isOwned() {
         return owned;
-    }
-
-    public int getImage() {
-        if (image == -2) image = WarframeLists.getPrimeImage(name, type);
-        return image;
     }
 
     public int getImageType() {

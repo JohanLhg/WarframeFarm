@@ -24,11 +24,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.warframefarm.R;
 import com.warframefarm.activities.main.MainActivity;
+import com.warframefarm.data.FirestoreHelper;
 import com.warframefarm.database.Mission;
 import com.warframefarm.database.Planet;
 import com.warframefarm.databinding.FragmentPlanetBinding;
@@ -152,29 +150,15 @@ public class PlanetFragment extends Fragment {
 
                 switch (planet.getName()) {
                     case "Void":
-                        imagePlanet.setVisibility(View.GONE);
-                        imageSpecial.setVisibility(View.VISIBLE);
-                        imageSpecial.setImageResource(R.drawable.planet_background_void);
-                        break;
-
                     case "Veil":
-                        imagePlanet.setVisibility(View.GONE);
-                        imageSpecial.setVisibility(View.VISIBLE);
-                        imageSpecial.setImageResource(R.drawable.planet_background_veil);
-                        break;
-
                     case "Zariman":
                         imagePlanet.setVisibility(View.GONE);
                         imageSpecial.setVisibility(View.VISIBLE);
-                        imageSpecial.setImageResource(R.drawable.planet_background_zariman);
+                        FirestoreHelper.loadPlanetBackgroundImage(planet.getName(), context, imageSpecial);
                         break;
 
                     default:
-                        imagePlanet.setImageResource(planet.getImage());
-                        //StorageReference ref = FirebaseStorage.getInstance().getReference().child("Images/Planets/" + planet.getName().toLowerCase() + ".png");
-                        //Glide.with(context)
-                        //        .load(ref)
-                        //        .into(imagePlanet);
+                        FirestoreHelper.loadPlanetImage(planet.getName(), context, imagePlanet);
                         break;
                 }
 

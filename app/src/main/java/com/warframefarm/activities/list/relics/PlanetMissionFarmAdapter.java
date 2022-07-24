@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.warframefarm.activities.details.mission.MissionFragment;
 import com.warframefarm.activities.main.MainActivity;
+import com.warframefarm.data.FirestoreHelper;
 import com.warframefarm.database.Mission;
 import com.warframefarm.databinding.RecyclerPlanetMissionFarmBinding;
 
@@ -47,7 +48,7 @@ public class PlanetMissionFarmAdapter extends RecyclerView.Adapter<PlanetMission
     public void onBindViewHolder(@NonNull @NotNull MissionFarmViewHolder holder, int position) {
         Mission mission = missions.get(position);
 
-        holder.imagePlanet.setImageResource(mission.getImagePlanetTop());
+        FirestoreHelper.loadPlanetTopImage(mission.getPlanet(), context, holder.imagePlanet);
 
         switch (mission.getType()) {
             case TYPE_ARCHWING:

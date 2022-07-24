@@ -2,6 +2,7 @@ package com.warframefarm.activities.details.component;
 
 import static com.warframefarm.activities.details.component.ComponentViewModel.MISSION;
 import static com.warframefarm.activities.details.component.ComponentViewModel.RELIC;
+import static com.warframefarm.data.WarframeConstants.BLUEPRINT;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import com.warframefarm.activities.details.RelicDisplayAdapter;
 import com.warframefarm.activities.details.prime.PrimeFragment;
 import com.warframefarm.activities.list.relics.PlanetMissionFarmAdapter;
 import com.warframefarm.activities.main.MainActivity;
+import com.warframefarm.data.FirestoreHelper;
 import com.warframefarm.database.ComponentComplete;
 import com.warframefarm.database.Mission;
 import com.warframefarm.database.RelicComplete;
@@ -194,7 +196,7 @@ public class ComponentFragment extends Fragment {
         componentViewModel.getComponent().observe(getViewLifecycleOwner(), new Observer<ComponentComplete>() {
             @Override
             public void onChanged(ComponentComplete component) {
-                imagePrime.setImageResource(component.getImagePrime());
+                FirestoreHelper.loadPrimeImage(component.getPrime(), context, imagePrime);
                 imagePrime.setOnClickListener(v -> showPrime(component.getPrime()));
 
                 if (component.isVaulted()) {
@@ -206,10 +208,12 @@ public class ComponentFragment extends Fragment {
                     bottomNav.setVisibility(View.VISIBLE);
                 }
 
-                if (component.isBlueprint())
-                    imageComponent.setBackgroundResource(R.drawable.blueprint_bg);
+                imageComponent.setBackgroundResource(component.isBlueprint() ? R.drawable.blueprint_bg : R.color.transparent);
 
-                imageComponent.setImageResource(component.getImage());
+                if (component.getType().equals(BLUEPRINT))
+                    FirestoreHelper.loadPrimeImage(component.getPrime(), context, imageComponent);
+                else
+                    imageComponent.setImageResource(component.getImage());
 
                 textName.setText(component.getFullName());
 

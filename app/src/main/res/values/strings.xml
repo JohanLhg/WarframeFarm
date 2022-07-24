@@ -233,4 +233,13 @@
     <string name="infested_salvage_mission">Infested Salvage</string>
     <string name="infested_salvage_description">Infested Salvage is an endless mission type that tasks players with retrieving a shipping manifest from an Infested Ship.</string>
     <string name="infested_salvage_rotations">Mission rewards change every decrypted console and follows a repeating rotation A-A-B-C pattern.</string>
+
+    <string name="void_armageddon_mission">Void Armageddon</string>
+    <string name="void_armageddon_description">Void Armageddon is an Endless Mission type where Grineer and Corpus seek to target the Zariman Ten Zero\'s Reliquary Drive, stirring up the Void Angels.</string>
+
+    <string name="void_cascade_mission">Void Cascade</string>
+    <string name="void_cascade_description">Void Cascade is an endless Mission type in which the Void threatens to disrupt the Zariman Ten Zero\'s systems and the players must cleanse the Exolizers of Void Manifestations to prevent total cascade, while also fending off invading Corpus or Grineer.</string>
+
+    <string name="void_flood_mission">Void Flood</string>
+    <string name="void_flood_description">Void Flood is an Endless Mission type in which Void forces are forming ruptures throughout the Zariman Ten Zero and the players must work to keep them closed.</string>
 </resources>

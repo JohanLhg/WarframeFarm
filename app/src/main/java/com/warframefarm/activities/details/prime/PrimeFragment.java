@@ -31,6 +31,7 @@ import com.warframefarm.R;
 import com.warframefarm.activities.details.RelicDisplayAdapter;
 import com.warframefarm.activities.list.components.ComponentAdapter;
 import com.warframefarm.activities.list.relics.PlanetMissionFarmAdapter;
+import com.warframefarm.data.FirestoreHelper;
 import com.warframefarm.database.ComponentComplete;
 import com.warframefarm.database.Mission;
 import com.warframefarm.database.PrimeComplete;
@@ -214,7 +215,8 @@ public class PrimeFragment extends Fragment implements ComponentAdapter.Componen
         primeViewModel.getPrime().observe(getViewLifecycleOwner(), new Observer<PrimeComplete>() {
             @Override
             public void onChanged(PrimeComplete prime) {
-                imagePrime.setImageResource(prime.getImage());
+                //imagePrime.setImageResource(prime.getImage());
+                FirestoreHelper.loadPrimeImage(prime.getName(), context, imagePrime);
                 imagePrime.setVisibility(View.VISIBLE);
                 imagePrime.setX(-100);
                 imagePrime.animate().alpha(1).translationX(0).setDuration(400)
