@@ -1,8 +1,8 @@
 package com.warframefarm.database;
 
-import static com.warframefarm.activities.details.mission.MissionRepository.BOUNTIES;
-import static com.warframefarm.activities.details.mission.MissionRepository.CACHES;
-import static com.warframefarm.activities.details.mission.MissionRepository.REWARDS;
+import static com.warframefarm.activities.details.mission.MissionViewModel.BOUNTIES;
+import static com.warframefarm.activities.details.mission.MissionViewModel.CACHES;
+import static com.warframefarm.activities.details.mission.MissionViewModel.REWARDS;
 import static com.warframefarm.data.WarframeLists.FactionImage;
 import static com.warframefarm.data.WarframeLists.MissionTypeImage;
 import static com.warframefarm.data.WarframeLists.PlanetImage;

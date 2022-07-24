@@ -1,7 +1,7 @@
 package com.warframefarm.activities.details.relic;
 
-import static com.warframefarm.activities.details.relic.RelicRepository.MISSION;
-import static com.warframefarm.activities.details.relic.RelicRepository.REWARD;
+import static com.warframefarm.activities.details.relic.RelicViewModel.MISSION;
+import static com.warframefarm.activities.details.relic.RelicViewModel.REWARD;
 import static com.warframefarm.database.WarframeFarmDatabase.REWARD_COMMON;
 import static com.warframefarm.database.WarframeFarmDatabase.REWARD_RARE;
 import static com.warframefarm.database.WarframeFarmDatabase.REWARD_UNCOMMON;

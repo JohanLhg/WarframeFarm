@@ -1,8 +1,8 @@
 package com.warframefarm.activities.details.prime;
 
-import static com.warframefarm.activities.details.prime.PrimeRepository.MISSION;
-import static com.warframefarm.activities.details.prime.PrimeRepository.COMPONENT;
-import static com.warframefarm.activities.details.prime.PrimeRepository.RELIC;
+import static com.warframefarm.activities.details.prime.PrimeViewModel.COMPONENT;
+import static com.warframefarm.activities.details.prime.PrimeViewModel.MISSION;
+import static com.warframefarm.activities.details.prime.PrimeViewModel.RELIC;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -215,7 +215,10 @@ public class PrimeFragment extends Fragment implements ComponentAdapter.Componen
             @Override
             public void onChanged(PrimeComplete prime) {
                 imagePrime.setImageResource(prime.getImage());
-
+                imagePrime.setVisibility(View.VISIBLE);
+                imagePrime.setX(-100);
+                imagePrime.animate().alpha(1).translationX(0).setDuration(400)
+                                .start();
                 textPrime.setText(prime.getFullName());
 
                 imageType.setImageResource(prime.getImageType());

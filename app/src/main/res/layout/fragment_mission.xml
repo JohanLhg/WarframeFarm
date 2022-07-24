@@ -36,6 +36,7 @@
             android:id="@+id/linearLayout10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
             android:background="@color/textBackground"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -50,7 +51,6 @@
                 android:layout_margin="5dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/faction_grineer"
                 app:tint="@color/colorBackgroundDark" />
 
             <LinearLayout
@@ -63,7 +63,6 @@
                     android:id="@+id/textMission"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="E Prime"
                     android:textAlignment="center"
                     android:textColor="@color/colorBackgroundDark"
                     android:textSize="20sp"
@@ -82,14 +81,12 @@
                         android:layout_marginEnd="5dp"
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/empyrean"
                         app:tint="@color/colorBackgroundDark" />
 
                     <TextView
                         android:id="@+id/textMissionObjective"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Capture"
                         android:textColor="@color/colorBackgroundLight"
                         android:textSize="20sp" />
 
@@ -115,8 +112,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/planet_earth" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"

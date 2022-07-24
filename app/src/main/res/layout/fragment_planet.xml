@@ -48,14 +48,12 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/faction_grineer"
                 android:backgroundTint="@color/colorBackgroundDark" />
 
             <TextView
                 android:id="@+id/textPlanet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Earth"
                 android:textAlignment="center"
                 android:textColor="@color/colorBackgroundDark"
                 android:textSize="20sp" />
@@ -70,8 +68,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/planet_earth" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
@@ -126,6 +123,7 @@
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
+                    android:visibility="gone"
                     app:srcCompat="@drawable/planet1"
                     app:tint="@color/colorBackgroundDark" />
 
@@ -137,6 +135,7 @@
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
+                    android:visibility="gone"
                     app:srcCompat="@drawable/archwing"
                     app:tint="@color/colorBackgroundDark" />
 
@@ -148,6 +147,7 @@
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
+                    android:visibility="gone"
                     app:srcCompat="@drawable/empyrean"
                     app:tint="@color/colorBackgroundDark" />
 

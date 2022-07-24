@@ -1,6 +1,5 @@
 package com.warframefarm.database;
 
-import static com.warframefarm.data.WarframeLists.PrimeImage;
 import static com.warframefarm.data.WarframeLists.PrimeTypeImage;
 import static com.warframefarm.database.WarframeFarmDatabase.PRIME_NAME;
 import static com.warframefarm.database.WarframeFarmDatabase.PRIME_TYPE;
@@ -11,6 +10,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Ignore;
 
 import com.warframefarm.R;
+import com.warframefarm.data.WarframeLists;
 
 import java.util.Objects;
 
@@ -61,11 +61,7 @@ public class PrimeComplete implements Item {
     }
 
     public int getImage() {
-        if (image == -2) {
-            if (PrimeImage.containsKey(name))
-                image = PrimeImage.get(name);
-            else image = R.color.transparent;
-        }
+        if (image == -2) image = WarframeLists.getPrimeImage(name, type);
         return image;
     }
 

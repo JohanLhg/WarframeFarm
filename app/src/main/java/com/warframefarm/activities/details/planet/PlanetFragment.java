@@ -24,6 +24,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.warframefarm.R;
 import com.warframefarm.activities.main.MainActivity;
 import com.warframefarm.database.Mission;
@@ -168,6 +171,10 @@ public class PlanetFragment extends Fragment {
 
                     default:
                         imagePlanet.setImageResource(planet.getImage());
+                        //StorageReference ref = FirebaseStorage.getInstance().getReference().child("Images/Planets/" + planet.getName().toLowerCase() + ".png");
+                        //Glide.with(context)
+                        //        .load(ref)
+                        //        .into(imagePlanet);
                         break;
                 }
 

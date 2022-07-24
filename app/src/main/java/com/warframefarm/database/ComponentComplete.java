@@ -1,6 +1,5 @@
 package com.warframefarm.database;
 
-import static com.warframefarm.data.WarframeLists.PrimeImage;
 import static com.warframefarm.data.WarframeLists.getImageComponent;
 import static com.warframefarm.data.WarframeLists.isComponentBP;
 import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_TYPE;
@@ -16,6 +15,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Ignore;
 
 import com.warframefarm.R;
+import com.warframefarm.data.WarframeLists;
 
 import java.util.Objects;
 
@@ -104,12 +104,7 @@ public class ComponentComplete implements Item {
     }
 
     public int getImagePrime() {
-        if (imagePrime == -2) {
-            if (PrimeImage.containsKey(prime)) {
-                imagePrime = PrimeImage.get(prime);
-            }
-            else imagePrime = R.color.transparent;
-        }
+        if (imagePrime == -2) imagePrime = WarframeLists.getPrimeImage(prime, type);
         return imagePrime;
     }
 

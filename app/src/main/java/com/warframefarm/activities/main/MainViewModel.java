@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.warframefarm.database.Setting;
+import com.warframefarm.repositories.MainRepository;
 
 public class MainViewModel extends AndroidViewModel {
 

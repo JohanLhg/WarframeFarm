@@ -1,4 +1,4 @@
-package com.warframefarm.activities.startup;
+package com.warframefarm.repositories;
 
 import static com.warframefarm.data.FirestoreHelper.CHECK_FOR_NEW_USER_DATA;
 import static com.warframefarm.data.FirestoreHelper.CHECK_FOR_OFFLINE_CHANGES;
@@ -20,7 +20,6 @@ import java.util.List;
 
 public class StartUpRepository implements CommunicationHandler {
 
-    private final WarframeFarmDatabase database;
     private final FirestoreHelper firestoreHelper;
 
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>(true);
@@ -28,8 +27,6 @@ public class StartUpRepository implements CommunicationHandler {
     private final MutableLiveData<Integer> loadingTextRes = new MutableLiveData<>(-1);
 
     public StartUpRepository(Application application) {
-        database = WarframeFarmDatabase.getInstance(application.getApplicationContext());
-
         firestoreHelper = new FirestoreHelper(application, this);
 
         if (FirestoreHelper.isConnectedToInternet(application.getApplicationContext())) {

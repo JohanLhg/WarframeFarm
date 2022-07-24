@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.warframefarm.repositories.StartUpRepository;
+
 public class StartUpViewModel extends AndroidViewModel {
 
     private final StartUpRepository repository;

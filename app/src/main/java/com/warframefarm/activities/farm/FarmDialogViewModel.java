@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.warframefarm.database.ComponentComplete;
 import com.warframefarm.database.PrimeComplete;
+import com.warframefarm.repositories.FarmRepository;
 
 import java.util.List;
 

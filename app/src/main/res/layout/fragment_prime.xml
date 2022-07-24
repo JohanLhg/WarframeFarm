@@ -38,14 +38,13 @@
                 android:layout_height="40dp"
                 android:layout_margin="5dp"
                 android:transitionName="type"
-                app:srcCompat="@drawable/type_warframe"
+                app:srcCompat="@color/transparent"
                 app:tint="@color/colorBackgroundDark" />
 
             <TextView
                 android:id="@+id/textPrime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nidus Prime"
                 android:textColor="@color/colorBackgroundDark"
                 android:textSize="20sp"
                 android:transitionName="name" />
@@ -53,16 +52,17 @@
 
         <ImageView
             android:id="@+id/imagePrime"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="30dp"
+            android:alpha="0"
             android:scaleType="fitCenter"
             android:transitionName="background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/prime_warframe_nidus" />
+            app:srcCompat="@color/transparent" />
 
         <ImageView
             android:id="@+id/imageVault"
@@ -87,7 +87,7 @@
             android:transitionName="imageOwned"
             app:layout_constraintBottom_toTopOf="@+id/toolbarPrime"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/owned"
+            app:srcCompat="@drawable/not_owned"
             app:tint="@color/colorBackgroundDark" />
 
         <LinearLayout

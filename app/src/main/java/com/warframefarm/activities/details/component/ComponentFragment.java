@@ -1,7 +1,7 @@
 package com.warframefarm.activities.details.component;
 
-import static com.warframefarm.activities.details.component.ComponentRepository.MISSION;
-import static com.warframefarm.activities.details.component.ComponentRepository.RELIC;
+import static com.warframefarm.activities.details.component.ComponentViewModel.MISSION;
+import static com.warframefarm.activities.details.component.ComponentViewModel.RELIC;
 
 import android.content.Context;
 import android.os.Bundle;

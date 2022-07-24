@@ -13,7 +13,6 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:animateLayoutChanges="true"
         android:background="@drawable/frame"
         android:elevation="5dp"
         android:padding="1dp"
@@ -40,13 +39,12 @@
                 android:backgroundTint="@color/colorBackgroundDark"
                 android:scaleType="centerCrop"
                 android:transitionName="type"
-                app:srcCompat="@drawable/component_chassis" />
+                app:srcCompat="@color/transparent" />
 
             <TextView
                 android:id="@+id/textName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nidus Chassis"
                 android:textColor="@color/colorBackgroundDark"
                 android:textSize="20sp"
                 android:transitionName="name" />
@@ -63,7 +61,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/prime_warframe_nidus" />
+            app:srcCompat="@color/transparent" />
 
         <ImageView
             android:id="@+id/imageVault"
@@ -73,6 +71,7 @@
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:transitionName="vault"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
             app:srcCompat="@drawable/prime_vault_icon" />
@@ -87,7 +86,7 @@
             android:transitionName="imageOwned"
             app:layout_constraintBottom_toTopOf="@+id/toolbar"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/owned"
+            app:srcCompat="@drawable/not_owned"
             app:tint="@color/colorBackgroundDark" />
 
         <androidx.constraintlayout.widget.ConstraintLayout

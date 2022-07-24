@@ -1,9 +1,9 @@
 package com.warframefarm.activities.details.mission;
 
 import static com.warframefarm.activities.details.mission.BountyCategoryAdapter.LEVELS;
-import static com.warframefarm.activities.details.mission.MissionRepository.BOUNTIES;
-import static com.warframefarm.activities.details.mission.MissionRepository.CACHES;
-import static com.warframefarm.activities.details.mission.MissionRepository.REWARDS;
+import static com.warframefarm.activities.details.mission.MissionViewModel.BOUNTIES;
+import static com.warframefarm.activities.details.mission.MissionViewModel.CACHES;
+import static com.warframefarm.activities.details.mission.MissionViewModel.REWARDS;
 import static com.warframefarm.database.WarframeFarmDatabase.TYPE_EMPYREAN;
 import static com.warframefarm.database.WarframeFarmDatabase.TYPE_NORMAL;
 

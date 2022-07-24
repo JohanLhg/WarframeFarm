@@ -1,7 +1,7 @@
 package com.warframefarm.activities.farm;
 
-import static com.warframefarm.activities.farm.FarmRepository.MISSION;
-import static com.warframefarm.activities.farm.FarmRepository.RELIC;
+import static com.warframefarm.repositories.FarmRepository.MISSION;
+import static com.warframefarm.repositories.FarmRepository.RELIC;
 
 import android.content.Context;
 import android.os.Bundle;

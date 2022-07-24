@@ -1,4 +1,4 @@
-package com.warframefarm.activities.main;
+package com.warframefarm.repositories;
 
 import android.app.Application;
 import android.app.ProgressDialog;
@@ -14,10 +14,6 @@ import com.warframefarm.AppExecutors;
 import com.warframefarm.R;
 import com.warframefarm.data.FirestoreHelper;
 import com.warframefarm.database.Setting;
-import com.warframefarm.database.SettingDao;
-import com.warframefarm.database.UserComponentDao;
-import com.warframefarm.database.UserPrimeDao;
-import com.warframefarm.database.WarframeFarmDatabase;
 
 import java.util.concurrent.Executor;
 
@@ -25,9 +21,9 @@ public class MainRepository {
 
     private static MainRepository instance;
 
-    private final SettingDao settingDao;
-    private final UserPrimeDao userPrimeDao;
-    private final UserComponentDao userComponentDao;
+    private final SettingsRepository settingsRepository;
+    private final UserPrimeRepository userPrimeRepository;
+    private final UserComponentRepository userComponentRepository;
 
     private final FirebaseAuth auth;
     private final FirestoreHelper firestoreHelper;
@@ -38,10 +34,9 @@ public class MainRepository {
     private final LiveData<Setting> settings;
 
     private MainRepository(Application application) {
-        WarframeFarmDatabase database = WarframeFarmDatabase.getInstance(application);
-        settingDao = database.settingDao();
-        userPrimeDao = database.userPrimeDao();
-        userComponentDao = database.userComponentDao();
+        settingsRepository = new SettingsRepository(application);
+        userPrimeRepository = new UserPrimeRepository(application);
+        userComponentRepository = new UserComponentRepository(application);
 
         auth = FirebaseAuth.getInstance();
         firestoreHelper = FirestoreHelper.getInstance(application);
@@ -51,7 +46,7 @@ public class MainRepository {
         mainThread = executors.getMainThread();
 
         updateUser();
-        settings = settingDao.getSettings();
+        settings = settingsRepository.getSettings();
     }
 
     public static MainRepository getInstance(Application application) {
@@ -112,11 +107,11 @@ public class MainRepository {
         }
         else setLimited(true);
 
-        backgroundThread.execute(() -> settingDao.setLoadLimit(limit));
+        backgroundThread.execute(() -> settingsRepository.setLoadLimit(limit));
     }
 
     public void setLimited(boolean limited) {
-        backgroundThread.execute(() -> settingDao.setLimited(limited));
+        backgroundThread.execute(() -> settingsRepository.setLimited(limited));
     }
 
     public void syncFromLocal() {
@@ -129,8 +124,8 @@ public class MainRepository {
 
     public void resetUserData() {
         backgroundThread.execute(() -> {
-            userPrimeDao.resetPrimes();
-            userComponentDao.resetComponents();
+            userPrimeRepository.resetPrimes();
+            userComponentRepository.resetComponents();
         });
     }
 

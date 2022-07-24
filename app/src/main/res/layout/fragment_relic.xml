@@ -43,14 +43,12 @@
                 android:layout_marginBottom="5dp"
                 android:scaleType="fitCenter"
                 android:tintMode="multiply"
-                app:srcCompat="@drawable/reward_rare"
                 app:tint="@color/colorBackgroundDark" />
 
             <TextView
                 android:id="@+id/textRelic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="AXI C6"
                 android:textSize="20sp" />
         </LinearLayout>
 
@@ -64,8 +62,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/relic_axi" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/imageVault"
@@ -155,6 +152,7 @@
         android:elevation="5dp"
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

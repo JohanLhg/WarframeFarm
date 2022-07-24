@@ -63,4 +63,7 @@ public interface MissionDao {
 
     @RawQuery(observedEntities = {Mission.class, MissionReward.class, Relic.class, RelicReward.class})
     Cursor getMissions(SimpleSQLiteQuery query);
+
+    @Query("SELECT DISTINCT mission_type FROM MISSION_TABLE WHERE mission_planet == :name")
+    List<Integer> getPlanetMissionTypes(String name);
 }

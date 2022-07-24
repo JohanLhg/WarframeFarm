@@ -10,6 +10,7 @@ import static com.warframefarm.data.WarframeConstants.SENTINEL;
 import static com.warframefarm.data.WarframeConstants.WARFRAME;
 import static com.warframefarm.database.WarframeFarmDatabase.PRIME_NAME;
 import static com.warframefarm.database.WarframeFarmDatabase.PRIME_TYPE;
+import static com.warframefarm.database.WarframeFarmDatabase.PRIME_VAULTED;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -153,12 +154,14 @@ public class AddComponentDialog extends DialogFragment {
         //region Spinner
         ArrayList<String> sortOptions = new ArrayList<>();
         Collections.addAll(sortOptions,
+                getString(R.string.vaulted),
                 getString(R.string.type),
                 getString(R.string.name),
                 getString(R.string.needed)
         );
         ArrayList<String> sortOptionValues = new ArrayList<>();
         Collections.addAll(sortOptionValues,
+                PRIME_VAULTED,
                 PRIME_TYPE,
                 PRIME_NAME,
                 ""

@@ -87,6 +87,7 @@ public class WarframeLists {
         primeTypeImage.put("Hydroid", R.drawable.prime_warframe_hydroid);
         primeTypeImage.put("Inaros", R.drawable.prime_warframe_inaros);
         primeTypeImage.put("Ivara", R.drawable.prime_warframe_ivara);
+        primeTypeImage.put("Khora", R.drawable.prime_warframe_khora);
         primeTypeImage.put("Limbo", R.drawable.prime_warframe_limbo);
         primeTypeImage.put("Loki", R.drawable.prime_warframe_loki);
         primeTypeImage.put("Mag", R.drawable.prime_warframe_mag);
@@ -161,6 +162,7 @@ public class WarframeLists {
         primeTypeImage.put("Bronco", R.drawable.prime_secondary_bronco);
         primeTypeImage.put("Euphona", R.drawable.prime_secondary_euphona);
         primeTypeImage.put("Hikou", R.drawable.prime_secondary_hikou);
+        primeTypeImage.put("Hystrix", R.drawable.prime_secondary_hystrix);
         primeTypeImage.put("Knell", R.drawable.prime_secondary_knell);
         primeTypeImage.put("Lex", R.drawable.prime_secondary_lex);
         primeTypeImage.put("Magnus", R.drawable.prime_secondary_magnus);
@@ -178,6 +180,7 @@ public class WarframeLists {
         primeTypeImage.put("Dakra", R.drawable.prime_melee_dakra);
         primeTypeImage.put("Destreza", R.drawable.prime_melee_destreza);
         primeTypeImage.put("Dual Kamas", R.drawable.prime_melee_dual_kamas);
+        primeTypeImage.put("Dual Keres", R.drawable.prime_melee_dual_keres);
         primeTypeImage.put("Fang", R.drawable.prime_melee_fang);
         primeTypeImage.put("Fragor", R.drawable.prime_melee_fragor);
         primeTypeImage.put("Galatine", R.drawable.prime_melee_galatine);
@@ -341,12 +344,19 @@ public class WarframeLists {
         return planetImage;
     }
 
+    public static int getPrimeImage(String prime, String type) {
+        if (PrimeImage.containsKey(prime))
+            return PrimeImage.get(prime);
+        else if (PrimeTypeImage.containsKey(type))
+            return PrimeTypeImage.get(type);
+        else return R.color.transparent;
+    }
+
     public static int getImageComponent(String name, String prime, String primeType) {
-        int image = PrimeTypeImage.get(primeType);
         //Set image for the type of prime
         switch (name) {
             //Warframe / Sentinel / Archwing
-            case BLUEPRINT: return PrimeImage.get(prime);
+            case BLUEPRINT: return getPrimeImage(prime, primeType);
 
             case NEUROPTICS:
             case CEREBRUM: return R.drawable.component_neuroptics;
@@ -393,7 +403,7 @@ public class WarframeLists {
             case LINK: return R.drawable.component_ornament;
         }
 
-        return image;
+        return R.color.transparent;
     }
 
     public static boolean isComponentBP(String type, String primeType) {

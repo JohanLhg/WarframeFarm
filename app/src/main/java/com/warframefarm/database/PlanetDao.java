@@ -30,9 +30,6 @@ public interface PlanetDao {
     @Query("SELECT planet_name FROM PLANET_TABLE")
     List<String> getPlanetNames();
 
-    @Query("SELECT DISTINCT mission_type FROM MISSION_TABLE WHERE mission_planet == :name")
-    List<Integer> getPlanetMissionTypes(String name);
-
     @RawQuery(observedEntities = {Planet.class, Mission.class, MissionReward.class, RelicReward.class})
     List<Planet> getPlanets(SupportSQLiteQuery query);
 }
