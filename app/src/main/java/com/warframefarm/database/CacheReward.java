@@ -3,8 +3,8 @@ package com.warframefarm.database;
 import static com.warframefarm.database.WarframeFarmDatabase.C_REWARD_DROP_CHANCE;
 import static com.warframefarm.database.WarframeFarmDatabase.C_REWARD_ID;
 import static com.warframefarm.database.WarframeFarmDatabase.C_REWARD_MISSION;
-import static com.warframefarm.database.WarframeFarmDatabase.C_REWARD_ROTATION;
 import static com.warframefarm.database.WarframeFarmDatabase.C_REWARD_RELIC;
+import static com.warframefarm.database.WarframeFarmDatabase.C_REWARD_ROTATION;
 import static com.warframefarm.database.WarframeFarmDatabase.C_REWARD_TABLE;
 
 import androidx.room.ColumnInfo;
@@ -30,7 +30,9 @@ public class CacheReward {
         this.mission = mission;
         this.relic = relic;
         this.rotation = rotation;
-        this.dropChance = dropChance;
+        if (dropChance > 99)
+            this.dropChance = 100;
+        else this.dropChance = dropChance;
     }
 
     public void setId(int id) {

@@ -49,6 +49,8 @@ public class PrimeFragment extends Fragment implements ComponentAdapter.Componen
     private PrimeViewModel primeViewModel;
     private final String prime;
 
+    private boolean firstLoad = true;
+
     private ArrayAdapter<String> relicFilterAdapter, missionFilterAdapter;
     private ComponentAdapter componentAdapter;
     private RelicDisplayAdapter relicAdapter;
@@ -215,12 +217,18 @@ public class PrimeFragment extends Fragment implements ComponentAdapter.Componen
         primeViewModel.getPrime().observe(getViewLifecycleOwner(), new Observer<PrimeComplete>() {
             @Override
             public void onChanged(PrimeComplete prime) {
-                //imagePrime.setImageResource(prime.getImage());
+                if (prime == null)
+                    return;
+
                 FirestoreHelper.loadPrimeImage(prime.getName(), context, imagePrime);
                 imagePrime.setVisibility(View.VISIBLE);
-                imagePrime.setX(-100);
-                imagePrime.animate().alpha(1).translationX(0).setDuration(400)
-                                .start();
+                if (firstLoad) {
+                    imagePrime.setX(-100);
+                    imagePrime.animate().alpha(1).translationX(0).setDuration(400)
+                            .start();
+                    firstLoad = false;
+                }
+
                 textPrime.setText(prime.getFullName());
 
                 imageType.setImageResource(prime.getImageType());
@@ -318,6 +326,8 @@ public class PrimeFragment extends Fragment implements ComponentAdapter.Componen
         primeViewModel.getRelics().observe(getViewLifecycleOwner(), new Observer<List<RelicComplete>>() {
             @Override
             public void onChanged(List<RelicComplete> relics) {
+                if (primeViewModel.getModeValue() != RELIC)
+                    return;
                 if (relics.isEmpty()) {
                     textEmptyStatePrime.setText(R.string.empty_state_results_relic);
                     recyclerRelics.setVisibility(View.GONE);
@@ -333,6 +343,8 @@ public class PrimeFragment extends Fragment implements ComponentAdapter.Componen
         primeViewModel.getMissions().observe(getViewLifecycleOwner(), new Observer<List<Mission>>() {
             @Override
             public void onChanged(List<Mission> missions) {
+                if (primeViewModel.getModeValue() != MISSION)
+                    return;
                 if (missions.isEmpty()) {
                     textEmptyStatePrime.setText(R.string.empty_state_missions);
                     recyclerMissions.setVisibility(View.GONE);

@@ -541,6 +541,21 @@ public class FirestoreHelper {
         updateUserInfo(primeChanges, componentChanges);
     }
 
+    public void updateUserInfo(HashMap<String, Object> primes, HashMap<String, Object> components) {
+        FirebaseUser user = auth.getCurrentUser();
+
+        if (user != null) {
+            DocumentReference docRef = firestore.document(USERS_TAG + "/" + user.getUid());
+
+            HashMap<String, Object> userInfo = new HashMap<>();
+            if (!components.isEmpty()) userInfo.put(COMPONENT_TAG, components);
+            if (!primes.isEmpty()) userInfo.put(PRIMES_TAG, primes);
+            userInfo.put(LAST_MODIFIED_BY_TAG, ID);
+
+            docRef.set(userInfo, SetOptions.merge());
+        }
+    }
+
     public static void loadPrimeImage(String prime, Context context, ImageView view) {
         loadImage("Images/Primes/" + prime + ".png", context, view);
     }
@@ -568,21 +583,6 @@ public class FirestoreHelper {
                 .thumbnail(Glide.with(context).load(R.drawable.loading))
                 .centerInside()
                 .into(view);
-    }
-
-    public void updateUserInfo(HashMap<String, Object> primes, HashMap<String, Object> components) {
-        FirebaseUser user = auth.getCurrentUser();
-
-        if (user != null) {
-            DocumentReference docRef = firestore.document(USERS_TAG + "/" + user.getUid());
-
-            HashMap<String, Object> userInfo = new HashMap<>();
-            if (!components.isEmpty()) userInfo.put(COMPONENT_TAG, components);
-            if (!primes.isEmpty()) userInfo.put(PRIMES_TAG, primes);
-            userInfo.put(LAST_MODIFIED_BY_TAG, ID);
-
-            docRef.set(userInfo, SetOptions.merge());
-        }
     }
 
     private void finishTask(Integer taskID) {

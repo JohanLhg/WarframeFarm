@@ -69,15 +69,16 @@ public class ComponentAdapter extends RecyclerView.Adapter<ComponentViewHolder> 
         else owned = component.isOwned();
         holder.imageOwned.setImageResource(owned ? R.drawable.owned : R.drawable.not_owned);
 
-        holder.imageOwned.setOnClickListener(v -> {
-            listener.modifyComponent(component.clone());
-        });
+        holder.imageOwned.setOnClickListener(v -> listener.modifyComponent(component.clone()));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ComponentViewHolder holder, int position, @NonNull List<Object> payloads) {
         if (payloads.contains(OWNED)) {
             ComponentComplete component = components.get(position);
+
+            final String id = component.getId();
+            holder.layoutComponent.setOnClickListener(v -> onClickComponent(id));
 
             boolean owned;
             int component_index = componentsAfterChanges.indexOf(component);

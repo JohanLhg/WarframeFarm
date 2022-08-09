@@ -5,6 +5,7 @@ import static androidx.room.OnConflictStrategy.REPLACE;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.Query;
 import androidx.room.RawQuery;
 import androidx.room.Update;
 import androidx.sqlite.db.SimpleSQLiteQuery;
@@ -22,6 +23,9 @@ public interface BountyRewardDao {
 
     @Delete
     void delete(BountyReward bountyReward);
+
+    @Query("DELETE FROM BOUNTY_REWARD_TABLE")
+    void clear();
 
     @RawQuery(observedEntities = {BountyReward.class, RelicReward.class, Relic.class, UserComponent.class})
     List<BountyRewardComplete> getBountyRewards(SimpleSQLiteQuery query);

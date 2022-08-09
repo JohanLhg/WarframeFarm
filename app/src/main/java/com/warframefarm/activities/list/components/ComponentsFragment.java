@@ -105,7 +105,7 @@ public class ComponentsFragment extends Fragment implements ComponentAdapter.Com
             if (hasFocus)
                 iconSearchbar.setImageTintList(context.getColorStateList(R.color.colorPrimary));
             else
-                iconSearchbar.setImageTintList(context.getColorStateList(R.color.text));
+                iconSearchbar.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
         });
 
         searchbar.addTextChangedListener(new TextWatcher() {

@@ -238,9 +238,9 @@ public class WarframeLists {
         return missionTypeImage;
     }
 
-    public static int getImageComponent(String name, String primeType) {
+    public static int getImageComponent(String componentType, String primeType) {
         //Set image for the type of prime
-        switch (name) {
+        switch (componentType) {
             //Warframe / Sentinel / Archwing
             case NEUROPTICS:
             case CEREBRUM: return R.drawable.component_neuroptics;
@@ -290,8 +290,8 @@ public class WarframeLists {
         return R.color.transparent;
     }
 
-    public static boolean isComponentBP(String type, String primeType) {
-        switch (type) {
+    public static boolean isComponentBP(String componentType, String primeType) {
+        switch (componentType) {
             case BLUEPRINT:
             case NEUROPTICS:
             case CHASSIS:

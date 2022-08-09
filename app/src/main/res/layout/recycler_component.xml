@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutComponent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,15 +12,13 @@
         android:id="@+id/imageComponent"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/blueprint_bg"
         android:backgroundTint="@color/black"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/component_barrel" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageSelect"
@@ -43,7 +40,7 @@
         android:transitionName="imageOwned"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/owned"
+        app:srcCompat="@drawable/not_owned"
         app:tint="@color/colorBackgroundDark" />
 
     <ImageView
@@ -52,6 +49,7 @@
         android:layout_height="10dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/textName"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/prime_vault_icon" />
@@ -64,7 +62,6 @@
         android:fontFamily="@font/sui_generis_rg"
         android:paddingStart="2dp"
         android:paddingEnd="2dp"
-        android:text="Aksomati Barrel x2"
         android:textAlignment="center"
         android:textColor="@color/colorBackgroundDark"
         android:textSize="14sp"

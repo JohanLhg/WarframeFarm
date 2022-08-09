@@ -1,10 +1,10 @@
 package com.warframefarm.activities.startup;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.warframefarm.activities.main.MainActivity;
 import com.warframefarm.databinding.ActivityStartUpBinding;
@@ -38,6 +38,7 @@ public class StartUpActivity extends AppCompatActivity {
             if (!isLoading) {
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 

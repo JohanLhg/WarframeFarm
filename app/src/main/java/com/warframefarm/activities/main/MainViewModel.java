@@ -18,7 +18,6 @@ public class MainViewModel extends AndroidViewModel {
     public MainViewModel(@NonNull Application application) {
         super(application);
         repository = MainRepository.getInstance(application);
-        repository.checkForUpdates();
     }
 
     public LiveData<FirebaseUser> getUser() {
@@ -59,9 +58,5 @@ public class MainViewModel extends AndroidViewModel {
 
     public void resetUserData() {
         repository.resetUserData();
-    }
-
-    public void checkForUpdates() {
-        repository.checkForUpdates();
     }
 }

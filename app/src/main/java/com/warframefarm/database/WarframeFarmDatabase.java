@@ -87,7 +87,7 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
     public static final String C_REWARD_ID = "c_reward_id";
     public static final String C_REWARD_MISSION = "c_reward_mission";
     public static final String C_REWARD_RELIC = "c_reward_relic";
-    public static final String C_REWARD_ROTATION = "c_reward_number";
+    public static final String C_REWARD_ROTATION = "c_reward_rotation";
     public static final String C_REWARD_DROP_CHANCE = "c_reward_drop_chance";
 
     //Bounty Rewards Table
@@ -248,8 +248,10 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
         PlanetDao planetDao = planetDao();
         MissionDao missionDao = missionDao();
         MissionRewardDao missionRewardDao = missionRewardDao();
+        CacheRewardDao cacheRewardDao = cacheRewardDao();
 
         missionRewardDao.clear();
+        cacheRewardDao.clear();
 
         try {
             JSONObject jsonObject = new JSONObject(json);
@@ -322,8 +324,8 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
     }
 
     public void setUpBountyRewards(String json) {
-        CacheRewardDao cacheRewardDao = cacheRewardDao();
-        cacheRewardDao.clear();
+        BountyRewardDao bountyRewardDao = bountyRewardDao();
+        bountyRewardDao.clear();
 
         HashMap<String, String> bountyMap = new HashMap<>();
         bountyMap.put("Plains of Eidolon", "cetusBountyRewards");
@@ -382,6 +384,7 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
                 relic = name.charAt(0) + relic;
 
                 chance = reward.getDouble("chance");
+
                 missionRewardDao.insert(new MissionReward(mission_name, relic, rotation, chance));
             }
             catch (JSONException e) {
@@ -410,6 +413,7 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
                 relic = name.charAt(0) + relic;
 
                 chance = reward.getDouble("chance");
+
                 cacheRewardDao.insert(new CacheReward(mission_name, relic, rotation, chance));
             }
             catch (JSONException e) {

@@ -124,7 +124,7 @@ public class MissionFragment extends Fragment {
             if (hasFocus)
                 iconSearchbar.setImageTintList(context.getColorStateList(R.color.colorAccent));
             else
-                iconSearchbar.setImageTintList(context.getColorStateList(R.color.text));
+                iconSearchbar.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
         });
 
         searchbar.addTextChangedListener(new TextWatcher() {

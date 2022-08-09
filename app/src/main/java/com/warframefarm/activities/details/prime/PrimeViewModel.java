@@ -87,7 +87,7 @@ public class PrimeViewModel extends AndroidViewModel {
         return mode;
     }
 
-    private int getModeValue() {
+    public int getModeValue() {
         if (mode.getValue() == null)
             return COMPONENT;
         else return mode.getValue();
