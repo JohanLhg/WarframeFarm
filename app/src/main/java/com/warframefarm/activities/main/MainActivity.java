@@ -1,6 +1,7 @@
 package com.warframefarm.activities.main;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,6 +38,7 @@ import com.warframefarm.activities.list.components.ComponentsFragment;
 import com.warframefarm.activities.list.planets.PlanetsFragment;
 import com.warframefarm.activities.list.primes.PrimesFragment;
 import com.warframefarm.activities.list.relics.RelicsFragment;
+import com.warframefarm.activities.startup.StartUpActivity;
 import com.warframefarm.database.Setting;
 import com.warframefarm.databinding.ActivityMainBinding;
 
@@ -205,13 +207,9 @@ public class MainActivity extends AppCompatActivity implements Navigator.Navigat
         });
 
         buttonUpdate.setOnClickListener(v -> {
-            mainViewModel.checkForUpdates();
-            /**
-            ProgressDialog progressDialog = ProgressDialog.show(this, "Updating Database", "Updating database with new information and changes");
-            backgroundThread.execute(() -> {
-                db.upgrade();
-                mainThread.execute(progressDialog::dismiss);
-            });**/
+            Intent intent = new Intent(this, StartUpActivity.class);
+            startActivity(intent);
+            finish();
         });
 
         buttonModifyEmail.setOnClickListener(v -> editEmail());

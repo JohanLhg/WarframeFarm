@@ -59,7 +59,7 @@ public class RewardChanceAdapter extends RecyclerView.Adapter<RewardChanceAdapte
 
     public static class RewardChanceViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textRewardChance;
+        public final TextView textRewardChance;
 
         public RewardChanceViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);

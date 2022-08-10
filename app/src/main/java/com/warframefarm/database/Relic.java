@@ -17,11 +17,11 @@ public class Relic {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = RELIC_ID)
-    private String id;
+    private final String id;
     @ColumnInfo(name = RELIC_ERA)
-    private String era;
+    private final String era;
     @ColumnInfo(name = RELIC_NAME)
-    private String name;
+    private final String name;
     @ColumnInfo(name = RELIC_VAULTED, defaultValue = "1")
     private boolean vaulted;
 

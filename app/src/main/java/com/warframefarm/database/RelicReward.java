@@ -1,7 +1,7 @@
 package com.warframefarm.database;
 
-import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_ID;
 import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_COMPONENT;
+import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_ID;
 import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_RARITY;
 import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_RELIC;
 import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_TABLE;
@@ -17,11 +17,11 @@ public class RelicReward {
     @ColumnInfo(name = R_REWARD_ID)
     private int id;
     @ColumnInfo(name = R_REWARD_RELIC)
-    private String relic;
+    private final String relic;
     @ColumnInfo(name = R_REWARD_COMPONENT)
-    private String component;
+    private final String component;
     @ColumnInfo(name = R_REWARD_RARITY)
-    private int rarity;
+    private final int rarity;
 
     public RelicReward(String relic, String component, int rarity) {
         this.relic = relic;

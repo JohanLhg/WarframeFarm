@@ -16,9 +16,9 @@ public class Setting {
     @ColumnInfo(name = SETTINGS_ID)
     private int id;
     @ColumnInfo(name = SETTINGS_LOAD_LIMIT)
-    private int loadLimit;
+    private final int loadLimit;
     @ColumnInfo(name = SETTINGS_LIMITED)
-    private boolean limited;
+    private final boolean limited;
 
     public Setting(int loadLimit, boolean limited) {
         this.loadLimit = loadLimit;

@@ -170,7 +170,7 @@ public class ComponentRepository {
     }
 
     public LiveData<List<ComponentComplete>> getComponentsOfPrime(String name) {
-        return componentDao.getComponentsOfPrimeLD(name);
+        return componentDao.getComponentsOfPrime(name);
     }
 
     public LiveData<List<String>> getComponentIDs() {

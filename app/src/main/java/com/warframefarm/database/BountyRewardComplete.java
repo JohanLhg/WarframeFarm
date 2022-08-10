@@ -13,15 +13,15 @@ import java.text.DecimalFormat;
 public class BountyRewardComplete extends RelicComplete implements RewardComplete {
 
     @ColumnInfo(name = B_REWARD_MISSION)
-    private String mission;
+    private final String mission;
     @ColumnInfo(name = B_REWARD_LEVEL)
-    private String level;
+    private final String level;
     @ColumnInfo(name = B_REWARD_STAGE)
-    private String stage;
+    private final String stage;
     @ColumnInfo(name = B_REWARD_ROTATION)
-    private String rotation;
+    private final String rotation;
     @ColumnInfo(name = B_REWARD_DROP_CHANCE)
-    private double dropChance;
+    private final double dropChance;
 
     public BountyRewardComplete(String mission, String level, String stage, String rotation, double dropChance, String id, String era, String name, boolean vaulted, int rarityNeeded) {
         super(id, era, name, vaulted, rarityNeeded);

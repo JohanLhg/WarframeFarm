@@ -27,15 +27,15 @@ public class Mission {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = MISSION_NAME)
-    private String name;
+    private final String name;
     @ColumnInfo(name = MISSION_PLANET)
-    private String planet;
+    private final String planet;
     @ColumnInfo(name = MISSION_OBJECTIVE)
-    private String objective;
+    private final String objective;
     @ColumnInfo(name = MISSION_FACTION)
-    private String faction;
+    private final String faction;
     @ColumnInfo(name = MISSION_TYPE, defaultValue =  "" + TYPE_NORMAL)
-    private int type;
+    private final int type;
 
     @Ignore
     private final List<MissionReward> missionRewards = new ArrayList<>();

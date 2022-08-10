@@ -6,23 +6,27 @@ import static com.warframefarm.database.WarframeFarmDatabase.PRIME_TYPE;
 import static com.warframefarm.database.WarframeFarmDatabase.PRIME_VAULTED;
 import static com.warframefarm.database.WarframeFarmDatabase.USER_PRIME_OWNED;
 
+import android.content.Context;
+import android.widget.ImageView;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Ignore;
 
 import com.warframefarm.R;
+import com.warframefarm.data.FirestoreHelper;
 
 import java.util.Objects;
 
 public class PrimeComplete implements Item {
 
     @ColumnInfo(name = PRIME_NAME)
-    private String name;
+    private final String name;
     @ColumnInfo(name = PRIME_TYPE)
-    private String type;
+    private final String type;
     @ColumnInfo(name = PRIME_VAULTED)
-    private boolean vaulted;
+    private final boolean vaulted;
     @ColumnInfo(name = USER_PRIME_OWNED)
-    private boolean owned;
+    private final boolean owned;
 
     @Ignore
     private int imageType = -2;
@@ -57,6 +61,10 @@ public class PrimeComplete implements Item {
 
     public boolean isOwned() {
         return owned;
+    }
+
+    public void displayImage(Context context, ImageView view) {
+        FirestoreHelper.loadPrimeImage(name, context, view);
     }
 
     public int getImageType() {

@@ -1,9 +1,9 @@
 package com.warframefarm.database;
 
-import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_TYPE;
 import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_ID;
 import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_NEEDED;
 import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_PRIME;
+import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_TYPE;
 import static com.warframefarm.database.WarframeFarmDatabase.PRIME_TYPE;
 import static com.warframefarm.database.WarframeFarmDatabase.PRIME_VAULTED;
 import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_RARITY;
@@ -15,9 +15,9 @@ import androidx.room.ColumnInfo;
 public class RelicRewardComplete extends ComponentComplete {
 
     @ColumnInfo(name = R_REWARD_RELIC)
-    private String relic;
+    private final String relic;
     @ColumnInfo(name = R_REWARD_RARITY)
-    private int rarity;
+    private final int rarity;
     @ColumnInfo(name = COMPONENT_ID)
     private String id;
     @ColumnInfo(name = COMPONENT_PRIME)

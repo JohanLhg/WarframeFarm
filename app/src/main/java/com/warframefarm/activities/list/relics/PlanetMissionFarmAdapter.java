@@ -89,10 +89,10 @@ public class PlanetMissionFarmAdapter extends RecyclerView.Adapter<PlanetMission
 
     public static class MissionFarmViewHolder extends RecyclerView.ViewHolder {
 
-        ConstraintLayout layoutMission;
-        ImageView imagePlanet, imageMissionType;
-        TextView textPlanetName, textMissionName, textMissionObjective;
-        RecyclerView recyclerRewardChances;
+        public final ConstraintLayout layoutMission;
+        public final ImageView imagePlanet, imageMissionType;
+        public final TextView textPlanetName, textMissionName, textMissionObjective;
+        public final RecyclerView recyclerRewardChances;
 
         public MissionFarmViewHolder(@NonNull @NotNull RecyclerPlanetMissionFarmBinding binding) {
             super(binding.getRoot());

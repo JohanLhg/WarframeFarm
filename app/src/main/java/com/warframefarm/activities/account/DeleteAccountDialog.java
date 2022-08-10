@@ -42,8 +42,8 @@ public class DeleteAccountDialog extends DialogFragment {
     private final Executor backgroundThread, mainThread;
 
     private final FirebaseFirestore firestore;
-    private FirebaseAuth auth;
-    private FirebaseUser user;
+    private final FirebaseAuth auth;
+    private final FirebaseUser user;
 
     private EditText editPassword;
     private Button buttonCancel, buttonDelete;

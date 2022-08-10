@@ -15,9 +15,9 @@ public class UserPrime {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = USER_PRIME_NAME)
-    private String prime;
+    private final String prime;
     @ColumnInfo(name = USER_PRIME_OWNED)
-    private boolean owned;
+    private final boolean owned;
 
     public UserPrime(@NonNull String prime, boolean owned) {
         this.prime = prime;

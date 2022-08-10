@@ -11,8 +11,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class MissionRewardCategoryViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView textCategory;
-    public RecyclerView recyclerMissionRewards;
+    public final TextView textCategory;
+    public final RecyclerView recyclerMissionRewards;
 
     public MissionRewardCategoryViewHolder(@NonNull @NotNull RecyclerMissionRewardCategoryBinding binding) {
         super(binding.getRoot());

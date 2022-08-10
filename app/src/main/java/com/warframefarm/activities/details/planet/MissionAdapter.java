@@ -100,10 +100,10 @@ public class MissionAdapter extends RecyclerView.Adapter<MissionAdapter.MissionV
 
     public static class MissionViewHolder extends RecyclerView.ViewHolder {
 
-        ConstraintLayout layoutMission;
-        TextView textMissionName, textMissionObjective;
-        RecyclerView recyclerRewardChances;
-        ImageView imageMissionType, imageMissionFaction;
+        public final ConstraintLayout layoutMission;
+        public final TextView textMissionName, textMissionObjective;
+        public final RecyclerView recyclerRewardChances;
+        public final ImageView imageMissionType, imageMissionFaction;
 
         public MissionViewHolder(@NonNull @NotNull RecyclerMissionBinding binding) {
             super(binding.getRoot());

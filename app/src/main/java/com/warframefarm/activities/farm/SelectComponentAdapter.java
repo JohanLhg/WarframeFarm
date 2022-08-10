@@ -1,7 +1,5 @@
 package com.warframefarm.activities.farm;
 
-import static com.warframefarm.data.WarframeConstants.BLUEPRINT;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.warframefarm.R;
-import com.warframefarm.data.FirestoreHelper;
 import com.warframefarm.database.ComponentComplete;
 import com.warframefarm.databinding.RecyclerSelectItemBinding;
 
@@ -49,12 +46,7 @@ public class SelectComponentAdapter extends RecyclerView.Adapter<SelectItemViewH
 
         holder.textItemName.setText(fullName);
 
-        holder.imageItem.setBackgroundResource(component.isBlueprint() ? R.drawable.blueprint_bg : R.color.transparent);
-
-        if (component.getType().equals(BLUEPRINT))
-            FirestoreHelper.loadPrimeImage(component.getPrime(), context, holder.imageItem);
-        else
-            holder.imageItem.setImageResource(component.getImage());
+        component.displayImage(context, holder.imageItem);
 
         holder.layoutItem.setOnClickListener(v -> {
             String id = component.getId();

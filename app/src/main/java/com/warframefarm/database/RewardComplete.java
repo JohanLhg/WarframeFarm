@@ -5,6 +5,5 @@ public interface RewardComplete {
     String getFullName();
     int getImage();
     int getImageRarity();
-    double getDropChance();
     String getFormattedDropChance();
 }

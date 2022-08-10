@@ -69,9 +69,9 @@ public class PlanetAdapter extends RecyclerView.Adapter<PlanetAdapter.PlanetView
 
     public static class PlanetViewHolder extends RecyclerView.ViewHolder {
 
-        ConstraintLayout layoutPlanet;
-        ImageView imagePlanet, imagePlanetFaction;
-        TextView textPlanetName;
+        public final ConstraintLayout layoutPlanet;
+        public final ImageView imagePlanet, imagePlanetFaction;
+        public final TextView textPlanetName;
 
         public PlanetViewHolder(@NonNull @NotNull RecyclerPlanetBinding binding) {
             super(binding.getRoot());

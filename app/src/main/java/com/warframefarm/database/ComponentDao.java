@@ -56,15 +56,7 @@ public interface ComponentDao {
             "LEFT JOIN USER_COMPONENT_TABLE ON user_component_id == component_id " +
             "WHERE component_prime == :prime " +
             "ORDER BY component_id")
-    List<ComponentComplete> getComponentsOfPrime(String prime);
-
-    @Query("SELECT COMPONENT_TABLE.*, prime_type, prime_vaulted, user_component_owned " +
-            "FROM COMPONENT_TABLE " +
-            "LEFT JOIN PRIME_TABLE ON prime_name == component_prime " +
-            "LEFT JOIN USER_COMPONENT_TABLE ON user_component_id == component_id " +
-            "WHERE component_prime == :prime " +
-            "ORDER BY component_id")
-    LiveData<List<ComponentComplete>> getComponentsOfPrimeLD(String prime);
+    LiveData<List<ComponentComplete>> getComponentsOfPrime(String prime);
 
     @Query("SELECT COMPONENT_TABLE.*, prime_type, prime_vaulted, user_component_owned " +
             "FROM COMPONENT_TABLE " +

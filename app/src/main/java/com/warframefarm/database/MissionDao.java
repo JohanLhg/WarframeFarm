@@ -29,9 +29,6 @@ public interface MissionDao {
     @Query("SELECT mission_name FROM MISSION_TABLE WHERE mission_planet == :planet")
     List<String> getPlanetMissions(String planet);
 
-    //@Query("SELECT * FROM MISSION_TABLE WHERE mission_name == :name")
-    //Mission getMission(String name);
-
     @Query("SELECT MISSION_TABLE.*, " +
             "CASE " +
                 "WHEN (" +

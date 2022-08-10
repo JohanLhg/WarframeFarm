@@ -14,6 +14,7 @@
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/drawable/frame.xml" value="0.26615384615384613" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/drawable/frame_bg.xml" value="0.2324074074074074" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/drawable/frame_bg_common.xml" value="0.2388888888888889" />
+        <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/drawable/frame_bg_rare.xml" value="0.1535" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/drawable/frame_empty.xml" value="0.2324074074074074" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/drawable/frame_separator.xml" value="0.2638888888888889" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/drawable/gradient.xml" value="0.22777777777777777" />
@@ -73,7 +74,9 @@
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/fragment_component.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/fragment_components.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/fragment_farm.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/fragment_helminth.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/fragment_inventory.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/fragment_liches.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/fragment_mission.xml" value="0.264" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/fragment_mission_test.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Johan/Documents/Development/AndroidStudioProjects/WarframeFarm/app/src/main/res/layout/fragment_part.xml" value="0.25416666666666665" />

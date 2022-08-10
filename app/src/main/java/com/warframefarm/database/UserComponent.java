@@ -15,9 +15,9 @@ public class UserComponent {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = USER_COMPONENT_ID)
-    private String component;
+    private final String component;
     @ColumnInfo(name = USER_COMPONENT_OWNED)
-    private boolean owned;
+    private final boolean owned;
 
     public UserComponent(@NonNull String component, boolean owned) {
         this.component = component;

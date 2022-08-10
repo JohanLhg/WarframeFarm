@@ -16,9 +16,9 @@ public class Prime {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = PRIME_NAME)
-    private String name;
+    private final String name;
     @ColumnInfo(name = PRIME_TYPE)
-    private String type;
+    private final String type;
     @ColumnInfo(name = PRIME_VAULTED, defaultValue = "0")
     private boolean vaulted;
 

@@ -1,5 +1,6 @@
 package com.warframefarm.database;
 
+import static com.warframefarm.data.WarframeConstants.BLUEPRINT;
 import static com.warframefarm.data.WarframeLists.getImageComponent;
 import static com.warframefarm.data.WarframeLists.isComponentBP;
 import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_ID;
@@ -10,28 +11,32 @@ import static com.warframefarm.database.WarframeFarmDatabase.PRIME_TYPE;
 import static com.warframefarm.database.WarframeFarmDatabase.PRIME_VAULTED;
 import static com.warframefarm.database.WarframeFarmDatabase.USER_COMPONENT_OWNED;
 
+import android.content.Context;
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Ignore;
 
 import com.warframefarm.R;
+import com.warframefarm.data.FirestoreHelper;
 
 import java.util.Objects;
 
 public class ComponentComplete implements Item {
 
     @ColumnInfo(name = COMPONENT_ID)
-    private String id;
+    private final String id;
     @ColumnInfo(name = COMPONENT_PRIME)
-    private String prime;
+    private final String prime;
     @ColumnInfo(name = COMPONENT_TYPE)
-    private String type;
+    private final String type;
     @ColumnInfo(name = PRIME_TYPE)
-    private String primeType;
+    private final String primeType;
     @ColumnInfo(name = COMPONENT_NEEDED)
-    private int needed;
+    private final int needed;
     @ColumnInfo(name = PRIME_VAULTED)
-    private boolean vaulted;
+    private final boolean vaulted;
     @ColumnInfo(name = USER_COMPONENT_OWNED)
     private boolean owned;
 
@@ -52,6 +57,10 @@ public class ComponentComplete implements Item {
         if (id == null || id.equals(""))
             return;
         blueprint = isComponentBP(type, primeType);
+    }
+
+    public String getName() {
+        return id;
     }
 
     public String getFullName() {
@@ -91,6 +100,19 @@ public class ComponentComplete implements Item {
 
     public boolean isOwned() {
         return owned;
+    }
+
+    public void displayPrimeImage(Context context, ImageView view) {
+        FirestoreHelper.loadPrimeImage(prime, context, view);
+    }
+
+    public void displayImage(Context context, ImageView view) {
+        view.setBackgroundResource(blueprint ? R.drawable.blueprint_bg : R.color.transparent);
+
+        if (type.equals(BLUEPRINT))
+            FirestoreHelper.loadPrimeImage(prime, context, view);
+        else
+            view.setImageResource(getImage());
     }
 
     public int getImage() {

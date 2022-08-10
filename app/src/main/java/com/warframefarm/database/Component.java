@@ -1,10 +1,10 @@
 package com.warframefarm.database;
 
-import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_TYPE;
 import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_ID;
 import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_NEEDED;
 import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_PRIME;
 import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_TABLE;
+import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_TYPE;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -17,11 +17,11 @@ public class Component {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = COMPONENT_ID)
-    private String id;
+    private final String id;
     @ColumnInfo(name = COMPONENT_PRIME)
-    private String prime;
+    private final String prime;
     @ColumnInfo(name = COMPONENT_TYPE)
-    private String type;
+    private final String type;
     @ColumnInfo(name = COMPONENT_NEEDED)
     private int needed;
 

@@ -25,20 +25,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.warframefarm.R;
 import com.warframefarm.activities.details.RelicDisplayAdapter;
 import com.warframefarm.activities.list.relics.PlanetMissionFarmAdapter;
+import com.warframefarm.database.Item;
 import com.warframefarm.database.Mission;
 import com.warframefarm.database.RelicComplete;
 import com.warframefarm.databinding.FragmentFarmBinding;
-import com.warframefarm.database.Item;
 
 import java.util.List;
 
-public class FarmFragment extends Fragment implements ItemAdapter.ItemListener, AddItemMenuDialog.AddItemMenuListener {
+public class FarmFragment extends Fragment implements ItemLineAdapter.ItemListener, AddItemMenuDialog.AddItemMenuListener {
 
     private Context context;
     private FragmentFarmBinding binding;
     private FarmViewModel farmViewModel;
 
-    private ItemAdapter itemAdapter;
+    private ItemLineAdapter itemLineAdapter;
     private RelicDisplayAdapter relicAdapter;
     private PlanetMissionFarmAdapter missionAdapter;
 
@@ -99,8 +99,8 @@ public class FarmFragment extends Fragment implements ItemAdapter.ItemListener, 
             dialog.show(fm, "Add Item Menu Dialog");
         });
 
-        itemAdapter = new ItemAdapter(context, this);
-        recyclerItems.setAdapter(itemAdapter);
+        itemLineAdapter = new ItemLineAdapter(context, this);
+        recyclerItems.setAdapter(itemLineAdapter);
         recyclerItems.setLayoutManager(new LinearLayoutManager(context));
 
         checkResult.setOnClickListener(v -> farmViewModel.checkFilter());
@@ -120,7 +120,7 @@ public class FarmFragment extends Fragment implements ItemAdapter.ItemListener, 
             public void onChanged(List<Item> items) {
                 if (items.isEmpty()) textEmptyStateItems.setVisibility(View.VISIBLE);
                 else textEmptyStateItems.setVisibility(View.GONE);
-                itemAdapter.updateItems(items);
+                itemLineAdapter.updateItems(items);
             }
         });
 

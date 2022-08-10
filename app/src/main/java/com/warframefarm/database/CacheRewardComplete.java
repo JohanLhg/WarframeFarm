@@ -11,11 +11,11 @@ import java.text.DecimalFormat;
 public class CacheRewardComplete extends RelicComplete implements RewardComplete {
 
     @ColumnInfo(name = C_REWARD_MISSION)
-    private String mission;
+    private final String mission;
     @ColumnInfo(name = C_REWARD_ROTATION)
-    private String rotation;
+    private final String rotation;
     @ColumnInfo(name = C_REWARD_DROP_CHANCE)
-    private double dropChance;
+    private final double dropChance;
 
     public CacheRewardComplete(String mission, String rotation, double dropChance, String id, String era, String name, boolean vaulted, int rarityNeeded) {
         super(id, era, name, vaulted, rarityNeeded);

@@ -14,10 +14,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class SelectItemViewHolder extends RecyclerView.ViewHolder {
 
-    ConstraintLayout layoutItem;
-    TextView textItemName;
-    ImageView imageItem, imagePrimeVault;
-    LinearLayout itemSeparator;
+    public final ConstraintLayout layoutItem;
+    public final TextView textItemName;
+    public final ImageView imageItem, imagePrimeVault;
+    public final LinearLayout itemSeparator;
 
     public SelectItemViewHolder(@NonNull @NotNull RecyclerSelectItemBinding binding) {
         super(binding.getRoot());

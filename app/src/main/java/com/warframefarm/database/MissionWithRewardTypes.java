@@ -24,15 +24,15 @@ public class MissionWithRewardTypes {
 
     @NonNull
     @ColumnInfo(name = MISSION_NAME)
-    private String name;
+    private final String name;
     @ColumnInfo(name = MISSION_PLANET)
-    private String planet;
+    private final String planet;
     @ColumnInfo(name = MISSION_OBJECTIVE)
-    private String objective;
+    private final String objective;
     @ColumnInfo(name = MISSION_FACTION)
-    private String faction;
+    private final String faction;
     @ColumnInfo(name = MISSION_TYPE)
-    private int type;
+    private final int type;
     @ColumnInfo(name = "rewards")
     private boolean rewards = false;
     @ColumnInfo(name = "bounties")
@@ -102,25 +102,15 @@ public class MissionWithRewardTypes {
         return missionRewards;
     }
 
-    public void addMissionReward(MissionReward missionReward) {
-        missionRewards.add(missionReward);
-    }
-
     public int getImageFaction() {
-        if (imageFaction == -2) {
-            if (FactionImage.containsKey(faction))
-                imageFaction = FactionImage.get(faction);
-            else imageFaction = R.color.transparent;
-        }
+        if (imageFaction == -2)
+            imageFaction = FactionImage.getOrDefault(faction, R.color.transparent);
         return imageFaction;
     }
 
     public int getImageType() {
-        if (imageType == -2) {
-            if (MissionTypeImage.containsKey(type))
-                imageType = MissionTypeImage.get(type);
-            else imageType = R.color.transparent;
-        }
+        if (imageType == -2)
+            imageType = MissionTypeImage.getOrDefault(type, R.color.transparent);
         return imageType;
     }
 }

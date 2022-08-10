@@ -20,7 +20,6 @@ import android.app.Application;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 
 import com.warframefarm.database.Mission;
-import com.warframefarm.database.MissionDao;
 import com.warframefarm.database.Planet;
 import com.warframefarm.database.PlanetDao;
 import com.warframefarm.database.WarframeFarmDatabase;

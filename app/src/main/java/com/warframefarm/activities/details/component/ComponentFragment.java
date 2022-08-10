@@ -2,7 +2,6 @@ package com.warframefarm.activities.details.component;
 
 import static com.warframefarm.activities.details.component.ComponentViewModel.MISSION;
 import static com.warframefarm.activities.details.component.ComponentViewModel.RELIC;
-import static com.warframefarm.data.WarframeConstants.BLUEPRINT;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -21,7 +20,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,15 +29,10 @@ import com.warframefarm.activities.details.RelicDisplayAdapter;
 import com.warframefarm.activities.details.prime.PrimeFragment;
 import com.warframefarm.activities.list.relics.PlanetMissionFarmAdapter;
 import com.warframefarm.activities.main.MainActivity;
-import com.warframefarm.data.FirestoreHelper;
-import com.warframefarm.database.ComponentComplete;
-import com.warframefarm.database.Mission;
-import com.warframefarm.database.RelicComplete;
 import com.warframefarm.databinding.FragmentComponentBinding;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 public class ComponentFragment extends Fragment {
 
@@ -193,102 +186,85 @@ public class ComponentFragment extends Fragment {
         buttonMission.setOnClickListener(v -> componentViewModel.setMode(MISSION));
 
         //region Observers
-        componentViewModel.getComponent().observe(getViewLifecycleOwner(), new Observer<ComponentComplete>() {
-            @Override
-            public void onChanged(ComponentComplete component) {
-                FirestoreHelper.loadPrimeImage(component.getPrime(), context, imagePrime);
-                imagePrime.setOnClickListener(v -> showPrime(component.getPrime()));
+        componentViewModel.getComponent().observe(getViewLifecycleOwner(), component -> {
+            component.displayPrimeImage(context, imagePrime);
+            imagePrime.setOnClickListener(v -> showPrime(component.getPrime()));
 
-                if (component.isVaulted()) {
-                    imageVault.setVisibility(View.VISIBLE);
-                    bottomNav.setVisibility(View.GONE);
-                }
-                else {
-                    imageVault.setVisibility(View.GONE);
-                    bottomNav.setVisibility(View.VISIBLE);
-                }
-
-                imageComponent.setBackgroundResource(component.isBlueprint() ? R.drawable.blueprint_bg : R.color.transparent);
-
-                if (component.getType().equals(BLUEPRINT))
-                    FirestoreHelper.loadPrimeImage(component.getPrime(), context, imageComponent);
-                else
-                    imageComponent.setImageResource(component.getImage());
-
-                textName.setText(component.getFullName());
-
-                if (component.isOwned()) imageOwned.setImageResource(R.drawable.owned);
-                else imageOwned.setImageResource(R.drawable.not_owned);
-
-                componentViewModel.updateResults();
+            if (component.isVaulted()) {
+                imageVault.setVisibility(View.VISIBLE);
+                bottomNav.setVisibility(View.GONE);
             }
+            else {
+                imageVault.setVisibility(View.GONE);
+                bottomNav.setVisibility(View.VISIBLE);
+            }
+
+            component.displayImage(context, imageComponent);
+
+            textName.setText(component.getFullName());
+
+            if (component.isOwned()) imageOwned.setImageResource(R.drawable.owned);
+            else imageOwned.setImageResource(R.drawable.not_owned);
+
+            componentViewModel.updateResults();
         });
 
-        componentViewModel.getMode().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer mode) {
-                switch (mode) {
-                    case RELIC:
-                        iconRelic.setBackgroundTintList(context.getColorStateList(R.color.colorAccent));
-                        textRelic.setTextColor(context.getColor(R.color.colorAccent));
+        componentViewModel.getMode().observe(getViewLifecycleOwner(), mode -> {
+            switch (mode) {
+                case RELIC:
+                    iconRelic.setBackgroundTintList(context.getColorStateList(R.color.colorAccent));
+                    textRelic.setTextColor(context.getColor(R.color.colorAccent));
 
-                        iconMission.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
-                        textMission.setTextColor(context.getColor(R.color.colorBackgroundDark));
+                    iconMission.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                    textMission.setTextColor(context.getColor(R.color.colorBackgroundDark));
 
-                        spinnerFilter.setVisibility(View.INVISIBLE);
+                    spinnerFilter.setVisibility(View.INVISIBLE);
 
-                        recyclerMissions.setVisibility(View.GONE);
-                        recyclerRelics.setVisibility(View.VISIBLE);
-                        break;
+                    recyclerMissions.setVisibility(View.GONE);
+                    recyclerRelics.setVisibility(View.VISIBLE);
+                    break;
 
-                    case MISSION:
-                        iconMission.setBackgroundTintList(context.getColorStateList(R.color.colorAccent));
-                        textMission.setTextColor(context.getColor(R.color.colorAccent));
+                case MISSION:
+                    iconMission.setBackgroundTintList(context.getColorStateList(R.color.colorAccent));
+                    textMission.setTextColor(context.getColor(R.color.colorAccent));
 
-                        iconRelic.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
-                        textRelic.setTextColor(context.getColor(R.color.colorBackgroundDark));
+                    iconRelic.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                    textRelic.setTextColor(context.getColor(R.color.colorBackgroundDark));
 
-                        spinnerFilter.setVisibility(View.VISIBLE);
+                    spinnerFilter.setVisibility(View.VISIBLE);
 
-                        recyclerRelics.setVisibility(View.GONE);
-                        recyclerMissions.setVisibility(View.VISIBLE);
-                        break;
-                }
+                    recyclerRelics.setVisibility(View.GONE);
+                    recyclerMissions.setVisibility(View.VISIBLE);
+                    break;
             }
         });
 
         componentViewModel.getRelics().observe(getViewLifecycleOwner(), relics -> {
-            relics.observe(getViewLifecycleOwner(), new Observer<List<RelicComplete>>() {
-                @Override
-                public void onChanged(List<RelicComplete> relics) {
-                    if (relics.isEmpty()) {
-                        textEmptyState.setText(R.string.empty_state_relics);
-                        recyclerRelics.setVisibility(View.INVISIBLE);
-                        textEmptyState.setVisibility(View.VISIBLE);
-                    } else {
-                        textEmptyState.setVisibility(View.GONE);
-                        recyclerRelics.setVisibility(View.VISIBLE);
-                    }
-
-                    relicAdapter.updateRelics(relics);
-                }
-            });
-        });
-
-        componentViewModel.getMissions().observe(getViewLifecycleOwner(), new Observer<List<Mission>>() {
-            @Override
-            public void onChanged(List<Mission> missions) {
-                if (missions.isEmpty()) {
-                    textEmptyState.setText(R.string.empty_state_missions);
-                    recyclerMissions.setVisibility(View.INVISIBLE);
+            relics.observe(getViewLifecycleOwner(), relics1 -> {
+                if (relics1.isEmpty()) {
+                    textEmptyState.setText(R.string.empty_state_relics);
+                    recyclerRelics.setVisibility(View.INVISIBLE);
                     textEmptyState.setVisibility(View.VISIBLE);
                 } else {
                     textEmptyState.setVisibility(View.GONE);
-                    recyclerMissions.setVisibility(View.VISIBLE);
+                    recyclerRelics.setVisibility(View.VISIBLE);
                 }
 
-                missionAdapter.updateMissions(missions);
+                relicAdapter.updateRelics(relics1);
+            });
+        });
+
+        componentViewModel.getMissions().observe(getViewLifecycleOwner(), missions -> {
+            if (missions.isEmpty()) {
+                textEmptyState.setText(R.string.empty_state_missions);
+                recyclerMissions.setVisibility(View.INVISIBLE);
+                textEmptyState.setVisibility(View.VISIBLE);
+            } else {
+                textEmptyState.setVisibility(View.GONE);
+                recyclerMissions.setVisibility(View.VISIBLE);
             }
+
+            missionAdapter.updateMissions(missions);
         });
         //endregion
 

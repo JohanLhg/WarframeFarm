@@ -19,9 +19,9 @@ public class Planet {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = PLANET_NAME)
-    private String name;
+    private final String name;
     @ColumnInfo(name = PLANET_FACTION)
-    private String faction;
+    private final String faction;
 
     @Ignore
     private int imageFaction = -2;

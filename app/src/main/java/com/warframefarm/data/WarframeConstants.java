@@ -39,8 +39,7 @@ public class WarframeConstants {
             ORNAMENT = "Ornament",
             GAUNTLET = "Gauntlet", BOOT = "Boot",
             CHAIN = "Chain",
-            DISC = "Disc",
-            FORMA = "Forma";
+            DISC = "Disc";
     public static final String ARENA = "Arena",
             ASSASSINATION = "Assassination",
             ASSAULT = "Assault",

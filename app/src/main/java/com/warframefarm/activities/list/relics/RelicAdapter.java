@@ -75,9 +75,9 @@ public class RelicAdapter extends RecyclerView.Adapter<RelicAdapter.RelicViewHol
 
     public static class RelicViewHolder extends RecyclerView.ViewHolder {
 
-        ConstraintLayout layoutRelic;
-        TextView textRelicName;
-        ImageView imageEra, imageVault, imageRarityNeeded;
+        public final ConstraintLayout layoutRelic;
+        public final TextView textRelicName;
+        public final ImageView imageEra, imageVault, imageRarityNeeded;
 
         public RelicViewHolder(@NonNull @NotNull RecyclerRelicBinding binding) {
             super(binding.getRoot());

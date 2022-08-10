@@ -6,7 +6,6 @@
     android:paddingTop="2dp"
     android:paddingEnd="10dp"
     android:paddingBottom="2dp"
-    android:text="A: 5%"
     android:textColor="@color/colorBackgroundLight"
     android:textSize="16sp">
 

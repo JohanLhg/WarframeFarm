@@ -33,7 +33,7 @@ public class RelicComplete {
     @Ignore
     private int image =-2, imageRadiant = -2, imageRarity = -2;
     @Ignore
-    private List<RelicRewardComplete> neededRewards = new ArrayList<>();
+    private final List<RelicRewardComplete> neededRewards = new ArrayList<>();
 
     public RelicComplete(String id, String era, String name, boolean vaulted, int rarityNeeded) {
         this.id = id;

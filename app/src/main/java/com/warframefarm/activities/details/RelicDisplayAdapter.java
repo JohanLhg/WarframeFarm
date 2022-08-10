@@ -102,10 +102,10 @@ public class RelicDisplayAdapter extends RecyclerView.Adapter<RelicDisplayAdapte
 
     public static class RelicDisplayViewHolder extends RecyclerView.ViewHolder {
 
-        ConstraintLayout layoutRelic;
-        TextView textRelic;
-        ImageView imageEra, imageVault, imageRarity;
-        RecyclerView recyclerRewards;
+        public final ConstraintLayout layoutRelic;
+        public final TextView textRelic;
+        public final ImageView imageEra, imageVault, imageRarity;
+        public final RecyclerView recyclerRewards;
 
         public RelicDisplayViewHolder(@NonNull @NotNull RecyclerRelicDisplayBinding binding) {
             super(binding.getRoot());

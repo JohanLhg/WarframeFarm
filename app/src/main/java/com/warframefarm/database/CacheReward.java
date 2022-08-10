@@ -18,13 +18,13 @@ public class CacheReward {
     @ColumnInfo(name = C_REWARD_ID)
     private int id;
     @ColumnInfo(name = C_REWARD_MISSION)
-    private String mission;
+    private final String mission;
     @ColumnInfo(name = C_REWARD_RELIC)
-    private String relic;
+    private final String relic;
     @ColumnInfo(name = C_REWARD_ROTATION)
-    private String rotation;
+    private final String rotation;
     @ColumnInfo(name = C_REWARD_DROP_CHANCE)
-    private double dropChance;
+    private final double dropChance;
 
     public CacheReward(String mission, String relic, String rotation, double dropChance) {
         this.mission = mission;

@@ -13,9 +13,9 @@ public class App {
 
     @PrimaryKey
     @ColumnInfo(name = APP_ID)
-    private int id;
+    private final int id;
     @ColumnInfo(name = APP_BUILD)
-    private int build;
+    private final int build;
 
     public App(int id, int build) {
         this.id = id;

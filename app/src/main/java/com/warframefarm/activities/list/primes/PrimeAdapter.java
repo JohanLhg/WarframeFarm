@@ -12,7 +12,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.warframefarm.R;
-import com.warframefarm.data.FirestoreHelper;
 import com.warframefarm.database.PrimeComplete;
 import com.warframefarm.databinding.RecyclerPrimeBinding;
 
@@ -52,7 +51,7 @@ public class PrimeAdapter extends RecyclerView.Adapter<PrimeAdapter.PrimeViewHol
 
         holder.textPrimeName.setText(primeName);
 
-        FirestoreHelper.loadPrimeImage(primeName, context, holder.imagePrime);
+        prime.displayImage(context, holder.imagePrime);
 
         holder.imageType.setImageResource(prime.getImageType());
 
@@ -222,9 +221,9 @@ public class PrimeAdapter extends RecyclerView.Adapter<PrimeAdapter.PrimeViewHol
 
     public static class PrimeViewHolder extends RecyclerView.ViewHolder {
 
-        ConstraintLayout layoutPrime;
-        TextView textPrimeName;
-        ImageView imageSelect, imagePrime, imageType, imagePrimeVault, imageOwned;
+        public final ConstraintLayout layoutPrime;
+        public final TextView textPrimeName;
+        public final ImageView imageSelect, imagePrime, imageType, imagePrimeVault, imageOwned;
 
         public PrimeViewHolder(@NonNull @NotNull RecyclerPrimeBinding binding) {
             super(binding.getRoot());

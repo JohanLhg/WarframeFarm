@@ -86,7 +86,7 @@ import com.warframefarm.R;
 import java.util.HashMap;
 
 public class WarframeLists {
-    public static HashMap<String, Integer> PrimeTypeImage = setPrimeTypeImage(),
+    public static final HashMap<String, Integer> PrimeTypeImage = setPrimeTypeImage(),
             RelicEraImage = setRelicEraImage(),
             RelicEraRadiantImage = setRelicEraRadiantImage(),
             FactionImage = setFactionImage(),
@@ -94,7 +94,7 @@ public class WarframeLists {
             MissionDescription = setMissionDescription(),
             MissionRotationsInfo = setMissionRotationsInfo(),
             MissionEfficiencyInfo = setMissionEfficiencyInfo();
-    public static HashMap<Integer, Integer> RelicRarityImage = setRelicRarityImage(),
+    public static final HashMap<Integer, Integer> RelicRarityImage = setRelicRarityImage(),
             MissionTypeImage = setMissionTypeImage();
 
     private static HashMap<String, Integer> setPrimeTypeImage() {

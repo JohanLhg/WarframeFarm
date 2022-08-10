@@ -80,9 +80,9 @@ public class MissionRewardAdapter extends RecyclerView.Adapter<MissionRewardAdap
 
     public static class MissionRewardViewHolder extends RecyclerView.ViewHolder {
 
-        LinearLayout layoutRelic;
-        ImageView imageItem, imageRarityNeeded;
-        TextView textItemName, textItemChance;
+        public final LinearLayout layoutRelic;
+        public final ImageView imageItem, imageRarityNeeded;
+        public final TextView textItemName, textItemChance;
 
         public MissionRewardViewHolder(@NonNull @NotNull RecyclerMissionRewardBinding binding) {
             super(binding.getRoot());

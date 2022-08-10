@@ -12,7 +12,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.warframefarm.CommunicationHandler;
 import com.warframefarm.R;
 import com.warframefarm.data.FirestoreHelper;
-import com.warframefarm.database.WarframeFarmDatabase;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -128,8 +128,4 @@ public class MainRepository {
             userComponentRepository.resetComponents();
         });
     }
-
-    public void checkForUpdates() {
-        firestoreHelper.checkForUpdates();
-    }
 }

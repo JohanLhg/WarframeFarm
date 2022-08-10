@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ComponentViewHolder extends RecyclerView.ViewHolder {
 
-    ConstraintLayout layoutComponent;
-    ImageView imageComponent, imageOwned, imageVault;
-    TextView textName;
+    public final ConstraintLayout layoutComponent;
+    public final ImageView imageComponent, imageOwned, imageVault;
+    public final TextView textName;
 
     public ComponentViewHolder(com.warframefarm.databinding.RecyclerComponentBinding binding) {
         super(binding.getRoot());

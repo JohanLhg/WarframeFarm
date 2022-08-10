@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class LoadMoreViewHolder extends RecyclerView.ViewHolder {
 
-    public ConstraintLayout layoutLoadMore;
+    public final ConstraintLayout layoutLoadMore;
 
     public LoadMoreViewHolder(@NonNull @NotNull RecyclerLoadMoreBinding binding) {
         super(binding.getRoot());
