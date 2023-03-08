@@ -33,6 +33,7 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
     public static final String APP_TABLE = "APP_TABLE";
     public static final String APP_ID = "app_id";
     public static final String APP_BUILD = "app_build";
+    public static final String APP_API_TIMESTAMP = "app_api_timestamp";
 
     //Primes Table
     public static final String PRIME_TABLE = "PRIME_TABLE";
@@ -46,6 +47,16 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
     public static final String COMPONENT_PRIME = "component_prime";
     public static final String COMPONENT_TYPE = "component_type";
     public static final String COMPONENT_NEEDED = "component_needed";
+
+    //Warframe Table
+    public static final String WARFRAME_TABLE = "WARFRAME_TABLE";
+    public static final String WARFRAME_NAME = "warframe_name";
+
+    //Lich Weapons Table
+    public static final String LICH_WEAPON_TABLE = "WARFRAME_TABLE";
+    public static final String LICH_WEAPON_NAME = "lich_weapon_name";
+    public static final String LICH_WEAPON_TYPE = "lich_weapon_type";
+    public static final String LICH_WEAPON_FACTION = "lich_weapon_faction";
 
     //Relics Table
     public static final String RELIC_TABLE = "RELIC_TABLE";
@@ -111,6 +122,16 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
     public static final String USER_COMPONENT_ID = "user_component_id";
     public static final String USER_COMPONENT_OWNED = "user_component_owned";
 
+    //User Warframes Table
+    public static final String USER_WARFRAME_TABLE = "USER_WARFRAME_TABLE";
+    public static final String USER_WARFRAME_NAME = "user_warframe_name";
+    public static final String USER_WARFRAME_OWNED = "user_warframe_owned";
+
+    //User Lich Weapons Table
+    public static final String USER_LICH_WEAPONS_TABLE = "USER_LICH_WEAPONS_TABLE";
+    public static final String USER_LICH_WEAPONS_NAME = "user_lich_weapons_name";
+    public static final String USER_LICH_WEAPONS_OWNED = "user_lich_weapons_owned";
+
     //User Settings Table
     public static final String SETTINGS_TABLE = "SETTINGS_TABLE";
     public static final String SETTINGS_ID = "settings_id";
@@ -146,6 +167,7 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
             backgroundThread.execute(() -> {
+                System.out.println("Populating database");
                 instance.setUpApp();
                 instance.setUpSettings();
             });
@@ -166,9 +188,10 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
 
     //App
     public void setUpApp() {
+        System.out.println("Setting up app");
         AppDao appDao = appDao();
 
-        appDao.insert(new App(0, 0));
+        appDao.insert(new App(0, 0, 0));
     }
 
     //Relic
@@ -323,17 +346,12 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
         primeDao().setVaultStates();
     }
 
-    public void setUpBountyRewards(String json) {
+    public void setUpBountyRewards(HashMap<String, String> bountyRewards) {
         BountyRewardDao bountyRewardDao = bountyRewardDao();
         bountyRewardDao.clear();
 
-        HashMap<String, String> bountyMap = new HashMap<>();
-        bountyMap.put("Plains of Eidolon", "cetusBountyRewards");
-        bountyMap.put("Orb Vallis", "solarisBountyRewards");
-        bountyMap.put("Cambion Drift", "deimosRewards");
         try {
-            JSONObject jsonObject = new JSONObject(json);
-            Set<String> missions = bountyMap.keySet();
+            Set<String> missions = bountyRewards.keySet();
             JSONArray bountiesArray;
             JSONObject bounty;
             String level;
@@ -342,7 +360,7 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
             JSONArray rewardsB;
             JSONArray rewardsC;
             for (String mission : missions) {
-                bountiesArray = jsonObject.getJSONArray(bountyMap.get(mission));
+                bountiesArray = new JSONArray(bountyRewards.get(mission));
 
                 for (int i = 0; i < bountiesArray.length(); i++) {
                     bounty = bountiesArray.getJSONObject(i);

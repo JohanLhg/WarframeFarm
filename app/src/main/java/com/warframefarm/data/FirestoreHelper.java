@@ -1,5 +1,7 @@
 package com.warframefarm.data;
 
+import static com.warframefarm.CommunicationHandler.CHECK_FOR_NEW_USER_DATA;
+import static com.warframefarm.CommunicationHandler.CHECK_FOR_UPDATES;
 import static com.warframefarm.data.FirestoreTags.APP_TAG;
 import static com.warframefarm.data.FirestoreTags.BUILD_TAG;
 import static com.warframefarm.data.FirestoreTags.COMPONENT_TAG;
@@ -18,8 +20,6 @@ import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
-import android.os.StrictMode;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -35,8 +35,6 @@ import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.installations.FirebaseInstallations;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.warframefarm.AppExecutors;
-import com.warframefarm.CommunicationHandler;
 import com.warframefarm.R;
 import com.warframefarm.database.AppDao;
 import com.warframefarm.database.Component;
@@ -54,26 +52,15 @@ import com.warframefarm.database.UserComponent;
 import com.warframefarm.database.UserComponentDao;
 import com.warframefarm.database.UserPrime;
 import com.warframefarm.database.UserPrimeDao;
-import com.warframefarm.database.WarframeFarmDatabase;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Executor;
 
-public class FirestoreHelper {
+public class FirestoreHelper extends DataLoader {
 
     private static FirestoreHelper instance;
-
-    private final WarframeFarmDatabase database;
     private final AppDao appDao;
     private final PrimeDao primeDao;
     private final ComponentDao componentDao;
@@ -83,29 +70,16 @@ public class FirestoreHelper {
     private final UserComponentDao userComponentDao;
 
     private final FirebaseFirestore firestore;
-    private final FirebaseStorage storage;
     private final FirebaseAuth auth;
 
     private String ID = "";
-    private CommunicationHandler communicationHandler;
-    private Integer currentAction;
-    private final List<Integer> taskQueue = new ArrayList<>();
-    public final static int CHECK_FOR_UPDATES = 0, CHECK_FOR_NEW_USER_DATA = 1,
-            CHECK_FOR_OFFLINE_CHANGES = 2;
-    public final static int LOADING_PRIMES = -1, LOADING_COMPONENTS = -2, LOADING_RELICS = -3, LOADING_PLANETS = -4,
-            LOADING_MISSIONS = -5;
+    public final static int LOADING_PRIMES = -1, LOADING_COMPONENTS = -2, LOADING_PLANETS = -3,
+            LOADING_MISSIONS = -4;
 
-    private final Executor backgroundThread, mainThread;
-
-    public FirestoreHelper(Application application, CommunicationHandler communicationHandler) {
-        this(application);
-        this.communicationHandler = communicationHandler;
-    }
-
-    private FirestoreHelper(Application application) {
+    public FirestoreHelper(Application application) {
+        super(application);
         setID();
 
-        database = WarframeFarmDatabase.getInstance(application);
         appDao = database.appDao();
         primeDao = database.primeDao();
         componentDao = database.componentDao();
@@ -115,12 +89,7 @@ public class FirestoreHelper {
         userComponentDao = database.userComponentDao();
 
         firestore = FirebaseFirestore.getInstance();
-        storage = FirebaseStorage.getInstance();
         auth = FirebaseAuth.getInstance();
-
-        AppExecutors executors = new AppExecutors();
-        backgroundThread = executors.getBackgroundThread();
-        mainThread = executors.getMainThread();
     }
 
     public static FirestoreHelper getInstance(Application application) {
@@ -143,8 +112,8 @@ public class FirestoreHelper {
     }
 
     public void checkForUpdates() {
-        Collections.addAll(taskQueue, LOADING_PRIMES, LOADING_PLANETS, LOADING_MISSIONS, LOADING_RELICS);
-        currentAction = CHECK_FOR_UPDATES;
+        addTasksToQueue(LOADING_PRIMES, LOADING_PLANETS, LOADING_MISSIONS);
+        setCurrentAction(CHECK_FOR_UPDATES);
         DocumentReference docRef = firestore.collection(APP_TAG).document(INFO_TAG);
 
         docRef.get().addOnCompleteListener(task -> {
@@ -160,6 +129,7 @@ public class FirestoreHelper {
                     long current_build = appDao.getCurrentVersion();
 
                     if (build > current_build) {
+                        appDao.updateApiTimestamp(0);
                         Query queryPrimes = firestore.collection(PRIMES_TAG).whereGreaterThan(BUILD_TAG, current_build);
                         Query queryPlanets = firestore.collection(PLANETS_TAG).whereGreaterThan(BUILD_TAG, current_build);
                         Query queryMissions = firestore.collection(MISSIONS_TAG).whereGreaterThan(BUILD_TAG, current_build);
@@ -228,16 +198,12 @@ public class FirestoreHelper {
                                                     mission.getString(FACTION_TAG),
                                                     Math.toIntExact(mission.getLong(TYPE_TAG))
                                             ));
-
-                                        loadRewards();
                                     }
-                                    loadRewards();
                                     finishTask(LOADING_MISSIONS);
                                 });
                             }
                             else {
                                 finishTask(LOADING_MISSIONS);
-                                finishTask(LOADING_RELICS);
                             }
                         });
 
@@ -247,61 +213,6 @@ public class FirestoreHelper {
                 });
             }
             else finishAction(CHECK_FOR_UPDATES);
-        });
-    }
-
-    public void loadRewards() {
-        StorageReference fileRef = storage.getReference().child("all.json");
-        fileRef.getDownloadUrl().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Uri uri = task.getResult();
-                HttpURLConnection connection = null;
-                BufferedReader reader = null;
-
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
-
-                try {
-                    URL url = new URL(uri.toString());
-                    connection = (HttpURLConnection) url.openConnection();
-                    connection.connect();
-
-
-                    InputStream stream = connection.getInputStream();
-
-                    reader = new BufferedReader(new InputStreamReader(stream));
-
-                    StringBuilder buffer = new StringBuilder();
-                    String line;
-
-                    while ((line = reader.readLine()) != null)
-                        buffer.append(line + "\n");
-
-                    backgroundThread.execute(() -> {
-                        String json = buffer.toString();
-                        database.setUpRelics(json);
-                        database.setUpMissionRewards(json);
-                        database.setUpBountyRewards(json);
-                        finishTask(LOADING_RELICS);
-                    });
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    finishTask(LOADING_RELICS);
-                } finally {
-                    if (connection != null) {
-                        connection.disconnect();
-                    }
-                    try {
-                        if (reader != null) {
-                            reader.close();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            else finishTask(LOADING_RELICS);
         });
     }
 
@@ -391,8 +302,8 @@ public class FirestoreHelper {
             return;
         }
 
-        Collections.addAll(taskQueue, LOADING_PRIMES, LOADING_COMPONENTS);
-        currentAction = CHECK_FOR_NEW_USER_DATA;
+        addTasksToQueue(LOADING_PRIMES, LOADING_COMPONENTS);
+        setCurrentAction(CHECK_FOR_NEW_USER_DATA);
 
         String userID = user.getUid();
         DocumentReference docRef = firestore.collection(USERS_TAG).document(userID);
@@ -583,22 +494,5 @@ public class FirestoreHelper {
                 .thumbnail(Glide.with(context).load(R.drawable.loading))
                 .centerInside()
                 .into(view);
-    }
-
-    private void finishTask(Integer taskID) {
-        taskQueue.remove(taskID);
-        if (taskQueue.isEmpty())
-            finishAction(currentAction);
-    }
-
-    private void startAction(Integer actionID) {
-        if (communicationHandler != null)
-            mainThread.execute(() -> communicationHandler.startAction(actionID));
-    }
-
-    private void finishAction(Integer actionID) {
-        taskQueue.clear();
-        if (communicationHandler != null)
-            mainThread.execute(() -> communicationHandler.finishAction(actionID));
     }
 }
