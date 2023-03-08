@@ -167,7 +167,6 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
             backgroundThread.execute(() -> {
-                System.out.println("Populating database");
                 instance.setUpApp();
                 instance.setUpSettings();
             });
@@ -188,7 +187,6 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
 
     //App
     public void setUpApp() {
-        System.out.println("Setting up app");
         AppDao appDao = appDao();
 
         appDao.insert(new App(0, 0, 0));

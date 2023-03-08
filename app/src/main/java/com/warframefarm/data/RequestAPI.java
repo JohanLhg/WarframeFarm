@@ -21,7 +21,6 @@ public class RequestAPI extends DataLoader {
     }
 
     public static String sendGet(String url) throws Exception {
-        System.out.println("Sending GET request to: " + url);
         okhttp3.Request request = new okhttp3.Request.Builder()
                 .url(url)
                 .build();
@@ -40,14 +39,10 @@ public class RequestAPI extends DataLoader {
             setCurrentAction(CHECK_FOR_NEW_RELIC_DATA);
             int databaseTimestamp = database.appDao().getApiTimestamp();
 
-            System.out.println("databaseTimestamp: " + databaseTimestamp);
-
             try {
                 String json = sendGet(WARFRAME_API_URL + "/info.json");
 
                 int apiTimestamp = JsonParser.parseString(json).getAsJsonObject().get("timestamp").getAsInt();
-
-                System.out.println("apiTimestamp: " + apiTimestamp);
 
                 if (databaseTimestamp != apiTimestamp) {
                     database.setUpRelics(getRelics());
