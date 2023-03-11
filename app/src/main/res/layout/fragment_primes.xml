@@ -5,15 +5,13 @@
     android:id="@+id/fragmentPrimes"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="true"
+    android:padding="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/toolbarPrimes"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
         android:background="@color/textBackground"
         android:elevation="5dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,10 +43,8 @@
         android:id="@+id/recyclerPrimes"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
         app:layoutManager="GridLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/layoutSelectionMode"
+        app:layout_constraintBottom_toTopOf="@+id/bottomBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbarPrimes"
@@ -61,63 +57,73 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/layoutSelectionMode"
+        app:layout_constraintBottom_toTopOf="@+id/bottomBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbarPrimes" />
 
     <LinearLayout
-        android:id="@+id/layoutSelectionMode"
+        android:id="@+id/bottomBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:minHeight="10dp"
         android:background="@color/textBackground"
         android:elevation="5dp"
-        android:orientation="vertical"
-        android:padding="5dp"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="horizontal">
+
 
         <LinearLayout
+            android:id="@+id/layoutSelectionMode"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:background="@color/textBackground"
+            android:elevation="5dp"
+            android:orientation="vertical"
+            android:padding="5dp"
+            android:visibility="gone">
 
-            <Button
-                android:id="@+id/buttonCancel"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="5dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/transparent"
-                android:elevation="0dp"
-                android:text="@string/cancel"
-                android:textColor="@color/colorBackgroundDark"
-                app:strokeColor="@color/colorBackgroundLight" />
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/buttonCancel"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/transparent"
+                    android:elevation="0dp"
+                    android:text="@string/cancel"
+                    android:textColor="@color/colorBackgroundDark"
+                    app:strokeColor="@color/colorBackgroundLight" />
+
+                <Button
+                    android:id="@+id/buttonSelectAll"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/colorBackgroundLight"
+                    android:text="@string/select_all" />
+
+            </LinearLayout>
 
             <Button
-                android:id="@+id/buttonSelectAll"
-                android:layout_width="0dp"
+                android:id="@+id/buttonCheck"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/colorBackgroundLight"
-                android:text="@string/select_all" />
+                android:text="@string/check_selected" />
 
         </LinearLayout>
-
-        <Button
-            android:id="@+id/buttonCheck"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:backgroundTint="@color/colorBackgroundLight"
-            android:text="@string/check_selected" />
 
     </LinearLayout>
 

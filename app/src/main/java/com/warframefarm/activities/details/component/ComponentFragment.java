@@ -55,7 +55,7 @@ public class ComponentFragment extends Fragment {
     private TextView textEmptyState;
     private RecyclerView recyclerRelics, recyclerMissions;
 
-    private LinearLayout bottomNav, buttonRelic, buttonMission;
+    private LinearLayout buttonRelic, buttonMission;
     private ImageView iconRelic, iconMission;
     private TextView textRelic, textMission;
 
@@ -92,8 +92,6 @@ public class ComponentFragment extends Fragment {
         textEmptyState = binding.textEmptyStateComponent;
         recyclerRelics = binding.recyclerRelics;
         recyclerMissions = binding.recyclerMissions;
-
-        bottomNav = binding.bottomNavComponent;
 
         buttonRelic = binding.buttonRelic;
         iconRelic = binding.iconRelic;
@@ -192,11 +190,13 @@ public class ComponentFragment extends Fragment {
 
             if (component.isVaulted()) {
                 imageVault.setVisibility(View.VISIBLE);
-                bottomNav.setVisibility(View.GONE);
+                buttonMission.setVisibility(View.GONE);
+                buttonRelic.setVisibility(View.GONE);
             }
             else {
                 imageVault.setVisibility(View.GONE);
-                bottomNav.setVisibility(View.VISIBLE);
+                buttonMission.setVisibility(View.VISIBLE);
+                buttonRelic.setVisibility(View.VISIBLE);
             }
 
             component.displayImage(context, imageComponent);

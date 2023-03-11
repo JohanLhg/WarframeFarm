@@ -169,121 +169,106 @@ public class MissionFragment extends Fragment {
         buttonCache.setOnClickListener(v -> missionViewModel.setMode(CACHES));
 
         //region Observer
-        missionViewModel.getMission().observe(getViewLifecycleOwner(), new Observer<MissionWithRewardTypes>() {
-            @Override
-            public void onChanged(MissionWithRewardTypes mission) {
-                switch (mission.getPlanet()) {
-                    case "Void":
-                    case "Veil":
-                    case "Zariman":
-                        imagePlanet.setVisibility(View.GONE);
-                        imageSpecial.setVisibility(View.VISIBLE);
-                        FirestoreHelper.loadPlanetBackgroundImage(mission.getPlanet(), context, imageSpecial);
-                        break;
+        missionViewModel.getMission().observe(getViewLifecycleOwner(), mission -> {
+            switch (mission.getPlanet()) {
+                case "Void":
+                case "Veil":
+                case "Zariman":
+                    imagePlanet.setVisibility(View.GONE);
+                    imageSpecial.setVisibility(View.VISIBLE);
+                    FirestoreHelper.loadPlanetBackgroundImage(mission.getPlanet(), context, imageSpecial);
+                    break;
 
-                    default:
-                        FirestoreHelper.loadPlanetImage(mission.getPlanet(), context, imagePlanet);
-                        break;
-                }
+                default:
+                    FirestoreHelper.loadPlanetImage(mission.getPlanet(), context, imagePlanet);
+                    break;
+            }
 
-                int type = mission.getType();
-                cacheRotationAdapter.setType(type);
-                if (type == TYPE_NORMAL) {
-                    imageType.setVisibility(View.GONE);
-                    iconCache.setBackgroundResource(R.drawable.cache);
-                    textCache.setText(R.string.title_caches);
-                }
-                else {
-                    imageType.setImageResource(mission.getImageType());
-                    imageType.setVisibility(View.VISIBLE);
+            int type = mission.getType();
+            cacheRotationAdapter.setType(type);
+            if (type == TYPE_NORMAL) {
+                imageType.setVisibility(View.GONE);
+                iconCache.setBackgroundResource(R.drawable.cache);
+                textCache.setText(R.string.title_caches);
+            }
+            else {
+                imageType.setImageResource(mission.getImageType());
+                imageType.setVisibility(View.VISIBLE);
 
-                    if (type == TYPE_EMPYREAN)
-                        iconReward.setBackgroundResource(R.drawable.empyrean);
-                }
+                if (type == TYPE_EMPYREAN)
+                    iconReward.setBackgroundResource(R.drawable.empyrean);
+            }
 
-                textMission.setText(mission.getName());
-                textMissionObjective.setText(mission.getObjective());
+            textMission.setText(mission.getName());
+            textMissionObjective.setText(mission.getObjective());
 
-                imageFaction.setImageResource(mission.getImageFaction());
+            imageFaction.setImageResource(mission.getImageFaction());
 
-                if (MissionDescription.containsKey(mission.getObjective())) {
-                    buttonObjectiveInfo.setVisibility(View.VISIBLE);
-                    buttonObjectiveInfo.setOnClickListener(v -> {
-                        FragmentManager fm = getParentFragmentManager();
-                        InfoMissionObjectiveDialog dialog = new InfoMissionObjectiveDialog(mission.getObjective());
-                        dialog.show(fm, "Info Mission Objective Dialog");
-                    });
-                } else buttonObjectiveInfo.setVisibility(View.GONE);
+            if (MissionDescription.containsKey(mission.getObjective())) {
+                buttonObjectiveInfo.setVisibility(View.VISIBLE);
+                buttonObjectiveInfo.setOnClickListener(v -> {
+                    FragmentManager fm = getParentFragmentManager();
+                    InfoMissionObjectiveDialog dialog = new InfoMissionObjectiveDialog(mission.getObjective());
+                    dialog.show(fm, "Info Mission Objective Dialog");
+                });
+            } else buttonObjectiveInfo.setVisibility(View.GONE);
 
-                if (mission.getRewardTypes().size() > 1) {
-                    bottomNavMission.setVisibility(View.VISIBLE);
-                    buttonReward.setVisibility(mission.hasRewards() ? View.VISIBLE : View.GONE);
-                    buttonBounty.setVisibility(mission.hasBounties() ? View.VISIBLE : View.GONE);
-                    buttonCache.setVisibility(mission.hasCaches() ? View.VISIBLE : View.GONE);
-                }
-                else bottomNavMission.setVisibility(View.GONE);
+            if (mission.getRewardTypes().size() > 1) {
+                buttonReward.setVisibility(mission.hasRewards() ? View.VISIBLE : View.GONE);
+                buttonBounty.setVisibility(mission.hasBounties() ? View.VISIBLE : View.GONE);
+                buttonCache.setVisibility(mission.hasCaches() ? View.VISIBLE : View.GONE);
+            }
+            else {
+                buttonReward.setVisibility(View.GONE);
+                buttonBounty.setVisibility(View.GONE);
+                buttonCache.setVisibility(View.GONE);
             }
         });
 
-        missionViewModel.getMode().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer mode) {
-                iconReward.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
-                textReward.setTextColor(context.getColor(R.color.colorBackgroundDark));
+        missionViewModel.getMode().observe(getViewLifecycleOwner(), mode -> {
+            iconReward.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
+            textReward.setTextColor(context.getColor(R.color.colorBackgroundDark));
 
-                iconBounty.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
-                textBounty.setTextColor(context.getColor(R.color.colorBackgroundDark));
+            iconBounty.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
+            textBounty.setTextColor(context.getColor(R.color.colorBackgroundDark));
 
-                iconCache.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
-                textCache.setTextColor(context.getColor(R.color.colorBackgroundDark));
+            iconCache.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
+            textCache.setTextColor(context.getColor(R.color.colorBackgroundDark));
 
-                switch (mode) {
-                    case REWARDS:
-                        iconReward.setBackgroundTintList(context.getColorStateList(R.color.colorAccent));
-                        textReward.setTextColor(context.getColor(R.color.colorAccent));
-                        break;
-                    case BOUNTIES:
-                        iconBounty.setBackgroundTintList(context.getColorStateList(R.color.colorAccent));
-                        textBounty.setTextColor(context.getColor(R.color.colorAccent));
-                        break;
-                    case CACHES:
-                        iconCache.setBackgroundTintList(context.getColorStateList(R.color.colorAccent));
-                        textCache.setTextColor(context.getColor(R.color.colorAccent));
-                        break;
-                }
+            switch (mode) {
+                case REWARDS:
+                    iconReward.setBackgroundTintList(context.getColorStateList(R.color.colorAccent));
+                    textReward.setTextColor(context.getColor(R.color.colorAccent));
+                    break;
+                case BOUNTIES:
+                    iconBounty.setBackgroundTintList(context.getColorStateList(R.color.colorAccent));
+                    textBounty.setTextColor(context.getColor(R.color.colorAccent));
+                    break;
+                case CACHES:
+                    iconCache.setBackgroundTintList(context.getColorStateList(R.color.colorAccent));
+                    textCache.setTextColor(context.getColor(R.color.colorAccent));
+                    break;
             }
         });
 
-        missionViewModel.getFilter().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean filter) {
-                if (filter) imageWantedFilter.setImageTintList(context.getColorStateList(R.color.colorAccent));
-                else imageWantedFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
-            }
+        missionViewModel.getFilter().observe(getViewLifecycleOwner(), filter -> {
+            if (filter) imageWantedFilter.setImageTintList(context.getColorStateList(R.color.colorAccent));
+            else imageWantedFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
         });
 
-        missionViewModel.getMissionRewards().observe(getViewLifecycleOwner(), new Observer<List<MissionRewardComplete>>() {
-            @Override
-            public void onChanged(List<MissionRewardComplete> rewards) {
-                missionRotationAdapter.updateMissionRotations(rewards);
-                recyclerRotations.setAdapter(missionRotationAdapter);
-            }
+        missionViewModel.getMissionRewards().observe(getViewLifecycleOwner(), rewards -> {
+            missionRotationAdapter.updateMissionRotations(rewards);
+            recyclerRotations.setAdapter(missionRotationAdapter);
         });
 
-        missionViewModel.getBountyRewards().observe(getViewLifecycleOwner(), new Observer<List<BountyRewardComplete>>() {
-            @Override
-            public void onChanged(List<BountyRewardComplete> rewards) {
-                bountyCategoryAdapter.updateRewards(rewards);
-                recyclerRotations.setAdapter(bountyCategoryAdapter);
-            }
+        missionViewModel.getBountyRewards().observe(getViewLifecycleOwner(), rewards -> {
+            bountyCategoryAdapter.updateRewards(rewards);
+            recyclerRotations.setAdapter(bountyCategoryAdapter);
         });
 
-        missionViewModel.getCacheRewards().observe(getViewLifecycleOwner(), new Observer<List<CacheRewardComplete>>() {
-            @Override
-            public void onChanged(List<CacheRewardComplete> rewards) {
-                cacheRotationAdapter.updateCacheRotations(rewards);
-                recyclerRotations.setAdapter(cacheRotationAdapter);
-            }
+        missionViewModel.getCacheRewards().observe(getViewLifecycleOwner(), rewards -> {
+            cacheRotationAdapter.updateCacheRotations(rewards);
+            recyclerRotations.setAdapter(cacheRotationAdapter);
         });
         //endregion
 

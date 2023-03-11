@@ -61,7 +61,7 @@ public class RelicFragment extends Fragment {
     private LinearLayout layoutRewards;
     private RecyclerView recyclerCommonRewards, recyclerUncommonRewards, recyclerFarmPlanets;
 
-    private LinearLayout bottomNav, buttonReward, buttonMission;
+    private LinearLayout buttonReward, buttonMission;
     private ImageView iconReward, iconMission;
     private TextView textReward, textMission;
 
@@ -100,8 +100,6 @@ public class RelicFragment extends Fragment {
         recyclerUncommonRewards = binding.relicRewards.recyclerUncommonRewards;
 
         recyclerFarmPlanets = binding.recyclerFarmPlanets;
-
-        bottomNav = binding.bottomNavRelic;
 
         buttonReward = binding.buttonReward;
         iconReward = binding.iconReward;
@@ -223,10 +221,12 @@ public class RelicFragment extends Fragment {
 
                 if (relic.isVaulted()) {
                     imageVault.setVisibility(View.VISIBLE);
-                    bottomNav.setVisibility(View.GONE);
+                    buttonMission.setVisibility(View.GONE);
+                    buttonReward.setVisibility(View.GONE);
                 } else {
                     imageVault.setVisibility(View.GONE);
-                    bottomNav.setVisibility(View.VISIBLE);
+                    buttonMission.setVisibility(View.VISIBLE);
+                    buttonReward.setVisibility(View.VISIBLE);
                 }
 
                 imageEra.setImageResource(relic.getImage());

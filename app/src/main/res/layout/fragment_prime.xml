@@ -4,15 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="200dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
         android:animateLayoutChanges="true"
         android:background="@drawable/frame"
         android:elevation="5dp"
@@ -112,10 +110,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerComponents"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
         app:layout_constraintBottom_toTopOf="@id/bottomNavPrime"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -123,10 +119,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerRelics"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/bottomNavPrime"
         app:layout_constraintEnd_toEndOf="parent"
@@ -135,10 +129,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerMissions"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/bottomNavPrime"
         app:layout_constraintEnd_toEndOf="parent"
@@ -163,11 +155,8 @@
 
     <LinearLayout
         android:id="@+id/bottomNavPrime"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
         android:background="@color/textBackground"
         android:elevation="5dp"
         android:paddingStart="10dp"
