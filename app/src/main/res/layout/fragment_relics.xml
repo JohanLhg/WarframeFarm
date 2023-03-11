@@ -43,28 +43,32 @@
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:src="@drawable/relic_lith" />
+                android:src="@drawable/relic_icon_lith"
+                app:tint="@color/colorBackground" />
 
             <ImageView
                 android:id="@+id/imageMesoFilter"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:src="@drawable/relic_meso" />
+                android:src="@drawable/relic_icon_meso"
+                app:tint="@color/colorBackground" />
 
             <ImageView
                 android:id="@+id/imageNeoFilter"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:src="@drawable/relic_neo" />
+                android:src="@drawable/relic_icon_neo"
+                app:tint="@color/colorBackground" />
 
             <ImageView
                 android:id="@+id/imageAxiFilter"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:src="@drawable/relic_axi" />
+                android:src="@drawable/relic_icon_axi"
+                app:tint="@color/colorBackground" />
 
         </LinearLayout>
 

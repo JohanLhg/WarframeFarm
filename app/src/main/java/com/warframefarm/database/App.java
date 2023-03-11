@@ -1,5 +1,6 @@
 package com.warframefarm.database;
 
+import static com.warframefarm.database.WarframeFarmDatabase.APP_API_TIMESTAMP;
 import static com.warframefarm.database.WarframeFarmDatabase.APP_BUILD;
 import static com.warframefarm.database.WarframeFarmDatabase.APP_ID;
 import static com.warframefarm.database.WarframeFarmDatabase.APP_TABLE;
@@ -16,10 +17,13 @@ public class App {
     private final int id;
     @ColumnInfo(name = APP_BUILD)
     private final int build;
+    @ColumnInfo(name = APP_API_TIMESTAMP)
+    private final int apiTimestamp;
 
-    public App(int id, int build) {
+    public App(int id, int build, int apiTimestamp) {
         this.id = id;
         this.build = build;
+        this.apiTimestamp = apiTimestamp;
     }
 
     public int getId() {
@@ -28,5 +32,9 @@ public class App {
 
     public int getBuild() {
         return build;
+    }
+
+    public int getApiTimestamp() {
+        return apiTimestamp;
     }
 }

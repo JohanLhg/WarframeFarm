@@ -158,23 +158,23 @@ public class RelicsFragment extends Fragment {
         relicsViewModel.getFilter().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String filter) {
-                imageLithFilter.setImageResource(R.drawable.relic_lith);
-                imageMesoFilter.setImageResource(R.drawable.relic_meso);
-                imageNeoFilter.setImageResource(R.drawable.relic_neo);
-                imageAxiFilter.setImageResource(R.drawable.relic_axi);
+                imageLithFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                imageMesoFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                imageNeoFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                imageAxiFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
 
                 switch (filter) {
                     case LITH:
-                        imageLithFilter.setImageResource(R.drawable.relic_lith_selected);
+                        imageLithFilter.setImageTintList(context.getColorStateList(R.color.colorPrimary));
                         break;
                     case MESO:
-                        imageMesoFilter.setImageResource(R.drawable.relic_meso_selected);
+                        imageMesoFilter.setImageTintList(context.getColorStateList(R.color.colorPrimary));
                         break;
                     case NEO:
-                        imageNeoFilter.setImageResource(R.drawable.relic_neo_selected);
+                        imageNeoFilter.setImageTintList(context.getColorStateList(R.color.colorPrimary));
                         break;
                     case AXI:
-                        imageAxiFilter.setImageResource(R.drawable.relic_axi_selected);
+                        imageAxiFilter.setImageTintList(context.getColorStateList(R.color.colorPrimary));
                         break;
                 }
             }
