@@ -194,86 +194,77 @@ public class RelicFragment extends Fragment {
         buttonMission.setOnClickListener(v -> relicViewModel.setMode(MISSION));
 
         //region Observers
-        relicViewModel.getRelic().observe(getViewLifecycleOwner(), new Observer<RelicComplete>() {
-            @Override
-            public void onChanged(RelicComplete relic) {
-                if (relic == null) {
-                    activity.multipleStackNavigator.goBack();
-                    return;
-                }
-                int wantedRarity = relic.getRarityNeeded();
-                switch (wantedRarity) {
-                    case REWARD_COMMON:
-                        imageReward.setImageResource(R.drawable.reward_common);
-                        break;
+        relicViewModel.getRelic().observe(getViewLifecycleOwner(), relic -> {
+            if (relic == null) {
+                activity.multipleStackNavigator.goBack();
+                return;
+            }
+            int wantedRarity = relic.getRarityNeeded();
+            switch (wantedRarity) {
+                case REWARD_COMMON:
+                    imageReward.setImageResource(R.drawable.reward_common);
+                    break;
 
-                    case REWARD_UNCOMMON:
-                        imageReward.setImageResource(R.drawable.reward_uncommon);
-                        break;
+                case REWARD_UNCOMMON:
+                    imageReward.setImageResource(R.drawable.reward_uncommon);
+                    break;
 
-                    case REWARD_RARE:
-                        imageReward.setImageResource(R.drawable.reward_rare);
-                        break;
+                case REWARD_RARE:
+                    imageReward.setImageResource(R.drawable.reward_rare);
+                    break;
 
-                    default:
-                        imageReward.setVisibility(View.GONE);
-                }
+                default:
+                    imageReward.setVisibility(View.GONE);
+            }
 
-                if (relic.isVaulted()) {
-                    imageVault.setVisibility(View.VISIBLE);
-                    buttonMission.setVisibility(View.GONE);
-                    buttonReward.setVisibility(View.GONE);
-                } else {
-                    imageVault.setVisibility(View.GONE);
-                    buttonMission.setVisibility(View.VISIBLE);
-                    buttonReward.setVisibility(View.VISIBLE);
-                }
+            if (relic.isVaulted()) {
+                imageVault.setVisibility(View.VISIBLE);
+                buttonMission.setVisibility(View.GONE);
+                buttonReward.setVisibility(View.GONE);
+            } else {
+                imageVault.setVisibility(View.GONE);
+                buttonMission.setVisibility(View.VISIBLE);
+                buttonReward.setVisibility(View.VISIBLE);
+            }
 
-                imageEra.setImageResource(relic.getImage());
+            imageEra.setImageResource(relic.getImage());
 
-                textRelic.setText(relic.getFullName());
+            textRelic.setText(relic.getFullName());
+        });
+
+        relicViewModel.getMode().observe(getViewLifecycleOwner(), mode -> {
+            switch (mode) {
+                case REWARD:
+                    iconReward.setBackgroundTintList(context.getColorStateList(R.color.colorAccent));
+                    textReward.setTextColor(context.getColor(R.color.colorAccent));
+
+                    iconMission.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                    textMission.setTextColor(context.getColor(R.color.colorBackgroundDark));
+
+                    layoutRewards.setVisibility(View.VISIBLE);
+                    recyclerFarmPlanets.setVisibility(View.GONE);
+                    toolbarRelic.setVisibility(View.GONE);
+                    break;
+
+                case MISSION:
+                    iconMission.setBackgroundTintList(context.getColorStateList(R.color.colorAccent));
+                    textMission.setTextColor(context.getColor(R.color.colorAccent));
+
+                    iconReward.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
+                    textReward.setTextColor(context.getColor(R.color.colorBackgroundDark));
+
+                    recyclerFarmPlanets.setVisibility(View.VISIBLE);
+                    toolbarRelic.setVisibility(View.VISIBLE);
+                    layoutRewards.setVisibility(View.GONE);
+                    break;
             }
         });
 
-        relicViewModel.getMode().observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer mode) {
-                switch (mode) {
-                    case REWARD:
-                        iconReward.setBackgroundTintList(context.getColorStateList(R.color.colorAccent));
-                        textReward.setTextColor(context.getColor(R.color.colorAccent));
-
-                        iconMission.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
-                        textMission.setTextColor(context.getColor(R.color.colorBackgroundDark));
-
-                        layoutRewards.setVisibility(View.VISIBLE);
-                        recyclerFarmPlanets.setVisibility(View.GONE);
-                        toolbarRelic.setVisibility(View.GONE);
-                        break;
-
-                    case MISSION:
-                        iconMission.setBackgroundTintList(context.getColorStateList(R.color.colorAccent));
-                        textMission.setTextColor(context.getColor(R.color.colorAccent));
-
-                        iconReward.setBackgroundTintList(context.getColorStateList(R.color.colorBackgroundDark));
-                        textReward.setTextColor(context.getColor(R.color.colorBackgroundDark));
-
-                        recyclerFarmPlanets.setVisibility(View.VISIBLE);
-                        toolbarRelic.setVisibility(View.VISIBLE);
-                        layoutRewards.setVisibility(View.GONE);
-                        break;
-                }
-            }
-        });
-
-        relicViewModel.getRewards().observe(getViewLifecycleOwner(), new Observer<List<RelicRewardComplete>>() {
-            @Override
-            public void onChanged(List<RelicRewardComplete> rewards) {
-                if (rewards.size() < 6)
-                    return;
-                commonRewardAdapter.setRewards(rewards.subList(0, 3));
-                uncommonRewardAdapter.setRewards(rewards.subList(3, 6));
-            }
+        relicViewModel.getRewards().observe(getViewLifecycleOwner(), rewards -> {
+            if (rewards.size() < 6)
+                return;
+            commonRewardAdapter.setRewards(rewards.subList(0, 3));
+            uncommonRewardAdapter.setRewards(rewards.subList(3, 6));
         });
 
         relicViewModel.getMissions().observe(getViewLifecycleOwner(), new Observer<List<Mission>>() {

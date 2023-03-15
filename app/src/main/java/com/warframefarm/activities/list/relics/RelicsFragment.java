@@ -147,50 +147,35 @@ public class RelicsFragment extends Fragment {
         //endregion
 
         //region Observers
-        relicsViewModel.getComponentIDs().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
-            @Override
-            public void onChanged(List<String> ids) {
-                ArrayAdapter<String> searchAdapter = new ArrayAdapter<>(context, R.layout.spinner_dropdown_item, ids);
-                searchbar.setAdapter(searchAdapter);
+        relicsViewModel.getComponentIDs().observe(getViewLifecycleOwner(), ids -> {
+            ArrayAdapter<String> searchAdapter = new ArrayAdapter<>(context, R.layout.spinner_dropdown_item, ids);
+            searchbar.setAdapter(searchAdapter);
+        });
+
+        relicsViewModel.getFilter().observe(getViewLifecycleOwner(), filter -> {
+            imageLithFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
+            imageMesoFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
+            imageNeoFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
+            imageAxiFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
+
+            switch (filter) {
+                case LITH:
+                    imageLithFilter.setImageTintList(context.getColorStateList(R.color.colorPrimary));
+                    break;
+                case MESO:
+                    imageMesoFilter.setImageTintList(context.getColorStateList(R.color.colorPrimary));
+                    break;
+                case NEO:
+                    imageNeoFilter.setImageTintList(context.getColorStateList(R.color.colorPrimary));
+                    break;
+                case AXI:
+                    imageAxiFilter.setImageTintList(context.getColorStateList(R.color.colorPrimary));
+                    break;
             }
         });
 
-        relicsViewModel.getFilter().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String filter) {
-                imageLithFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
-                imageMesoFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
-                imageNeoFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
-                imageAxiFilter.setImageTintList(context.getColorStateList(R.color.colorBackgroundDark));
-
-                switch (filter) {
-                    case LITH:
-                        imageLithFilter.setImageTintList(context.getColorStateList(R.color.colorPrimary));
-                        break;
-                    case MESO:
-                        imageMesoFilter.setImageTintList(context.getColorStateList(R.color.colorPrimary));
-                        break;
-                    case NEO:
-                        imageNeoFilter.setImageTintList(context.getColorStateList(R.color.colorPrimary));
-                        break;
-                    case AXI:
-                        imageAxiFilter.setImageTintList(context.getColorStateList(R.color.colorPrimary));
-                        break;
-                }
-            }
-        });
-
-        relicsViewModel.getRelics().observe(getViewLifecycleOwner(), new Observer<LiveData<List<RelicComplete>>>() {
-            @Override
-            public void onChanged(LiveData<List<RelicComplete>> relics) {
-                relics.observe(getViewLifecycleOwner(), new Observer<List<RelicComplete>>() {
-                    @Override
-                    public void onChanged(List<RelicComplete> relics) {
-                        relicAdapter.updateRelics(relics);
-                    }
-                });
-            }
-        });
+        relicsViewModel.getRelics().observe(getViewLifecycleOwner(), relics ->
+                relics.observe(getViewLifecycleOwner(), relicAdapter::updateRelics));
         //endregion
 
         return root;

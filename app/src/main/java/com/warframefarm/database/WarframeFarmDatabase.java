@@ -21,7 +21,7 @@ import java.util.concurrent.Executor;
 
 @Database(entities = {App.class, Prime.class, Component.class, Relic.class, RelicReward.class,
         Planet.class, Mission.class, MissionReward.class, CacheReward.class, BountyReward.class,
-        UserPrime.class, UserComponent.class, Setting.class}, version = 1)
+        UserPrime.class, UserComponent.class, Setting.class}, version = 2)
 public abstract class WarframeFarmDatabase extends RoomDatabase {
 
     private static WarframeFarmDatabase instance;
@@ -143,6 +143,7 @@ public abstract class WarframeFarmDatabase extends RoomDatabase {
     //Constants
     public static final int TYPE_NORMAL = 0, TYPE_ARCHWING = 1, TYPE_EMPYREAN = 2;
     public static final int REWARD_COMMON = 1, REWARD_UNCOMMON = 2, REWARD_RARE = 3;
+    public static final String FORMA = "Forma";
 
     //Special filters
     public static final String RELIC_NEEDED = "relic_needed", ITEM_NEEDED = "item_needed",

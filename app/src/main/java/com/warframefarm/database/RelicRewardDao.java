@@ -25,7 +25,8 @@ public interface RelicRewardDao {
     @Query("DELETE FROM RELIC_REWARD_TABLE")
     void clear();
 
-    @Query("SELECT * " +
+    @Query("SELECT r_reward_relic, r_reward_rarity, r_reward_component as component_id, component_prime, component_type, " +
+            "prime_type, component_needed, prime_vaulted, user_component_owned " +
             "FROM RELIC_REWARD_TABLE " +
             "LEFT JOIN COMPONENT_TABLE ON component_id == r_reward_component " +
             "LEFT JOIN PRIME_TABLE ON prime_name == component_prime " +

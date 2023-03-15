@@ -48,15 +48,15 @@ public class ComponentComplete implements Item {
     public ComponentComplete(String id, String prime, String type, String primeType, int needed, boolean vaulted, boolean owned) {
         this.id = id;
         this.prime = prime;
-        this.type = type;
-        this.primeType = primeType;
+        this.type = type == null ? "" : type;
+        this.primeType = primeType == null ? "" : primeType;
         this.needed = needed;
         this.vaulted = vaulted;
         this.owned = owned;
 
         if (id == null || id.equals(""))
             return;
-        blueprint = isComponentBP(type, primeType);
+        blueprint = isComponentBP(this.type, this.primeType);
     }
 
     public String getName() {
@@ -64,6 +64,8 @@ public class ComponentComplete implements Item {
     }
 
     public String getFullName() {
+        if (prime == null || prime.equals(""))
+            return id;
         if (needed > 1)
             return needed + "x " + prime + " " + type;
         else
@@ -128,10 +130,19 @@ public class ComponentComplete implements Item {
         return blueprint;
     }
 
-    @NonNull
     @Override
     public String toString() {
-        return prime + "  " + type + (owned? " is owned" : " is not owned");
+        return "ComponentComplete{" +
+                "id='" + id + '\'' +
+                ", prime='" + prime + '\'' +
+                ", type='" + type + '\'' +
+                ", primeType='" + primeType + '\'' +
+                ", needed=" + needed +
+                ", vaulted=" + vaulted +
+                ", owned=" + owned +
+                ", image=" + image +
+                ", blueprint=" + blueprint +
+                '}';
     }
 
     @Override

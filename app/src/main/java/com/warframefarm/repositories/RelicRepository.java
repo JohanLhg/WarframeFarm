@@ -9,6 +9,7 @@ import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_NEEDED;
 import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_PRIME;
 import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_TABLE;
 import static com.warframefarm.database.WarframeFarmDatabase.COMPONENT_TYPE;
+import static com.warframefarm.database.WarframeFarmDatabase.FORMA;
 import static com.warframefarm.database.WarframeFarmDatabase.PRIME_NAME;
 import static com.warframefarm.database.WarframeFarmDatabase.PRIME_TABLE;
 import static com.warframefarm.database.WarframeFarmDatabase.PRIME_TYPE;
@@ -19,6 +20,7 @@ import static com.warframefarm.database.WarframeFarmDatabase.RELIC_NEEDED;
 import static com.warframefarm.database.WarframeFarmDatabase.RELIC_TABLE;
 import static com.warframefarm.database.WarframeFarmDatabase.RELIC_VAULTED;
 import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_COMPONENT;
+import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_ID;
 import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_RARITY;
 import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_RELIC;
 import static com.warframefarm.database.WarframeFarmDatabase.R_REWARD_TABLE;
@@ -68,6 +70,7 @@ public class RelicRepository {
                     " FROM " + R_REWARD_TABLE +
                     " LEFT JOIN " + USER_COMPONENT_TABLE + " ON " + USER_COMPONENT_ID + " == " + R_REWARD_COMPONENT +
                     " WHERE " + USER_COMPONENT_OWNED + " == 0" +
+                    " OR (" + R_REWARD_COMPONENT + " != '" + FORMA + "' AND " + USER_COMPONENT_OWNED + " IS NULL)" +
                     " GROUP BY " + R_REWARD_RELIC +
                 ") ON " + R_REWARD_RELIC + " == " + RELIC_ID;
 

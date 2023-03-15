@@ -1,5 +1,6 @@
 package com.warframefarm.activities.details.relic;
 
+import static com.warframefarm.database.WarframeFarmDatabase.FORMA;
 import static com.warframefarm.database.WarframeFarmDatabase.REWARD_COMMON;
 import static com.warframefarm.database.WarframeFarmDatabase.REWARD_RARE;
 import static com.warframefarm.database.WarframeFarmDatabase.REWARD_UNCOMMON;
@@ -63,14 +64,15 @@ public class RelicRewardAdapter extends RecyclerView.Adapter<RelicRewardAdapter.
                 break;
         }
 
-        if (reward.getId() == null) {
+        if (reward.getId() == null || reward.getId().equals(FORMA)) {
             holder.imageRelicReward.setImageResource(R.drawable.forma);
             holder.textRelicRewardName.setText(R.string.forma);
             holder.textRelicRewardNbNeeded.setVisibility(View.GONE);
             holder.imageRelicRewardOwned.setVisibility(View.GONE);
         }
         else {
-            holder.layoutRelicReward.setOnClickListener(v -> showComponentDetails(reward.getId()));
+            if (reward.getPrime() != null && reward.getPrime().equals(""))
+                holder.layoutRelicReward.setOnClickListener(v -> showComponentDetails(reward.getId()));
 
             reward.displayImage(context, holder.imageRelicReward);
 
