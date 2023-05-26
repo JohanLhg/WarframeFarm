@@ -11,7 +11,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.window.SplashScreen;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -70,28 +69,46 @@ public class MainActivity extends AppCompatActivity implements Navigator.Navigat
             switch (menuItem.getItemId()) {
                 case R.id.navigation_primes:
                     multipleStackNavigator.switchTab(0);
+                    clearNavigationHighlight();
+                    drawerNav.getMenu().findItem(R.id.navigation_primes).setChecked(true);
                     return true;
 
                 case R.id.navigation_components:
                     multipleStackNavigator.switchTab(1);
+                    clearNavigationHighlight();
+                    drawerNav.getMenu().findItem(R.id.navigation_components).setChecked(true);
                     return true;
 
                 case R.id.navigation_relics:
                     multipleStackNavigator.switchTab(2);
+                    clearNavigationHighlight();
+                    drawerNav.getMenu().findItem(R.id.navigation_relics).setChecked(true);
                     return true;
 
                 case R.id.navigation_planets:
                     multipleStackNavigator.switchTab(3);
+                    clearNavigationHighlight();
+                    drawerNav.getMenu().findItem(R.id.navigation_planets).setChecked(true);
                     return true;
 
                 case R.id.navigation_farm:
                     multipleStackNavigator.switchTab(4);
+                    clearNavigationHighlight();
+                    drawerNav.getMenu().findItem(R.id.navigation_farm).setChecked(true);
                     return true;
             }
             return false;
         }
     };
     //endregion
+
+    private void clearNavigationHighlight() {
+        drawerNav.getMenu().findItem(R.id.navigation_primes).setChecked(false);
+        drawerNav.getMenu().findItem(R.id.navigation_components).setChecked(false);
+        drawerNav.getMenu().findItem(R.id.navigation_relics).setChecked(false);
+        drawerNav.getMenu().findItem(R.id.navigation_planets).setChecked(false);
+        drawerNav.getMenu().findItem(R.id.navigation_farm).setChecked(false);
+    }
 
     private MainViewModel mainViewModel;
     private Executor backgroundThread, mainThread;
@@ -121,11 +138,6 @@ public class MainActivity extends AppCompatActivity implements Navigator.Navigat
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-            SplashScreen splashScreen = getSplashScreen();
-            splashScreen.setSplashScreenTheme(R.style.Theme_Splash);
-        }
 
         //region Binding
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -162,6 +174,8 @@ public class MainActivity extends AppCompatActivity implements Navigator.Navigat
         buttonCancel = binding.drawerSettings.buttonCancel;
         buttonSave = binding.drawerSettings.buttonSave;
         //endregion
+
+        drawerNav.getMenu().findItem(R.id.navigation_primes).setChecked(true);
 
         mainViewModel = ViewModelProvider.AndroidViewModelFactory
                 .getInstance(getApplication())

@@ -6,7 +6,12 @@ import android.app.Application;
 
 import com.google.gson.JsonParser;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
+import java.util.Iterator;
 
 import okhttp3.OkHttpClient;
 
@@ -31,7 +36,67 @@ public class RequestAPI extends DataLoader {
             } else {
                 throw new Exception(response.message().isEmpty() ? "Error : " + response.code() : response.message());
             }
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
         }
+    }
+
+    public void checkRewards() {
+        backgroundThread.execute(() -> {
+            try {
+                String json = sendGet(WARFRAME_API_URL + "/all.json");
+
+                checkMissionRewards(json);
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    public void checkMissionRewards(String json) {
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            JSONObject missionRewards = jsonObject.getJSONObject("missionRewards");
+
+            for (Iterator<String> it = missionRewards.keys(); it.hasNext(); ) {
+                String planetName = it.next();
+                JSONObject planet = missionRewards.getJSONObject(planetName);
+
+                System.out.println("-----------------------" + planetName + "-----------------------");
+
+                for (Iterator<String> it2 = planet.keys(); it2.hasNext(); ) {
+                    String missionName = it2.next();
+                    JSONObject mission = planet.getJSONObject(missionName);
+
+                    System.out.println("       ----------------" + missionName + "----------------       ");
+
+                    if (mission.has("rewards")) {
+                        Object rewards = mission.get("rewards");
+                        if (rewards instanceof JSONObject) {
+                            JSONObject rewardsObject = (JSONObject) rewards;
+                            for (Iterator<String> it3 = rewardsObject.keys(); it3.hasNext(); ) {
+                                String rotation = it3.next();
+                                JSONArray rewardsArray = rewardsObject.getJSONArray(rotation);
+
+                                System.out.println("           ------------" + rotation + "------------           ");
+                                for (int i = 0; i < rewardsArray.length(); i++) {
+                                    JSONObject reward = rewardsArray.getJSONObject(i);
+                                    System.out.println(" - " + reward.getString("itemName"));
+                                }
+                            }
+                        } else if (rewards instanceof JSONArray) {
+                            JSONArray rewardsArray = (JSONArray) rewards;
+                            for (int i = 0; i < rewardsArray.length(); i++) {
+                                JSONObject reward = rewardsArray.getJSONObject(i);
+                                System.out.println(" - " + reward.getString("itemName"));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        catch (JSONException e) { e.printStackTrace(); }
     }
 
     public void checkForNewRelicData() {
